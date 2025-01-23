@@ -33,8 +33,16 @@ class _HomeViewState extends State<HomeView> {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesAPiMarques marquesApi = ServicesAPiMarques();
+  List<ProductModel> _products = [];
 
   int? selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchProducts();
+  }
 
   Stream<List<CategoryModel>> fetchCategoriData() async* {
     final res = await api.getAllCategorys();
@@ -58,6 +66,23 @@ class _HomeViewState extends State<HomeView> {
           .toList();
     } else {
       throw Exception("Failed to load products ");
+    }
+  }
+
+// recuperation du produit
+  Future<void> _fetchProducts() async {
+    try {
+      final response = await api.getAllProducts();
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        setState(() {
+          _products = (body["produits"] as List)
+              .map((json) => ProductModel.fromJson(json))
+              .toList();
+        });
+      }
+    } catch (e) {
+      Exception('Erreur : $e');
     }
   }
 
@@ -591,13 +616,15 @@ class _HomeViewState extends State<HomeView> {
                           itemCount: products.length,
                           itemBuilder: (BuildContext context, int index) {
                             final product = products[index];
+                            final prodChoise = _products.firstWhere(
+                                (item) => item.id == product.produitId);
                             return GestureDetector(
                               onTap: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             SingleProduct(product: product)));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SingleProduct(
+                                            product: prodChoise)));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
