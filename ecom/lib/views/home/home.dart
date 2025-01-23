@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:ecom/components/drawer.dart';
-import 'package:ecom/components/generatedStart.dart';
+// import 'package:ecom/components/generatedStarProduct.dart';
+// import 'package:ecom/components/generatedStart.dart';
 import 'package:ecom/models/categorie_model.dart';
 import 'package:ecom/models/marques_model.dart';
+import 'package:ecom/models/populaire_model.dart';
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/providers/cart_provider.dart';
 import 'package:ecom/services/marque_api.dart';
@@ -53,6 +55,18 @@ class _HomeViewState extends State<HomeView> {
     if (res.statusCode == 200) {
       yield (body["produits"] as List)
           .map((json) => ProductModel.fromJson(json))
+          .toList();
+    } else {
+      throw Exception("Failed to load products ");
+    }
+  }
+
+  Stream<List<PopulairesModel>> fetchProductPopulaires() async* {
+    final res = await api.getProductPlusAchete();
+    final body = jsonDecode(res.body);
+    if (res.statusCode == 200) {
+      yield (body["produitsLesPlusAchetés"] as List)
+          .map((json) => PopulairesModel.fromJson(json))
           .toList();
     } else {
       throw Exception("Failed to load products ");
@@ -519,7 +533,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _populaires(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return SizedBox(
-        height: 440,
+        height: 400,
         child: Column(
           children: [
             Row(
@@ -547,8 +561,8 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
             Expanded(
-                child: StreamBuilder<List<ProductModel>?>(
-                    stream: fetchProductData(),
+                child: StreamBuilder<List<PopulairesModel>?>(
+                    stream: fetchProductPopulaires(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
@@ -579,11 +593,11 @@ class _HomeViewState extends State<HomeView> {
                             final product = products[index];
                             return GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SingleProduct(product: product)));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             SingleProduct(product: product)));
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -633,7 +647,7 @@ class _HomeViewState extends State<HomeView> {
                                       ],
                                     ),
                                     Text(
-                                      product.category!,
+                                      product.categorie!,
                                       style: GoogleFonts.roboto(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
@@ -646,7 +660,7 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                     const SizedBox(height: 2),
                                     Text(
-                                      product.subCategory!,
+                                      product.sousCategorie!,
                                       style: GoogleFonts.roboto(
                                         fontSize:
                                             MediaQuery.of(context).size.width *
@@ -657,18 +671,18 @@ class _HomeViewState extends State<HomeView> {
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      "${product.price.toStringAsFixed(2)} FCFA",
-                                      style: GoogleFonts.roboto(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                AppSizes.fontSmall,
-                                        color: AppColors.textColor,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 3),
-                                    GeneratedStarUserRating(rating: product.rating!.toInt())
+                                    // const SizedBox(height: 2),
+                                    // Text(
+                                    //   "${product.price.toStringAsFixed(2)} FCFA",
+                                    //   style: GoogleFonts.roboto(
+                                    //     fontSize:
+                                    //         MediaQuery.of(context).size.width *
+                                    //             AppSizes.fontSmall,
+                                    //     color: AppColors.textColor,
+                                    //   ),
+                                    // ),
+                                    // const SizedBox(height: 3),
+                                    // GeneratedStarRating(rating: product.rating!),
                                   ],
                                 ),
                               ),

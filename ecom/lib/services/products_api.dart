@@ -19,6 +19,18 @@ class ServicesAPiProducts {
     });
   }
 
+
+
+ //obtenir les produits
+  getProductPlusAchete() async {
+    var uri = "$domaineName/commandes/plus-achetes";
+    return await http.get(Uri.parse(uri), headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate, br",
+    });
+  }
+
   //obtenir les produits
   getSingleProducts(id) async {
     var uri = "$domaineName/products/single/$id";
