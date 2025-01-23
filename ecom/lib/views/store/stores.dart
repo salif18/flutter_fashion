@@ -1,0 +1,524 @@
+import 'dart:convert';
+
+import 'package:ecom/models/marques_model.dart';
+import 'package:ecom/models/produits_model.dart';
+import 'package:ecom/providers/cart_provider.dart';
+import 'package:ecom/services/marque_api.dart';
+import 'package:ecom/services/products_api.dart';
+import 'package:ecom/utils/app_color.dart';
+import 'package:ecom/utils/app_size.dart';
+import 'package:ecom/views/cart/cart.dart';
+import 'package:ecom/views/detail/single.dart';
+import 'package:ecom/views/store/widgets/product_card.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+class StoresView extends StatefulWidget {
+  final String? categoSelected;
+  const StoresView({super.key, required this.categoSelected});
+
+  @override
+  State<StoresView> createState() => _StoresViewState();
+}
+
+class _StoresViewState extends State<StoresView> {
+  final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
+  ServicesAPiProducts api = ServicesAPiProducts();
+  ServicesAPiMarques apiMarques = ServicesAPiMarques();
+
+  List<ProductModel> _products = [];
+  List<MarquesModel> _marques = [];
+  String _categoryLocal = '';
+  String _subCategoryFilter = '';
+  String _marqueFilter = '';
+  Map<String, dynamic> _filters = {
+    'selectedCategories': [],
+    'maxPrice': 100000,
+    'searchQuery': '',
+    'selectedRating': ''
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _categoryLocal = widget.categoSelected!;
+    });
+    _fetchProducts();
+    _fetchMarques();
+  }
+
+// recuperation du produit
+  Future<void> _fetchProducts() async {
+    try {
+      final response = await api.getAllProducts();
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        setState(() {
+          _products = (body["produits"] as List)
+              .map((json) => ProductModel.fromJson(json))
+              .toList();
+        });
+      }
+    } catch (e) {
+      Exception('Erreur : $e');
+    }
+  }
+
+  // recupertions des marques
+  Future<void> _fetchMarques() async {
+    try {
+      final response = await apiMarques.getAllMarques();
+      final body = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        setState(() {
+          _marques = (body["marques"] as List)
+              .map((json) => MarquesModel.fromJson(json))
+              .toList();
+        });
+      }
+    } catch (e) {
+      Exception('Erreur : $e');
+    }
+  }
+
+// filtration selon les resultats de filtre
+  List<ProductModel> get _filteredProducts {
+    return _products.where((product) {
+      final matchesCategory = (_filters['selectedCategories'].isEmpty ||
+              _filters['selectedCategories'].contains(product.category)) &&
+          (_categoryLocal.isEmpty || product.category == _categoryLocal);
+      final matchesPrice =
+          // ignore: unnecessary_null_comparison
+          product.price != null && product.price <= _filters['maxPrice'];
+      final matchesSearch = (product.name ?? '')
+              .toLowerCase()
+              .contains(_filters['searchQuery'].toLowerCase()) ||
+          (product.category ?? '')
+              .toLowerCase()
+              .contains(_filters['searchQuery'].toLowerCase()) ||
+          (product.subCategory ?? '')
+              .toLowerCase()
+              .contains(_filters['searchQuery'].toLowerCase());
+
+      final matchesRatings = _filters['selectedRating'] == '' ||
+          product.rating! >= _filters['selectedRating'];
+      final matchesMarques =
+          product.brand != null && product.brand!.contains(_marqueFilter);
+      final matchesSubCategory = product.subCategory != null &&
+          product.subCategory!.contains(_subCategoryFilter);
+
+      return matchesCategory &&
+          matchesPrice &&
+          matchesSearch &&
+          matchesMarques &&
+          matchesRatings &&
+          matchesSubCategory;
+    }).toList();
+  }
+
+// reinitialiser
+  void _resetFilters() {
+    setState(() {
+      _subCategoryFilter = '';
+      _marqueFilter = '';
+      _categoryLocal = '';
+      _filters = {
+        'selectedCategories': [],
+        'maxPrice': 100000,
+        'searchQuery': '',
+        'selectedRating': ''
+      };
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(239, 245, 245, 245),
+      key: _drawerKey,
+      drawer: _buildFilterMenuDrawer(context),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: AppColors.backgroundPrincal,
+            automaticallyImplyLeading: false,
+            toolbarHeight: 80,
+            pinned: true,
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(
+              // centerTitle: true,
+              title: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  "Boutique",
+                  style: GoogleFonts.roboto(
+                    fontSize:
+                        MediaQuery.of(context).size.width * AppSizes.fontLarge,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            actions: [
+              Row(
+                children: [
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.banerBtnNavigatorBackground),
+                    onPressed: () {
+                      _drawerKey.currentState!.openDrawer();
+                    },
+                    icon: Icon(
+                      Icons.filter_list_rounded,
+                      color: Colors.white,
+                      size: MediaQuery.of(context).size.width *
+                          AppSizes.iconLarge,
+                    ),
+                    label: Text(
+                      "Filtrer",
+                      style: GoogleFonts.roboto(
+                          color: Colors.white,
+                          fontSize: MediaQuery.of(context).size.width *
+                              AppSizes.fontSmall),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 16,
+              )
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: _buildProductList(context),
+          ),
+        ],
+      ),
+      floatingActionButton: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            // ignore: deprecated_member_use
+            color: Colors.black.withOpacity(0.2), // Couleur de l'ombre
+            spreadRadius: 2, // Élargissement de l'ombre
+            blurRadius: 5, // Flou de l'ombre
+            offset: const Offset(3, 3), // Déplacement horizontal et vertical
+          ),
+        ], color: Colors.orange, borderRadius: BorderRadius.circular(20)),
+        child: Consumer<CartProvider>(
+          builder: (context, provider, child) {
+            return Stack(
+              children: [
+                IconButton(
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CartView())),
+                  icon: Icon(Icons.shopping_cart_outlined,
+                      color: Colors.white,
+                      size: MediaQuery.of(context).size.width *
+                          AppSizes.iconHyperLarge),
+                ),
+                if (provider.cart.isNotEmpty)
+                  Positioned(
+                    left: 35,
+                    bottom: 30,
+                    child: Badge.count(
+                      count: provider.nombreArticles,
+                      largeSize: 35 / 2,
+                      backgroundColor: Colors.black,
+                      textStyle: GoogleFonts.roboto(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterMenuDrawer(BuildContext context) {
+    return Drawer(
+      child: Container(
+        color: AppColors.backgroundPrincal,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        _drawerKey.currentState!.closeDrawer();
+                      },
+                      icon: Icon(Icons.close,
+                          size: MediaQuery.of(context).size.width *
+                              AppSizes.iconMedium))
+                ],
+              ),
+            ),
+            Text(
+              'Rechercher'.toUpperCase(),
+              style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textColor),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              onChanged: (value) {
+                setState(() {
+                  _filters['searchQuery'] = value;
+                });
+              },
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: AppColors.productBackground,
+                hintText: 'Que voulez-vous ?',
+                hintStyle: GoogleFonts.roboto(
+                    fontSize:
+                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                    color: AppColors.textColor),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Filtrer par prix'.toUpperCase(),
+              style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textColor),
+            ),
+            Slider(
+              value: _filters['maxPrice'].toDouble(),
+              min: 0,
+              max: 100000,
+              divisions: 100,
+              label: '${_filters['maxPrice']} FCFA',
+              thumbColor: Colors.blueGrey,
+              activeColor: Colors.blue,
+              onChanged: (value) {
+                setState(() {
+                  _filters['maxPrice'] = value.toInt();
+                });
+              },
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Filtrer par individus'.toUpperCase(),
+              style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textColor),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              children: ['Hommes', 'Femmes', "Enfants"].map((type) {
+                return FilterChip(
+                  label: Text(type,
+                      style: GoogleFonts.roboto(
+                        color: _subCategoryFilter == type ? Colors.white : null,
+                      )),
+                  selected: _subCategoryFilter == type,
+                  selectedColor: _subCategoryFilter == type
+                      ? AppColors.colorBtnPrimary
+                      : null,
+                  onSelected: (selected) {
+                    setState(() {
+                      _subCategoryFilter = selected ? type : '';
+                      _drawerKey.currentState!.closeDrawer();
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 16),
+            Text(
+              'Filtrer par Catégories'.toUpperCase(),
+              style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textColor),
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 8,
+              children: [
+                'Accessoires',
+                'Vêtements',
+                "Chaussures",
+                'Sacs',
+              ].map((category) {
+                return FilterChip(
+                  label: Text(category,
+                      style: GoogleFonts.roboto(
+                        color: _categoryLocal == category ? Colors.white : null,
+                      )),
+                  selected: _categoryLocal == category,
+                  selectedColor: _categoryLocal == category
+                      ? AppColors.colorBtnPrimary
+                      : null,
+                  onSelected: (selected) {
+                    setState(() {
+                      _categoryLocal = selected ? category : '';
+                      _drawerKey.currentState!.closeDrawer();
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 16),
+            Text(
+              'Filtrer par Marques'.toUpperCase(),
+              style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textColor),
+            ),
+            const SizedBox(height: 16),
+            Wrap(
+              spacing: 8,
+              children: _marques.map((marque) {
+                return FilterChip(
+                  label: Text(marque.name,
+                      style: GoogleFonts.roboto(
+                        color:
+                            _marqueFilter == marque.name ? Colors.white : null,
+                      )),
+                  selected: _marqueFilter == marque.name,
+                  selectedColor: _marqueFilter == marque.name
+                      ? AppColors.colorBtnPrimary
+                      : null,
+                  onSelected: (selected) {
+                    setState(() {
+                      _marqueFilter = selected ? marque.name : '';
+                      _drawerKey.currentState!.closeDrawer();
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 16),
+            Text(
+              'Produits les mieux notés'.toUpperCase(),
+              style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textColor),
+            ),
+            const SizedBox(height: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [100, 80, 60, 40, 20].map((note) {
+                // Calcul du nombre d'étoiles en fonction de la note (20 = 1 étoile)
+                final starCount = (note / 20).round();
+
+                return FilterChip(
+                  label: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(
+                      starCount,
+                      (index) => const Icon(
+                        Icons.star,
+                        size: 20, // Taille de l'étoile
+                        color: Colors.amber, // Couleur de l'étoile
+                      ),
+                    ),
+                  ),
+                  selected: _filters['selectedRating'] == note,
+                  onSelected: (selected) {
+                    setState(() {
+                      _filters['selectedRating'] = selected ? note : 0;
+                      _drawerKey.currentState!.closeDrawer();
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.banerBtnNavigatorBackground),
+              onPressed: _resetFilters,
+              child: Text(
+                'Réinitialiser les filtres',
+                style: GoogleFonts.roboto(
+                    fontSize:
+                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductList(BuildContext context) {
+    final filteredProducts = _filteredProducts;
+    bool isLoading = filteredProducts.isEmpty;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 0),
+      child: isLoading
+          ? const Center(
+              child:
+                  CircularProgressIndicator(), // Affiche le loader si isLoading est vrai
+            )
+          : GridView.builder(
+  physics: const NeverScrollableScrollPhysics(), // Désactive le défilement interne
+  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2, // Nombre de colonnes
+    crossAxisSpacing: 0, // Espacement horizontal entre les cartes
+    mainAxisSpacing: 0, // Espacement vertical entre les cartes
+    childAspectRatio: 0.575, // Ratio largeur/hauteur pour les cartes
+  ),
+  shrinkWrap: true, // Adapte la hauteur du GridView à son contenu
+  itemCount: filteredProducts.length,
+  itemBuilder: (BuildContext context, int index) {
+    ProductModel product = filteredProducts[index];
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SingleProduct(product: product),
+          ),
+        );
+      },
+      child: ProductCard(product: product),
+    );
+  },
+)
+
+    );
+  }
+}
