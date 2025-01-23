@@ -78,7 +78,7 @@ void dispose(){
         backgroundColor: Colors.grey[200],
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
+            icon: Icon(Icons.arrow_back_ios_new_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconLarge)),
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
@@ -112,14 +112,14 @@ void dispose(){
             padding: const EdgeInsets.all(8.0),
             child: Text("Réinitialiser le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600)),
+                    fontSize: MediaQuery.of(context).size.width * AppSizes.fontMedium, fontWeight: FontWeight.w600)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir nous aider à réinitialiser votre mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w300)),
+                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontMedium, fontWeight: FontWeight.w300)),
           ),
         ],
       ),
@@ -139,12 +139,12 @@ void dispose(){
         },
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.phone_android_rounded, size: AppSizes.iconLarge),
+          prefixIcon: Icon(Icons.phone_android_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
           filled: true,
           fillColor: Colors.grey[100],
           hintText: "Numéro",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -164,12 +164,12 @@ void dispose(){
         },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail_outline, size: AppSizes.iconLarge),
+          prefixIcon: Icon(Icons.mail_outline, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
           filled: true,
           fillColor: Colors.grey[100],
           hintText: "Email",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -186,7 +186,7 @@ void dispose(){
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: AppSizes.fontSmall,
+                fontSize: MediaQuery.of(context).size.width*AppSizes.fontSmall,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

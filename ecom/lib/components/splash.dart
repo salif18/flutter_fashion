@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:ecom/routes.dart';
+import 'package:ecom/utils/app_color.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class SplashWidget extends StatefulWidget {
   const SplashWidget({super.key});
@@ -25,7 +26,7 @@ class _SplashWidgetState extends State<SplashWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff001c30),
+      backgroundColor: AppColors.backgroundPrincal,
       body: LayoutBuilder(builder: (context, constraints) {
         return AnimatedSwitcher(
           transitionBuilder: (Widget child, Animation<double> animation) {
@@ -36,50 +37,46 @@ class _SplashWidgetState extends State<SplashWidget> {
             padding: const EdgeInsets.only(top: 50),
             height: constraints.maxHeight,
             alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Center(
               key: UniqueKey(),
-              children: [
-                Column(
-                  children: [
+              child:
                     Container(
-                      width: 150,
-                      height: 150,
+                      width: 250,
+                      height: 250,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          // image: const DecorationImage(
-                          //     image: AssetImage("assets/logos"),
-                          //     fit: BoxFit.contain)
+                          image: const DecorationImage(
+                              image: AssetImage("assets/logos/logo1.jpg"),
+                              fit: BoxFit.contain)
                               ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: SizedBox(
-                          child: RichText(
-                              text: TextSpan(children: [
-                        TextSpan(
-                          text: "H-",
-                          style: GoogleFonts.roboto(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xff2fc0f2),
-                          ),
-                        ),
-                        TextSpan(
-                          text: "Fashion",
-                          style: GoogleFonts.roboto(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                            color: const Color.fromARGB(255, 255, 123, 0),
-                          ),
-                        ),
-                      ]))),
-                    ),
-                  ],
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 8.0),
+                    //   child: SizedBox(
+                    //       child: RichText(
+                    //           text: TextSpan(children: [
+                    //     TextSpan(
+                    //       text: "H-",
+                    //       style: GoogleFonts.roboto(
+                    //         fontSize: 28,
+                    //         fontWeight: FontWeight.w600,
+                    //         color: const Color(0xff2fc0f2),
+                    //       ),
+                    //     ),
+                    //     TextSpan(
+                    //       text: "Fashion",
+                    //       style: GoogleFonts.roboto(
+                    //         fontSize: 28,
+                    //         fontWeight: FontWeight.w600,
+                    //         color: const Color.fromARGB(255, 255, 123, 0),
+                    //       ),
+                    //     ),
+                    //   ]))),
+                    // ),
+                  
                 ),
-              ],
+              
             ),
-          ),
         );
       }),
     );

@@ -91,8 +91,10 @@ class _PromoViewState extends State<PromoView> {
                     if (snapshot.connectionState ==
                         ConnectionState.waiting) {
                       return const Center(
-                          child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
+                          // child: CircularProgressIndicator()
+                          );
+                    } else 
+                    if (snapshot.hasError) {
                       return Center(
                         child: Text(
                           "Une erreur s'est produite lors du chargement",

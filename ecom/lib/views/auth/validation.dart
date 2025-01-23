@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:ecom/services/auth_api.dart';
+import 'package:ecom/utils/app_color.dart';
 import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/auth/login_view.dart';
 import 'package:flutter/material.dart';
@@ -78,14 +79,14 @@ final _newPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: AppColors.backgroundPrincal,
       appBar: AppBar(
         toolbarHeight: 80,
         elevation: 0,
         backgroundColor: Colors.grey[200],
         leading: IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: AppSizes.iconLarge)),
+            icon: Icon(Icons.arrow_back_ios_new_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconLarge)),
       ),
       body: Container(
         padding: const EdgeInsets.all(10),
@@ -119,14 +120,14 @@ final _newPassword = TextEditingController();
             padding: const EdgeInsets.all(8.0),
             child: Text("Validation le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontLarge, fontWeight: FontWeight.w600)),
+                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w600)),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir valider le nouveau mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w300)),
+                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w300)),
           ),
         ],
       ),
@@ -151,7 +152,7 @@ final _newPassword = TextEditingController();
           fillColor: Colors.grey[100],
           labelText: "Nouveau mot de passe",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -171,12 +172,12 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.lock_outline, size: AppSizes.iconLarge),
+          prefixIcon: Icon(Icons.lock_outline, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Confirmer",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w500),
+              GoogleFonts.aBeeZee(fontSize: MediaQuery.of(context).size.width*AppSizes.fontSmall, fontWeight: FontWeight.w500),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
         ),
       ),
@@ -190,7 +191,7 @@ final _newPassword = TextEditingController();
             padding: const EdgeInsets.all(8.0),
             child: Text("Entrez les 4 chiffres envoyés sur votre e-mail",
                 style: GoogleFonts.roboto(
-                    fontSize: AppSizes.fontMedium, fontWeight: FontWeight.w400))));
+                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w400))));
   }
 
   Widget _codes4Champs(BuildContext context) {
@@ -233,7 +234,7 @@ final _newPassword = TextEditingController();
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: AppSizes.fontSmall,
+                fontSize: MediaQuery.of(context).size.width*AppSizes.fontSmall,
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

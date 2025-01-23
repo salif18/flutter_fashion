@@ -489,8 +489,7 @@ class _StoresViewState extends State<StoresView> {
       padding: const EdgeInsets.symmetric(horizontal: 0),
       child: isLoading
           ? const Center(
-              child:
-                  CircularProgressIndicator(), // Affiche le loader si isLoading est vrai
+              // child:CircularProgressIndicator(), // Affiche le loader si isLoading est vrai
             )
           : GridView.builder(
   physics: const NeverScrollableScrollPhysics(), // Désactive le défilement interne

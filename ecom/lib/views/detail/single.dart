@@ -666,7 +666,7 @@ class _SingleProductState extends State<SingleProduct> {
                       child: Badge.count(
                         count: provider.nombreArticles,
                         largeSize: 35 / 2,
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.deepOrange,
                         textStyle: GoogleFonts.roboto(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,

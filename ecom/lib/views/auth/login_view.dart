@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/routes.dart';
 import 'package:ecom/services/auth_api.dart';
+import 'package:ecom/utils/app_color.dart';
 import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/auth/registre_view.dart';
 import 'package:ecom/views/auth/reset_password.dart';
@@ -76,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 229, 248, 255),
+      backgroundColor: AppColors.backgroundPrincal,
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(
@@ -88,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                   height: 400,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/logos/logo2.jpg"), 
+                      image: AssetImage("assets/logos/logo1.jpg"), 
                       fit: BoxFit.contain
                     ),
                   ),
@@ -98,7 +99,7 @@ class _LoginViewState extends State<LoginView> {
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.only(top: 50, left: 10, right: 10),
                   decoration: const BoxDecoration(
-                    color: Color(0xff001c30),
+                    color: AppColors.banerBtnNavigatorBackground,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -121,10 +122,10 @@ class _LoginViewState extends State<LoginView> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               hintText: "Numéro ou e-mail",
-                              hintStyle: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * AppSizes.fontMedium),
+                              hintStyle: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * AppSizes.fontSmall),
                               filled: true,
                               fillColor: const Color(0xfff0fcf3),
-                              prefixIcon: Icon(Icons.person_2_outlined, size:MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                              prefixIcon: Icon(Icons.person_2_outlined, size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none,
@@ -146,10 +147,10 @@ class _LoginViewState extends State<LoginView> {
                             obscureText: isVisibility,
                             decoration: InputDecoration(
                               hintText: "Mot de passe",
-                              hintStyle: GoogleFonts.roboto(fontSize:MediaQuery.of(context).size.width * AppSizes.fontMedium),
+                              hintStyle: GoogleFonts.roboto(fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
                               filled: true,
                               fillColor: const Color(0xfff0fcf3),
-                              prefixIcon: Icon(Icons.lock_outline, size:MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                              prefixIcon: Icon(Icons.lock_outline, size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -165,9 +166,9 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 25),
+                        const SizedBox(height: 10),
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -178,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
                                 child: Text(
                                   "Mot de passe oublié ?",
                                   style: GoogleFonts.roboto(
-                                    fontSize:MediaQuery.of(context).size.width * AppSizes.fontMedium,
+                                    fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
                                     color: Colors.blue[400],
                                   ),
                                 ),
@@ -191,7 +192,7 @@ class _LoginViewState extends State<LoginView> {
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(400, 50),
-                              backgroundColor: const Color.fromARGB(255, 255, 123, 0),
+                              backgroundColor: Colors.deepOrange,
                             ),
                             onPressed: () {
                               _sendToserver(context);
@@ -213,7 +214,7 @@ class _LoginViewState extends State<LoginView> {
                               Text(
                                 "Vous n'avez pas de compte ?",
                                 style: GoogleFonts.roboto(
-                                  fontSize:MediaQuery.of(context).size.width * AppSizes.fontMedium,
+                                  fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
                                   color: Colors.white,
                                 ),
                               ),
@@ -227,7 +228,7 @@ class _LoginViewState extends State<LoginView> {
                                 child: Text(
                                   "Créer",
                                   style: GoogleFonts.roboto(
-                                    fontSize: MediaQuery.of(context).size.width *AppSizes.fontMedium,
+                                    fontSize: MediaQuery.of(context).size.width *AppSizes.fontSmall,
                                     fontWeight: FontWeight.bold,
                                     color: const Color.fromARGB(255, 255, 123, 0),
                                   ),

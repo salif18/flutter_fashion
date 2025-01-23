@@ -1,6 +1,6 @@
 class PopulairesModel {
-  final String id;
-  final int totalQuantity;
+  final String? id;
+  final int? totalQuantity;
   final String? produitId;
   final String? name;
   final String? image;

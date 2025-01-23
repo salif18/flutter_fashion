@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/providers/cart_provider.dart';
 import 'package:ecom/services/order_api.dart';
+import 'package:ecom/utils/app_color.dart';
 import 'package:ecom/utils/app_size.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -107,7 +108,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
+        color: AppColors.backgroundPrincal,
       ),
       child: Padding(
         padding: const EdgeInsets.all(15),
@@ -115,7 +116,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
           padding: const EdgeInsets.all(5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: const Color(0xfff0fcf3),
+            // color: const Color.fromARGB(255, 255, 240, 218)
           ),
           child: SingleChildScrollView(child: _formulaires(context)),
         ),
@@ -153,13 +154,14 @@ class _AddressLivraisonState extends State<AddressLivraison> {
             height: 200,
             width: 200,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
+              borderRadius: BorderRadius.circular(5),
               image: const DecorationImage(
-                image: AssetImage("assets/logos/delibery.png"),
+                image: AssetImage("assets/logos/delivery1.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
           ),
+          const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.all(8),
             child: TextFormField(
@@ -173,7 +175,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.grey[100],
                 hintText: "Nom",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
@@ -202,7 +204,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.grey[100],
                 hintText: "Numero",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
@@ -231,7 +233,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.grey[100],
                 hintText: "Email",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
@@ -260,7 +262,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.grey[100],
                 hintText: "Quartier",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
@@ -289,7 +291,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.grey[100],
                 hintText: "Rue",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
@@ -318,7 +320,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: Colors.grey[100],
                 hintText: "Logement",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:

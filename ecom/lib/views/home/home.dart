@@ -326,7 +326,9 @@ class _HomeViewState extends State<HomeView> {
                     stream: fetchCategoriData(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                          // child: CircularProgressIndicator()
+                          );
                       } else if (snapshot.hasError) {
                         return Center(
                             child: Text(
@@ -455,7 +457,9 @@ class _HomeViewState extends State<HomeView> {
                   stream: fetchProductData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                        // child: CircularProgressIndicator()
+                        );
                     } else if (snapshot.hasError) {
                       return Center(
                         child: Text(
@@ -558,7 +562,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _populaires(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return SizedBox(
-        height: 400,
+        height: 390,
         child: Column(
           children: [
             Row(
@@ -590,7 +594,9 @@ class _HomeViewState extends State<HomeView> {
                     stream: fetchProductPopulaires(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                          // child: CircularProgressIndicator()
+                          );
                       } else if (snapshot.hasError) {
                         return Center(
                             child: Text(
@@ -734,7 +740,9 @@ class _HomeViewState extends State<HomeView> {
             stream: fetchProductPromoData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  // child: CircularProgressIndicator()
+                  );
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text(
@@ -868,7 +876,9 @@ class _HomeViewState extends State<HomeView> {
             stream: fetchMarquesData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                  // child: CircularProgressIndicator()
+                  );
               } else if (snapshot.hasError) {
                 return Center(
                   child: Text(

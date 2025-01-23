@@ -74,7 +74,9 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   stream: _articlesData.stream,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const Center(
+                        // child: CircularProgressIndicator()
+                        );
                     } else if (snapshot.hasError) {
                       return Text("err",
                           style: GoogleFonts.roboto(fontSize: 20));
