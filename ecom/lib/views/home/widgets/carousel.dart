@@ -1,5 +1,4 @@
 import 'dart:async' show Future, StreamController;
-import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -40,7 +39,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
   Future<void> _getProducts() async {
     try {
       final res = await api.getPromo();
-      final body = jsonDecode(res.body);
+      final body = res.data;
       if (res.statusCode == 200) {
         if (body["specialOffre"] != null && body["specialOffre"] is Map) {
           // Convertissez l'objet en un ProductModel unique
@@ -75,7 +74,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
-                        // child: CircularProgressIndicator()
+                        child: CircularProgressIndicator()
                         );
                     } else if (snapshot.hasError) {
                       return Text("err",

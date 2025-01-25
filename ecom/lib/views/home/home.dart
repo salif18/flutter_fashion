@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:ecom/components/drawer.dart';
 // import 'package:ecom/components/generatedStarProduct.dart';
 // import 'package:ecom/components/generatedStart.dart';
@@ -46,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
 
   Stream<List<CategoryModel>> fetchCategoriData() async* {
     final res = await api.getAllCategorys();
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       //print("Body: $body"); // Vérifiez la structure ici
       yield (body["categories"] as List)
@@ -59,7 +57,7 @@ class _HomeViewState extends State<HomeView> {
 
   Stream<List<ProductModel>> fetchProductData() async* {
     final res = await api.getAllProducts();
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       yield (body["produits"] as List)
           .map((json) => ProductModel.fromJson(json))
@@ -74,7 +72,7 @@ class _HomeViewState extends State<HomeView> {
     try {
       final response = await api.getAllProducts();
       if (response.statusCode == 200) {
-        final body = jsonDecode(response.body);
+        final body = response.data;
         setState(() {
           _products = (body["produits"] as List)
               .map((json) => ProductModel.fromJson(json))
@@ -88,7 +86,7 @@ class _HomeViewState extends State<HomeView> {
 
   Stream<List<PopulairesModel>> fetchProductPopulaires() async* {
     final res = await api.getProductPlusAchete();
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       yield (body["produitsLesPlusAchetés"] as List)
           .map((json) => PopulairesModel.fromJson(json))
@@ -100,7 +98,7 @@ class _HomeViewState extends State<HomeView> {
 
   Stream<List<ProductModel>> fetchProductPromoData() async* {
     final res = await api.getPromo();
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       //print("Body: $body"); // Vérifiez la structure ici
       yield (body["allOffre"] as List)
@@ -113,7 +111,7 @@ class _HomeViewState extends State<HomeView> {
 
   Stream<List<MarquesModel>> fetchMarquesData() async* {
     final res = await marquesApi.getAllMarques();
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       //print("Body: $body"); // Vérifiez la structure ici
       yield (body["marques"] as List)
@@ -327,7 +325,7 @@ class _HomeViewState extends State<HomeView> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
-                          // child: CircularProgressIndicator()
+                          child: CircularProgressIndicator()
                           );
                       } else if (snapshot.hasError) {
                         return Center(
@@ -458,7 +456,7 @@ class _HomeViewState extends State<HomeView> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
-                        // child: CircularProgressIndicator()
+                        child: CircularProgressIndicator()
                         );
                     } else if (snapshot.hasError) {
                       return Center(
@@ -595,7 +593,7 @@ class _HomeViewState extends State<HomeView> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Center(
-                          // child: CircularProgressIndicator()
+                          child: CircularProgressIndicator()
                           );
                       } else if (snapshot.hasError) {
                         return Center(
@@ -741,7 +739,7 @@ class _HomeViewState extends State<HomeView> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  // child: CircularProgressIndicator()
+                  child: CircularProgressIndicator()
                   );
               } else if (snapshot.hasError) {
                 return Center(
@@ -877,7 +875,7 @@ class _HomeViewState extends State<HomeView> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  // child: CircularProgressIndicator()
+                  child: CircularProgressIndicator()
                   );
               } else if (snapshot.hasError) {
                 return Center(

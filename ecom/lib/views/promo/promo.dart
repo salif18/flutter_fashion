@@ -20,7 +20,7 @@ class _PromoViewState extends State<PromoView> {
 
   Stream<List<ProductModel>> fetchProductPromoData() async* {
     final res = await api.getAllPromo();
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       // Vérifiez la structure ici
       yield (body["offres"] as List)

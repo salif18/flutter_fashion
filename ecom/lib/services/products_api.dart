@@ -1,84 +1,94 @@
-import 'dart:convert';
-
 import 'package:ecom/server/server_api.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 const String domaineName = BackendApi.domaineURI;
 
 class ServicesAPiProducts {
+  Dio dio = Dio();
   //obtenir les produits
   getAllProducts() async {
     var uri = "$domaineName/products";
-    return await http.get(Uri.parse(uri), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.get(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
-
-
- //obtenir les produits
+  //obtenir les produits
   getProductPlusAchete() async {
     var uri = "$domaineName/commandes/plus-achetes";
-    return await http.get(Uri.parse(uri), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.get(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
   //obtenir les produits
   getSingleProducts(id) async {
     var uri = "$domaineName/products/single/$id";
-    return await http.get(Uri.parse(uri), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.get(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
 //obtenir les produits
   getAllCategorys() async {
     var uri = "$domaineName/products/categorie-product";
-    return await http.get(Uri.parse(uri), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.get(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
   //obtenir les promos
   getPromo() async {
     var uri = "$domaineName/products/promo";
-    return await http.get(Uri.parse(uri), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.get(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
   //obtenir les promos
   getAllPromo() async {
     var uri = "$domaineName/products/promo/all-offres";
-    return await http.get(Uri.parse(uri), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.get(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
   //obtenir les promos
   postCommit(id, comment) async {
     var uri = "$domaineName/commentaires/$id";
-    return await http.post(Uri.parse(uri), body: jsonEncode(comment), headers: {
-      "Content-Type": "application/json; charset=UTF-8",
-      "Accept": "*/*",
-      "Accept-Encoding": "gzip, deflate, br",
-    });
+    return await dio.post(uri,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': "Bearer ",
+          },
+        ));
   }
 
   //message en cas de succès!

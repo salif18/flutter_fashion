@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:ecom/models/order_model.dart';
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/services/order_api.dart';
@@ -28,7 +26,7 @@ class _AchatViewState extends State<AchatView> {
       final provider = Provider.of<AuthProvider>(context, listen: false);
       var userId = provider.userId;
       final res = await api.getAllOrders(userId);
-      final body = jsonDecode(res.body);
+      final body = res.data;
 
       if (res.statusCode == 200) {
         final allOrders = (body["orders"] as List)

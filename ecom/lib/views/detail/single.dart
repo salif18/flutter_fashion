@@ -39,7 +39,7 @@ class _SingleProductState extends State<SingleProduct> {
 
   Stream<List<ProductModel>> fetchProductData() async* {
     final res = await api.getSingleProducts(widget.product.id);
-    final body = jsonDecode(res.body);
+    final body = res.data;
     if (res.statusCode == 200) {
       yield (body["recommandations"] as List)
           .map((json) => ProductModel.fromJson(json))

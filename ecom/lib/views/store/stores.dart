@@ -54,7 +54,7 @@ class _StoresViewState extends State<StoresView> {
     try {
       final response = await api.getAllProducts();
       if (response.statusCode == 200) {
-        final body = jsonDecode(response.body);
+        final body = response.data;
         setState(() {
           _products = (body["produits"] as List)
               .map((json) => ProductModel.fromJson(json))
@@ -70,7 +70,7 @@ class _StoresViewState extends State<StoresView> {
   Future<void> _fetchMarques() async {
     try {
       final response = await apiMarques.getAllMarques();
-      final body = jsonDecode(response.body);
+      final body = response.data;
       if (response.statusCode == 200) {
         setState(() {
           _marques = (body["marques"] as List)
