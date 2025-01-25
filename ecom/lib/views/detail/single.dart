@@ -640,45 +640,53 @@ class _SingleProductState extends State<SingleProduct> {
           addToCart) {
     return Container(
       height: 120,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       color: AppColors.backgroundPrincal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Consumer<CartProvider>(
-            builder: (context, provider, child) {
-              return Stack(
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CartView())),
-                    icon: Icon(Icons.shopping_cart_outlined,
-                        color: Colors.black,
-                        size: MediaQuery.of(context).size.width *
-                            AppSizes.iconHyperLarge),
-                  ),
-                  if (provider.cart.isNotEmpty)
-                    Positioned(
-                      left: 35,
-                      bottom: 30,
-                      child: Badge.count(
-                        count: provider.nombreArticles,
-                        largeSize: 35 / 2,
-                        backgroundColor: Colors.deepOrange,
-                        textStyle: GoogleFonts.roboto(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+          Container(
+             width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+                color: AppColors.productBackground,
+                borderRadius: BorderRadius.circular(10)),
+            child: Consumer<CartProvider>(
+              builder: (context, provider, child) {
+                return Stack(
+                  children: [
+                    IconButton(
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CartView())),
+                      icon: Icon(Icons.shopping_cart_outlined,
+                          color: Colors.black,
+                          size: MediaQuery.of(context).size.width *
+                              AppSizes.iconHyperLarge),
+                    ),
+                    if (provider.cart.isNotEmpty)
+                      Positioned(
+                        left: 35,
+                        bottom: 30,
+                        child: Badge.count(
+                          count: provider.nombreArticles,
+                          largeSize: 35 / 2,
+                          backgroundColor: Colors.deepOrange,
+                          textStyle: GoogleFonts.roboto(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
           Container(
             width: 60,
             height: 60,
@@ -712,7 +720,7 @@ class _SingleProductState extends State<SingleProduct> {
               );
             }),
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: ElevatedButton.icon(

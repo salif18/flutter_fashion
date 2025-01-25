@@ -170,7 +170,7 @@ class _HomeViewState extends State<HomeView> {
                       color: AppColors.textColor,
                     )),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text("H-fashion".toUpperCase(),
+                  title: Text("Shop-Line".toUpperCase(),
                       style: GoogleFonts.roboto(
                           fontSize: MediaQuery.of(context).size.width *
                               AppSizes.fontMedium,
