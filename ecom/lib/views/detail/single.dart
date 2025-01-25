@@ -50,7 +50,7 @@ class _SingleProductState extends State<SingleProduct> {
   }
 
   late String mainImage;
-  late String selectedColor = '';
+  late String? selectedColor;
   late String? selectedSize;
   int selectedColorIndex = 0;
 
@@ -75,6 +75,7 @@ class _SingleProductState extends State<SingleProduct> {
     // initialiser les valeur par default
     mainImage = widget.product.image!;
     selectedSize = "";
+    selectedColor = "";
   }
 
   // Color? parsedColor(String color) {
@@ -91,38 +92,39 @@ class _SingleProductState extends State<SingleProduct> {
   // }
 
   Color? parsedColor(String color) {
-  // Liste des couleurs nommées avec une Map
-  Map<String, Color> colorMap = {
-    "red": Colors.red,
-    "green": Colors.green,
-    "blue": Colors.blue,
-    "yellow": Colors.yellow,
-    "orange": Colors.orange,
-    "purple": Colors.purple,
-    "pink": Colors.pink,
-    "white": Colors.white,
-    "black": Colors.black,
-    "grey": Colors.grey,
-    "cyan": Colors.cyan,
-    "teal": Colors.teal,
-    "lime": Colors.lime,
-    "amber": Colors.amber,
-    "indigo": Colors.indigo,
-    "brown": Colors.brown,
-  };
+    // Liste des couleurs nommées avec une Map
+    Map<String, Color> colorMap = {
+      "red": Colors.red,
+      "green": Colors.green,
+      "blue": Colors.blue,
+      "yellow": Colors.yellow,
+      "orange": Colors.orange,
+      "purple": Colors.purple,
+      "pink": Colors.pink,
+      "white": Colors.white,
+      "black": Colors.black,
+      "grey": Colors.grey,
+      "cyan": Colors.cyan,
+      "teal": Colors.teal,
+      "lime": Colors.lime,
+      "amber": Colors.amber,
+      "indigo": Colors.indigo,
+      "brown": Colors.brown,
+    };
 
-  try {
-    // Vérification si la couleur est au format hexadécimal
-    if (color.startsWith("#")) {
-      return Color(int.parse("0xFF${color.substring(1)}"));
+    try {
+      // Vérification si la couleur est au format hexadécimal
+      if (color.startsWith("#")) {
+        return Color(int.parse("0xFF${color.substring(1)}"));
+      }
+
+      // Recherche dans la Map
+      return colorMap[color.toLowerCase()] ??
+          Colors.grey; // Gris par défaut si non trouvé
+    } catch (e) {
+      return Colors.grey; // Gris par défaut en cas d'erreur
     }
-
-    // Recherche dans la Map
-    return colorMap[color.toLowerCase()] ?? Colors.grey; // Gris par défaut si non trouvé
-  } catch (e) {
-    return Colors.grey; // Gris par défaut en cas d'erreur
   }
-}
 
   int rating = 0; // Note sélectionnée par l'utilisateur
 
@@ -141,30 +143,30 @@ class _SingleProductState extends State<SingleProduct> {
 
   void handleSubmit() async {
     if (_formKey.currentState!.validate()) {
-    final provider = Provider.of<AuthProvider>(context, listen: false);
-    final userId = provider.userId;
+      final provider = Provider.of<AuthProvider>(context, listen: false);
+      final userId = provider.userId;
 
-    final avis = {
-      "userId": userId,
-      "user": _userNameController.text,
-      "rating": rating,
-      "commentaires": _commentController.text,
-    };
+      final avis = {
+        "userId": userId,
+        "user": _userNameController.text,
+        "rating": rating,
+        "commentaires": _commentController.text,
+      };
 
-    try {
-      final response = await api.postCommit(widget.product.id, avis);
-      final body = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        if (!mounted) return;
-        Navigator.pop(context);
-        api.showSnackBarSuccessPersonalized(context, body["message"]);
-      } else {
-        if (!mounted) return;
-        api.showSnackBarErrorPersonalized(context, body["message"]);
+      try {
+        final response = await api.postCommit(widget.product.id, avis);
+        final body = jsonDecode(response.body);
+        if (response.statusCode == 200) {
+          if (!mounted) return;
+          Navigator.pop(context);
+          api.showSnackBarSuccessPersonalized(context, body["message"]);
+        } else {
+          if (!mounted) return;
+          api.showSnackBarErrorPersonalized(context, body["message"]);
+        }
+      } catch (e) {
+        Exception(e);
       }
-    } catch (e) {
-      Exception(e);
-    }
     }
   }
 
@@ -647,7 +649,7 @@ class _SingleProductState extends State<SingleProduct> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-             width: 60,
+            width: 60,
             height: 60,
             decoration: BoxDecoration(
                 color: AppColors.productBackground,
@@ -729,16 +731,58 @@ class _SingleProductState extends State<SingleProduct> {
                 backgroundColor: AppColors.banerBtnNavigatorBackground,
               ),
               onPressed: () {
-                addToCart(
-                    widget.product, mainImage, selectedSize!, selectedColor);
+                // Vérifier la catégorie du produit et valider les sélections
+                if (widget.product.category == "Vêtements" ||
+                    widget.product.category == "Chaussures") {
+                  if (selectedColor == "" || selectedSize == "") {
+                    // Afficher une alerte si la couleur ou la taille n'est pas sélectionnée
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "Veuillez choisir une couleur et une taille avant d'ajouter au panier."),
+                        duration: const Duration(seconds: 1),
+                        backgroundColor: Colors.deepOrange,
+                        action: SnackBarAction(
+                          label: "",
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          },
+                        ),
+                      ),
+                    );
+                    return;
+                  }
+                } else if (widget.product.category == "Accessoires" ||
+                    widget.product.category == "Sacs") {
+                  if (selectedColor == "") {
+                    // Afficher une alerte si la couleur n'est pas sélectionnée
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                          "Veuillez choisir une couleur avant d'ajouter au panier."),
+                      duration: const Duration(seconds: 1),
+                      backgroundColor: Colors.deepOrange,
+                      action: SnackBarAction(
+                        label: "",
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        },
+                      ),
+                    ));
+                    return;
+                  }
+                }
+
+                // Ajouter au panier si toutes les validations sont passées
+                addToCart(widget.product, mainImage, selectedSize ?? "",
+                    selectedColor ?? "");
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
-                    "Article ajouté",
+                    "Ajouté au panier !",
                     style: GoogleFonts.roboto(fontSize: 16),
                   ),
                   // backgroundColor: const Color.fromARGB(255, 255, 35, 19),
                   duration: const Duration(seconds: 1),
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: const Color.fromARGB(255, 5, 151, 10),
                   action: SnackBarAction(
                     label: "",
                     onPressed: () {
@@ -1136,7 +1180,8 @@ class _SingleProductState extends State<SingleProduct> {
             child: ListView.builder(
               itemCount: widget.product.commentaires.length,
               itemBuilder: (context, index) {
-                final avis = widget.product.commentaires.reversed.toList()[index];
+                final avis =
+                    widget.product.commentaires.reversed.toList()[index];
                 if (widget.product.commentaires.isNotEmpty) {
                   return Container(
                     margin: const EdgeInsets.symmetric(
