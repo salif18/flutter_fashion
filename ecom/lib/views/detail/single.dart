@@ -739,7 +739,7 @@ class _SingleProductState extends State<SingleProduct> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                            "Veuillez choisir une couleur et une taille avant d'ajouter au panier."),
+                            "Veuillez choisir votre couleur et votre taille avant d'ajouter au panier."),
                         duration: const Duration(seconds: 1),
                         backgroundColor: Colors.deepOrange,
                         action: SnackBarAction(
@@ -758,7 +758,7 @@ class _SingleProductState extends State<SingleProduct> {
                     // Afficher une alerte si la couleur n'est pas sélectionnée
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
-                          "Veuillez choisir une couleur avant d'ajouter au panier."),
+                          "Veuillez choisir votre couleur avant d'ajouter au panier."),
                       duration: const Duration(seconds: 1),
                       backgroundColor: Colors.deepOrange,
                       action: SnackBarAction(

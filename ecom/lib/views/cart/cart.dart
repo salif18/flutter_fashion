@@ -246,7 +246,7 @@ class _CartViewState extends State<CartView> {
                   "Supprimer cet article de votre panier ?",
                   style: GoogleFonts.roboto(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontMedium,
+                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
                     color: Colors.grey,
                   ),
                   textAlign: TextAlign.center,
@@ -266,7 +266,7 @@ class _CartViewState extends State<CartView> {
                   "Supprimer",
                   style: GoogleFonts.roboto(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontMedium,
+                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
                     color: Colors.white,
                   ),
                 ),
@@ -278,7 +278,7 @@ class _CartViewState extends State<CartView> {
                   "Annuler",
                   style: GoogleFonts.roboto(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontMedium,
+                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
                     color: Colors.white,
                   ),
                 ),
