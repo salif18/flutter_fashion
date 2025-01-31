@@ -94,7 +94,7 @@ class _AchatViewState extends State<AchatView> {
                   Tab(
                     child: Row(
                       children: [
-                        Text("En attente d'expédition",
+                        Text("En attente de livraison",
                             style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
@@ -113,7 +113,7 @@ class _AchatViewState extends State<AchatView> {
                   Tab(
                     child: Row(
                       children: [
-                        Text("Commandes Expédiées",
+                        Text("Commandes Livrées",
                             style: GoogleFonts.roboto(
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
