@@ -422,7 +422,7 @@ class _HomeViewState extends State<HomeView> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox(
-          height: 360,
+          height: 340,
           child: Column(
             children: [
               Row(
@@ -496,7 +496,7 @@ class _HomeViewState extends State<HomeView> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: AppColors.productBackground,
+                                // color: AppColors.productBackground,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               margin: const EdgeInsets.all(5),
@@ -515,7 +515,7 @@ class _HomeViewState extends State<HomeView> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 16),
                                   Text(
                                     product.name!,
                                     style: GoogleFonts.roboto(
@@ -525,7 +525,7 @@ class _HomeViewState extends State<HomeView> {
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.textColor,
                                     ),
-                                    maxLines: 2,
+                                    // maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
@@ -560,7 +560,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _populaires(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return SizedBox(
-        height: 390,
+        height: 360,
         child: Column(
           children: [
             Row(
@@ -632,7 +632,7 @@ class _HomeViewState extends State<HomeView> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: AppColors.productBackground,
+                                    // color: AppColors.productBackground,
                                     borderRadius: BorderRadius.circular(20)),
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(16),
@@ -669,9 +669,9 @@ class _HomeViewState extends State<HomeView> {
                                                           AppSizes.fontSmall,
                                                   fontWeight: FontWeight.bold,
                                                   color: AppColors.textColor),
-                                              softWrap: true,
+                                              // softWrap: true,
                                               overflow: TextOverflow.ellipsis,
-                                              maxLines: 2,
+                                              // maxLines: 2,
                                             ),
                                           ),
                                         ),
@@ -769,7 +769,7 @@ class _HomeViewState extends State<HomeView> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 0.65,
+                    childAspectRatio: 0.72,
                   ),
                   shrinkWrap: true,
                   itemCount: products.take(4).length,
@@ -786,7 +786,7 @@ class _HomeViewState extends State<HomeView> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppColors.productBackground,
+                          // color: AppColors.productBackground,
                           borderRadius: BorderRadius.circular(20),
                         ),
                         padding: const EdgeInsets.all(16),
@@ -837,7 +837,7 @@ class _HomeViewState extends State<HomeView> {
                                 ),
                               ))
                             ]),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 16),
                             Text(
                               product.name!,
                               style: GoogleFonts.roboto(
@@ -846,9 +846,9 @@ class _HomeViewState extends State<HomeView> {
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.textColor,
                               ),
-                              softWrap: true,
+                              // softWrap: true,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
+                              // maxLines: 2,
                             ),
                           ],
                         ),

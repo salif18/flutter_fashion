@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:ecom/models/marques_model.dart';
 import 'package:ecom/models/produits_model.dart';
@@ -136,7 +135,8 @@ class _StoresViewState extends State<StoresView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(239, 245, 245, 245),
+      // const Color.fromARGB(239, 245, 245, 245),
+      backgroundColor: AppColors.backgroundPrincal,
       key: _drawerKey,
       drawer: _buildFilterMenuDrawer(context),
       body: CustomScrollView(
@@ -147,49 +147,42 @@ class _StoresViewState extends State<StoresView> {
             toolbarHeight: 80,
             pinned: true,
             floating: true,
+            stretchTriggerOffset: 120.5,
             flexibleSpace: FlexibleSpaceBar(
-              // centerTitle: true,
-              title: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  "Boutique",
-                  style: GoogleFonts.roboto(
-                    fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontLarge,
-                    fontWeight: FontWeight.bold,
-                  ),
+              centerTitle: true,
+              title: Text( widget.categoSelected == "" ?  "Boutique" : widget.categoSelected!,
+                style: GoogleFonts.roboto(
+                  fontSize:
+                      MediaQuery.of(context).size.width * AppSizes.fontLarge,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            actions: [
-              Row(
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.banerBtnNavigatorBackground),
-                    onPressed: () {
-                      _drawerKey.currentState!.openDrawer();
-                    },
-                    icon: Icon(
-                      Icons.filter_list_rounded,
-                      color: Colors.white,
-                      size: MediaQuery.of(context).size.width *
-                          AppSizes.iconLarge,
-                    ),
-                    label: Text(
-                      "Filtrer",
-                      style: GoogleFonts.roboto(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width *
-                              AppSizes.fontSmall),
-                    ),
-                  ),
-                ],
+            
+            leading: 
+              IconButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepOrange),
+                    
+                onPressed: () {
+                  _drawerKey.currentState!.openDrawer();
+                },
+                icon: Icon(
+                  Icons.filter_list_rounded,
+                  color: Colors.white,
+                  size: MediaQuery.of(context).size.width *
+                      AppSizes.iconLarge,
+                ),
+                // label: Text(
+                //   "",
+                //   style: GoogleFonts.roboto(
+                //       color: Colors.white,
+                //       fontSize: MediaQuery.of(context).size.width *
+                //           AppSizes.fontSmall),
+                // ),
               ),
-              const SizedBox(
-                width: 16,
-              )
-            ],
+             
+            
           ),
           SliverToBoxAdapter(
             child: _buildProductList(context),
@@ -307,8 +300,8 @@ class _StoresViewState extends State<StoresView> {
               max: 100000,
               divisions: 100,
               label: '${_filters['maxPrice']} FCFA',
-              thumbColor: Colors.blueGrey,
-              activeColor: Colors.blue,
+              thumbColor: Colors.black,
+              activeColor: Colors.deepOrange,
               onChanged: (value) {
                 setState(() {
                   _filters['maxPrice'] = value.toInt();
@@ -497,7 +490,7 @@ class _StoresViewState extends State<StoresView> {
     crossAxisCount: 2, // Nombre de colonnes
     crossAxisSpacing: 0, // Espacement horizontal entre les cartes
     mainAxisSpacing: 0, // Espacement vertical entre les cartes
-    childAspectRatio: 0.575, // Ratio largeur/hauteur pour les cartes
+    childAspectRatio: 0.61, // Ratio largeur/hauteur pour les cartes
   ),
   shrinkWrap: true, // Adapte la hauteur du GridView à son contenu
   itemCount: filteredProducts.length,

@@ -107,10 +107,10 @@ Color? parsedColor(String color) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: AppColors.backgroundPrincal,
+        // color: const Color.fromARGB(239, 245, 245, 245),
       ),
       margin: const EdgeInsets.all(5),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(2),
       width: MediaQuery.of(context).size.width / 2.14,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +126,7 @@ Color? parsedColor(String color) {
             ),
             child: Image(
               image: NetworkImage(mainImage),
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
           const SizedBox(height: 5),
@@ -184,9 +184,9 @@ Color? parsedColor(String color) {
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor,
                     ),
-                    softWrap: true,
+                    // softWrap: true,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
+                    // maxLines: 2,
                   ),
                 ),
               ),

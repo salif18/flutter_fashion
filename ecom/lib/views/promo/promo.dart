@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/services/products_api.dart';
@@ -126,7 +125,7 @@ class _PromoViewState extends State<PromoView> {
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 0.65,
+                          childAspectRatio: 0.72,
                         ),
                         shrinkWrap: true,
                         itemCount: products.length,
@@ -144,7 +143,7 @@ class _PromoViewState extends State<PromoView> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                color: AppColors.productBackground,
+                                // color: AppColors.productBackground,
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               padding: const EdgeInsets.all(16),
@@ -168,8 +167,8 @@ class _PromoViewState extends State<PromoView> {
                                     ),
                                     Positioned(
                                         child: Container(
-                                      width: 50,
-                                      height: 50,
+                                      width: 40,
+                                      height: 40,
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           boxShadow: [
@@ -203,7 +202,7 @@ class _PromoViewState extends State<PromoView> {
                                       ),
                                     ))
                                   ]),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 16),
                                   Text(
                                     product.name!,
                                     style: GoogleFonts.roboto(
@@ -214,9 +213,9 @@ class _PromoViewState extends State<PromoView> {
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.textColor,
                                     ),
-                                    softWrap: true,
+                                    // softWrap: true,
                                     overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
+                                    // maxLines: 2,
                                   ),
                                 ],
                               ),

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-
 class RegistreView extends StatefulWidget {
   const RegistreView({super.key});
 
@@ -70,11 +69,12 @@ class _RegistreViewState extends State<RegistreView> {
 
         if (response.statusCode == 201) {
           provider.loginButton(body['token'], body["userId"].toString(),
-              body["userName"], body["entreprise"],body["userNumber"]);
+              body["userName"], body["entreprise"], body["userNumber"]);
 
           Navigator.pushReplacement(
               // ignore: use_build_context_synchronously
-              context, MaterialPageRoute(builder: (context) => const Routes()));
+              context,
+              MaterialPageRoute(builder: (context) => const Routes()));
         } else {
           // ignore: use_build_context_synchronously
           api.showSnackBarErrorPersonalized(context, body["message"]);
@@ -98,7 +98,7 @@ class _RegistreViewState extends State<RegistreView> {
           SliverList(
             delegate: SliverChildListDelegate([
               Container(
-                height: 400,
+                height: 280,
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -111,9 +111,9 @@ class _RegistreViewState extends State<RegistreView> {
           SliverFillRemaining(
             hasScrollBody: false,
             child: Container(
-              height: 670,
+              height: 520,
               width: MediaQuery.of(context).size.width,
-              padding: const EdgeInsets.only(top: 40, left: 10, right: 10),
+              padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
               decoration: const BoxDecoration(
                 color: AppColors.banerBtnNavigatorBackground,
                 borderRadius: BorderRadius.only(
@@ -132,13 +132,15 @@ class _RegistreViewState extends State<RegistreView> {
                           Text(
                             "Création de compte",
                             style: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontLarge,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontLarge,
                                 color: Colors.white),
                           ),
                           Text(
                             "Information personnelle",
                             style: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontSmall,
                                 color: Colors.white),
                           )
                         ],
@@ -156,19 +158,24 @@ class _RegistreViewState extends State<RegistreView> {
                         },
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10),
                             hintText: "Nom",
                             hintStyle: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontSmall),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon: Icon(Icons.person_3_outlined,
-                                size: MediaQuery.of(context).size.width *AppSizes.iconMedium),
+                                size: MediaQuery.of(context).size.width *
+                                    AppSizes.iconMedium),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
                       ),
                     ),
-                    
+                    const SizedBox(height: 8.0),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -181,18 +188,24 @@ class _RegistreViewState extends State<RegistreView> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10),
                             hintText: "Numero",
                             hintStyle: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontSmall),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon: Icon(Icons.phone_android_outlined,
-                                size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
+                                size: MediaQuery.of(context).size.width *
+                                    AppSizes.iconMedium),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
                       ),
                     ),
+                    const SizedBox(height: 8.0),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -205,19 +218,24 @@ class _RegistreViewState extends State<RegistreView> {
                         },
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10),
                             hintText: "Email",
                             hintStyle: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontSmall),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
                             prefixIcon: Icon(Icons.mail_outline,
-                                size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
+                                size: MediaQuery.of(context).size.width *
+                                    AppSizes.iconMedium),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none)),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8.0),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -231,13 +249,18 @@ class _RegistreViewState extends State<RegistreView> {
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: isVisibility,
                         decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 10),
                             hintText: "Mot de passe",
                             hintStyle: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontSmall),
                             filled: true,
                             fillColor: const Color(0xfff0fcf3),
-                            prefixIcon:Icon(Icons.lock_outline,
-                                size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
+                            prefixIcon: Icon(Icons.lock_outline,
+                                size: MediaQuery.of(context).size.width *
+                                    AppSizes.iconMedium),
                             suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -258,16 +281,16 @@ class _RegistreViewState extends State<RegistreView> {
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(400, 50),
-                            backgroundColor:
-                                Colors.deepOrange,
+                            backgroundColor: Colors.deepOrange,
                           ),
                           onPressed: () {
                             _sendToserver(context);
                           },
                           child: Text("Créer compte",
                               style: GoogleFonts.roboto(
-                                color: Colors.white,
-                                  fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall))),
+                                  color: Colors.white,
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      AppSizes.fontSmall))),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -275,7 +298,8 @@ class _RegistreViewState extends State<RegistreView> {
                         Text(
                           "Avez vous un compte?",
                           style: GoogleFonts.roboto(
-                              fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                              fontSize: MediaQuery.of(context).size.width *
+                                  AppSizes.fontSmall,
                               color: Colors.white),
                         ),
                         TextButton(
@@ -283,15 +307,15 @@ class _RegistreViewState extends State<RegistreView> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginView()));
+                                      builder: (context) => const LoginView()));
                             },
                             child: Text(
                               "Se connecter",
                               style: GoogleFonts.roboto(
-                                color:const Color.fromARGB(255, 255, 139, 7),
-                                fontWeight: FontWeight.w600,
-                                  fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                                  color: const Color.fromARGB(255, 255, 139, 7),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      AppSizes.fontSmall),
                             ))
                       ],
                     )

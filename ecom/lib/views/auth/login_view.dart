@@ -19,48 +19,46 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  
   // CLE KEY POUR LE FORMULAIRE
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
   final ServicesAuth api = ServicesAuth();
- 
+
   final _contacts = TextEditingController();
-  final _password = TextEditingController(); 
+  final _password = TextEditingController();
   bool isVisibility = true;
 
-  @override 
-  void dispose(){
-    _contacts.dispose(); 
+  @override
+  void dispose() {
+    _contacts.dispose();
     _password.dispose();
     super.dispose();
   }
-  
+
   // ENVOIE DES DONNEES VERS API SERVER
   Future<void> _sendToserver(BuildContext context) async {
     if (_globalKey.currentState!.validate()) {
-      final data = {
-        "contacts": _contacts.text,
-        "password": _password.text
-      };
+      final data = {"contacts": _contacts.text, "password": _password.text};
       final providerAuth = Provider.of<AuthProvider>(context, listen: false);
-    
+
       try {
         showDialog(
-          context: context,
-          builder: (context) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          });
+            context: context,
+            builder: (context) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            });
         final response = await api.postLoginUser(data);
         final body = jsonDecode(response.body);
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialog
 
         if (response.statusCode == 200) {
-          providerAuth.loginButton(body['token'], body["userId"].toString(), body["userName"], body["userNumber"], body["userEmail"]);
+          providerAuth.loginButton(body['token'], body["userId"].toString(),
+              body["userName"], body["userNumber"], body["userEmail"]);
           // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Routes()));
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => const Routes()));
         } else {
           // ignore: use_build_context_synchronously
           api.showSnackBarErrorPersonalized(context, body["message"]);
@@ -89,13 +87,12 @@ class _LoginViewState extends State<LoginView> {
                   height: 400,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/logos/logo1.jpg"), 
-                      fit: BoxFit.contain
-                    ),
+                        image: AssetImage("assets/logos/logo1.jpg"),
+                        fit: BoxFit.contain),
                   ),
                 ),
                 Container(
-                  height: 700,
+                  height: 410,
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.only(top: 50, left: 10, right: 10),
                   decoration: const BoxDecoration(
@@ -121,11 +118,18 @@ class _LoginViewState extends State<LoginView> {
                             },
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10),
                               hintText: "Numéro ou e-mail",
-                              hintStyle: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                              hintStyle: GoogleFonts.roboto(
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      AppSizes.fontSmall),
                               filled: true,
                               fillColor: const Color(0xfff0fcf3),
-                              prefixIcon: Icon(Icons.person_2_outlined, size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
+                              prefixIcon: Icon(Icons.person_2_outlined,
+                                  size: MediaQuery.of(context).size.width *
+                                      AppSizes.iconMedium),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide.none,
@@ -146,18 +150,27 @@ class _LoginViewState extends State<LoginView> {
                             },
                             obscureText: isVisibility,
                             decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10),
                               hintText: "Mot de passe",
-                              hintStyle: GoogleFonts.roboto(fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                              hintStyle: GoogleFonts.roboto(
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      AppSizes.fontSmall),
                               filled: true,
                               fillColor: const Color(0xfff0fcf3),
-                              prefixIcon: Icon(Icons.lock_outline, size:MediaQuery.of(context).size.width * AppSizes.iconMedium),
+                              prefixIcon: Icon(Icons.lock_outline,
+                                  size: MediaQuery.of(context).size.width *
+                                      AppSizes.iconMedium),
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
                                     isVisibility = !isVisibility;
                                   });
                                 },
-                                icon: Icon(isVisibility ? Icons.visibility_off : Icons.visibility),
+                                icon: Icon(isVisibility
+                                    ? Icons.visibility_off
+                                    : Icons.visibility),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
@@ -166,20 +179,26 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                       
                         Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>const ResetToken()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ResetToken()));
                                 },
                                 child: Text(
                                   "Mot de passe oublié ?",
                                   style: GoogleFonts.roboto(
-                                    fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            AppSizes.fontSmall,
                                     color: Colors.blue[400],
                                   ),
                                 ),
@@ -200,7 +219,8 @@ class _LoginViewState extends State<LoginView> {
                             child: Text(
                               "Se connecter",
                               style: GoogleFonts.roboto(
-                                fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                                fontSize: MediaQuery.of(context).size.width *
+                                    AppSizes.fontSmall,
                                 color: Colors.white,
                               ),
                             ),
@@ -214,7 +234,8 @@ class _LoginViewState extends State<LoginView> {
                               Text(
                                 "Vous n'avez pas de compte ?",
                                 style: GoogleFonts.roboto(
-                                  fontSize:MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      AppSizes.fontSmall,
                                   color: Colors.white,
                                 ),
                               ),
@@ -222,15 +243,20 @@ class _LoginViewState extends State<LoginView> {
                                 onPressed: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const RegistreView()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const RegistreView()),
                                   );
                                 },
                                 child: Text(
                                   "Créer",
                                   style: GoogleFonts.roboto(
-                                    fontSize: MediaQuery.of(context).size.width *AppSizes.fontSmall,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            AppSizes.fontSmall,
                                     fontWeight: FontWeight.bold,
-                                    color: const Color.fromARGB(255, 255, 123, 0),
+                                    color:
+                                        const Color.fromARGB(255, 255, 123, 0),
                                   ),
                                 ),
                               ),

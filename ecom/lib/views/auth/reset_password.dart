@@ -139,6 +139,8 @@ void dispose(){
         },
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
+           isDense: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10 , vertical: 15),
           prefixIcon: Icon(Icons.phone_android_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
           filled: true,
           fillColor: Colors.grey[100],
@@ -164,6 +166,8 @@ void dispose(){
         },
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
+          isDense: true,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10 , vertical: 15),
           prefixIcon: Icon(Icons.mail_outline, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
           filled: true,
           fillColor: Colors.grey[100],

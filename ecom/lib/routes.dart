@@ -94,13 +94,13 @@ class _RoutesState extends State<Routes> {
                 Icons.shopify_sharp,
                 size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
               ),
-              label: "Mes achats"),
+              label: "Achats"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.favorite_border,
                 size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
               ),
-              label: "Mes Favoris"),
+              label: "Favoris"),
         ],
       ),
     );

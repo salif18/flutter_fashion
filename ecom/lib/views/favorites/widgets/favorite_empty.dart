@@ -47,7 +47,7 @@ class FavoriteEmpty extends StatelessWidget {
                           builder: (context) => const StoresView(categoSelected: "",)));
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D1A30),
+                    backgroundColor: Colors.deepOrange,
                     minimumSize: const Size(400, 50)),
                 child: Text("Voir les articles",
                     style:

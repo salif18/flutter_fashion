@@ -1,3 +1,4 @@
+import 'package:ecom/utils/app_color.dart';
 import 'package:ecom/views/store/stores.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -46,7 +47,7 @@ class EmptyCart extends StatelessWidget {
                           builder: (context) => const StoresView(categoSelected: "",)));
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF1D1A30),
+                    backgroundColor: Colors.deepOrange,
                     minimumSize: const Size(400, 50)),
                 child: Text("Voir les articles",
                     style:
