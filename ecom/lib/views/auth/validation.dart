@@ -88,55 +88,59 @@ final _newPassword = TextEditingController();
             onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back_ios_new_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconLarge)),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _globalKey,
-            child: Column(
-              children: [
-                _text(context),
-                _formNewPassword(context),
-                _formConfirmPassword(context),
-                _secondText(context),
-                _codes4Champs(context),
-                const SizedBox(height: 100),
-                _sendButton(context)
-              ],
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return Container(
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _globalKey,
+              child: Column(
+                children: [
+                  _text(context,constraints),
+                  _formNewPassword(context,constraints),
+                  _formConfirmPassword(context,constraints),
+                  _secondText(context,constraints),
+                  _codes4Champs(context,constraints),
+                  SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 100)),
+                  _sendButton(context,constraints)
+                ],
+              ),
             ),
           ),
-        ),
+        );
+        },
       ),
     );
   }
 
-  Widget _text(BuildContext context) {
+  Widget _text(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text("Validation le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w600)),
+                    fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w600)),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir valider le nouveau mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w300)),
+                    fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w300)),
           ),
         ],
       ),
     );
   }
 
-  Widget _formNewPassword(BuildContext context) {
+  Widget _formNewPassword(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _newPassword,
         validator: (value) {
@@ -147,21 +151,21 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.key_rounded, size: AppSizes.fontLarge),
+          prefixIcon: Icon(Icons.key_rounded, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Nouveau mot de passe",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w500),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              GoogleFonts.aBeeZee(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w500),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
         ),
       ),
     );
   }
 
-  Widget _formConfirmPassword(BuildContext context) {
+  Widget _formConfirmPassword(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
       child: TextFormField(
          controller: _confirmPassword,
         validator: (value) {
@@ -172,41 +176,41 @@ final _newPassword = TextEditingController();
         },
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
-          prefixIcon: Icon(Icons.lock_outline, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
+          prefixIcon: Icon(Icons.lock_outline, size:constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
           filled: true,
           fillColor: Colors.grey[100],
           labelText: "Confirmer",
           labelStyle:
-              GoogleFonts.aBeeZee(fontSize: MediaQuery.of(context).size.width*AppSizes.fontSmall, fontWeight: FontWeight.w500),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              GoogleFonts.aBeeZee(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w500),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20))),
         ),
       ),
     );
   }
 
-  Widget _secondText(BuildContext context) {
+  Widget _secondText(BuildContext context,constraints) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
         child: Container(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text("Entrez les 4 chiffres envoyés sur votre e-mail",
                 style: GoogleFonts.roboto(
-                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w400))));
+                    fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14), fontWeight: FontWeight.w400))));
   }
 
-  Widget _codes4Champs(BuildContext context) {
+  Widget _codes4Champs(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
       child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
           child: PinCodeTextField(
             appContext: context,
             length: 4,
             pinTheme: PinTheme(
                 shape: PinCodeFieldShape.box,
-                borderRadius: BorderRadius.circular(10),
-                fieldHeight: 80,
-                fieldWidth: 75,
+                borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+                fieldHeight: constraints.maxWidth * AppSizes.converValueToadapter(context, 80),
+                fieldWidth: constraints.maxWidth * AppSizes.converValueToadapter(context, 75),
                 activeColor: Colors.blue,
                 inactiveColor: Colors.grey),
             onCompleted: (value) {
@@ -224,17 +228,17 @@ final _newPassword = TextEditingController();
     );
   }
 
-  Widget _sendButton(BuildContext context) {
+  Widget _sendButton(BuildContext context, constraints) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor: const Color.fromARGB(255, 255, 115, 0),
-            minimumSize: const Size(350, 50)),
+            minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 350), constraints.maxWidth * AppSizes.converValueToadapter(context, 40))),
         onPressed: () {
           _sendToserver(context);
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: MediaQuery.of(context).size.width*AppSizes.fontSmall,
+                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

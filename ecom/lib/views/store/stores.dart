@@ -1,4 +1,7 @@
 
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:ecom/models/marques_model.dart';
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/providers/cart_provider.dart';
@@ -10,6 +13,7 @@ import 'package:ecom/views/cart/cart.dart';
 import 'package:ecom/views/detail/single.dart';
 import 'package:ecom/views/store/widgets/product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mdi_icons/flutter_mdi_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -60,8 +64,16 @@ class _StoresViewState extends State<StoresView> {
               .toList();
         });
       }
-    } catch (e) {
-      Exception('Erreur : $e');
+     }on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    }catch(e){
+     api.showSnackBarErrorPersonalized(context, "$e");
     }
   }
 
@@ -77,9 +89,18 @@ class _StoresViewState extends State<StoresView> {
               .toList();
         });
       }
-    } catch (e) {
-      Exception('Erreur : $e');
+    }  on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    }catch(e){
+     api.showSnackBarErrorPersonalized(context, "$e");
     }
+   
   }
 
 // filtration selon les resultats de filtre
@@ -139,347 +160,360 @@ class _StoresViewState extends State<StoresView> {
       backgroundColor: AppColors.backgroundPrincal,
       key: _drawerKey,
       drawer: _buildFilterMenuDrawer(context),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.backgroundPrincal,
-            automaticallyImplyLeading: false,
-            toolbarHeight: 80,
-            pinned: true,
-            floating: true,
-            stretchTriggerOffset: 120.5,
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text( widget.categoSelected == "" ?  "Boutique" : widget.categoSelected!,
-                style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontLarge,
-                  fontWeight: FontWeight.bold,
+      body: LayoutBuilder(
+        builder: (context, constraints){
+          return  CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.backgroundPrincal,
+              automaticallyImplyLeading: false,
+              toolbarHeight: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+              pinned: true,
+              floating: true,
+              // stretchTriggerOffset: 120.5,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text( widget.categoSelected == "" ?  "Boutique" : widget.categoSelected!,
+                  style: GoogleFonts.roboto(
+                    fontSize:
+                       constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-            
-            leading: 
-              IconButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrange),
-                    
-                onPressed: () {
-                  _drawerKey.currentState!.openDrawer();
-                },
-                icon: Icon(
-                  Icons.filter_list_rounded,
-                  color: Colors.white,
-                  size: MediaQuery.of(context).size.width *
-                      AppSizes.iconLarge,
-                ),
-                // label: Text(
-                //   "",
-                //   style: GoogleFonts.roboto(
-                //       color: Colors.white,
-                //       fontSize: MediaQuery.of(context).size.width *
-                //           AppSizes.fontSmall),
-                // ),
-              ),
-             
-            
-          ),
-          SliverToBoxAdapter(
-            child: _buildProductList(context),
-          ),
-        ],
-      ),
-      floatingActionButton: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(boxShadow: [
-          BoxShadow(
-            // ignore: deprecated_member_use
-            color: Colors.black.withOpacity(0.2), // Couleur de l'ombre
-            spreadRadius: 2, // Élargissement de l'ombre
-            blurRadius: 5, // Flou de l'ombre
-            offset: const Offset(3, 3), // Déplacement horizontal et vertical
-          ),
-        ], color: Colors.orange, borderRadius: BorderRadius.circular(20)),
-        child: Consumer<CartProvider>(
-          builder: (context, provider, child) {
-            return Stack(
-              children: [
+              
+              leading: 
                 IconButton(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CartView())),
-                  icon: Icon(Icons.shopping_cart_outlined,
-                      color: Colors.white,
-                      size: MediaQuery.of(context).size.width *
-                          AppSizes.iconHyperLarge),
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.deepOrange),
+                      
+                  onPressed: () {
+                    _drawerKey.currentState!.openDrawer();
+                  },
+                  icon: Icon(
+                    Mdi.tuneVariant,
+                    color: Colors.white,
+                    size: constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+                  ),
+                  // label: Text(
+                  //   "",
+                  //   style: GoogleFonts.roboto(
+                  //       color: Colors.white,
+                  //       fontSize: MediaQuery.of(context).size.width *
+                  //           AppSizes.fontSmall),
+                  // ),
                 ),
-                if (provider.cart.isNotEmpty)
-                  Positioned(
-                    left: 35,
-                    bottom: 30,
-                    child: Badge.count(
-                      count: provider.nombreArticles,
-                      largeSize: 35 / 2,
-                      backgroundColor: Colors.black,
-                      textStyle: GoogleFonts.roboto(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+               
+              
+            ),
+            SliverToBoxAdapter(
+              child: _buildProductList(context,constraints),
+            ),
+          ],
+        );
+        }
+       
+      ),
+      floatingActionButton: LayoutBuilder(
+        builder: (context,constraints){
+        return Container(
+          width: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+          height: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              // ignore: deprecated_member_use
+              color: Colors.black.withOpacity(0.2), // Couleur de l'ombre
+              spreadRadius: 2, // Élargissement de l'ombre
+              blurRadius: 5, // Flou de l'ombre
+              offset: const Offset(3, 3), // Déplacement horizontal et vertical
+            ),
+          ], color: Colors.orange, borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context, 20),)),
+          child: Consumer<CartProvider>(
+            builder: (context, provider, child) {
+              return Stack(
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CartView())),
+                    icon: Icon(Icons.shopping_cart_outlined,
                         color: Colors.white,
+                        size:constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
+                            ),
+                  ),
+                  if (provider.cart.isNotEmpty)
+                    Positioned(
+                      left: constraints.maxWidth * AppSizes.converValueToadapter(context, 25),
+                      bottom: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
+                      child: Badge.count(
+                        count: provider.nombreArticles,
+                        largeSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 35) / 2,
+                        backgroundColor: Colors.black,
+                        textStyle: GoogleFonts.roboto(
+                          fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-              ],
-            );
-          },
-        ),
+                ],
+              );
+            },
+          ),
+        );
+        }
       ),
     );
   }
 
   Widget _buildFilterMenuDrawer(BuildContext context) {
-    return Drawer(
-      child: Container(
-        color: AppColors.backgroundPrincal,
-        child: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            SizedBox(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        _drawerKey.currentState!.closeDrawer();
-                      },
-                      icon: Icon(Icons.close,
-                          size: MediaQuery.of(context).size.width *
-                              AppSizes.iconMedium))
-                ],
+    return LayoutBuilder(
+      builder: (BuildContext context , constraints){
+        return  Drawer(
+        child: Container(
+          color: AppColors.backgroundPrincal,
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          _drawerKey.currentState!.closeDrawer();
+                        },
+                        icon: Icon(Icons.close,
+                            size: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),)
+                                )
+                  ],
+                ),
               ),
-            ),
-            Text(
-              'Rechercher'.toUpperCase(),
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textColor),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  _filters['searchQuery'] = value;
-                });
-              },
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                filled: true,
-                fillColor: AppColors.productBackground,
-                hintText: 'Que voulez-vous ?',
-                hintStyle: GoogleFonts.roboto(
-                    fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                    color: AppColors.textColor),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Filtrer par prix'.toUpperCase(),
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textColor),
-            ),
-            Slider(
-              value: _filters['maxPrice'].toDouble(),
-              min: 0,
-              max: 100000,
-              divisions: 100,
-              label: '${_filters['maxPrice']} FCFA',
-              thumbColor: Colors.black,
-              activeColor: Colors.deepOrange,
-              onChanged: (value) {
-                setState(() {
-                  _filters['maxPrice'] = value.toInt();
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Filtrer par individus'.toUpperCase(),
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textColor),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              children: ['Hommes', 'Femmes', "Enfants"].map((type) {
-                return FilterChip(
-                  label: Text(type,
-                      style: GoogleFonts.roboto(
-                        color: _subCategoryFilter == type ? Colors.white : null,
-                      )),
-                  selected: _subCategoryFilter == type,
-                  selectedColor: _subCategoryFilter == type
-                      ? AppColors.colorBtnPrimary
-                      : null,
-                  onSelected: (selected) {
-                    setState(() {
-                      _subCategoryFilter = selected ? type : '';
-                      _drawerKey.currentState!.closeDrawer();
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-            Text(
-              'Filtrer par Catégories'.toUpperCase(),
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textColor),
-            ),
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 8,
-              children: [
-                'Accessoires',
-                'Vêtements',
-                "Chaussures",
-                'Sacs',
-              ].map((category) {
-                return FilterChip(
-                  label: Text(category,
-                      style: GoogleFonts.roboto(
-                        color: _categoryLocal == category ? Colors.white : null,
-                      )),
-                  selected: _categoryLocal == category,
-                  selectedColor: _categoryLocal == category
-                      ? AppColors.colorBtnPrimary
-                      : null,
-                  onSelected: (selected) {
-                    setState(() {
-                      _categoryLocal = selected ? category : '';
-                      _drawerKey.currentState!.closeDrawer();
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-            Text(
-              'Filtrer par Marques'.toUpperCase(),
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textColor),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              children: _marques.map((marque) {
-                return FilterChip(
-                  label: Text(marque.name,
-                      style: GoogleFonts.roboto(
-                        color:
-                            _marqueFilter == marque.name ? Colors.white : null,
-                      )),
-                  selected: _marqueFilter == marque.name,
-                  selectedColor: _marqueFilter == marque.name
-                      ? AppColors.colorBtnPrimary
-                      : null,
-                  onSelected: (selected) {
-                    setState(() {
-                      _marqueFilter = selected ? marque.name : '';
-                      _drawerKey.currentState!.closeDrawer();
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-            Text(
-              'Produits les mieux notés'.toUpperCase(),
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textColor),
-            ),
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [100, 80, 60, 40, 20].map((note) {
-                // Calcul du nombre d'étoiles en fonction de la note (20 = 1 étoile)
-                final starCount = (note / 20).round();
-
-                return FilterChip(
-                  label: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(
-                      starCount,
-                      (index) => const Icon(
-                        Icons.star,
-                        size: 20, // Taille de l'étoile
-                        color: Colors.amber, // Couleur de l'étoile
-                      ),
-                    ),
-                  ),
-                  selected: _filters['selectedRating'] == note,
-                  onSelected: (selected) {
-                    setState(() {
-                      _filters['selectedRating'] = selected ? note : 0;
-                      _drawerKey.currentState!.closeDrawer();
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            const Divider(),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.banerBtnNavigatorBackground),
-              onPressed: _resetFilters,
-              child: Text(
-                'Réinitialiser les filtres',
+              Text(
+                'Rechercher'.toUpperCase(),
                 style: GoogleFonts.roboto(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    color: AppColors.textColor),
               ),
-            ),
-            const SizedBox(height: 20),
-          ],
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 16),),
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    _filters['searchQuery'] = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  filled: true,
+                  fillColor: AppColors.productBackground,
+                  hintText: 'Que voulez-vous ?',
+                  hintStyle: GoogleFonts.roboto(
+                      fontSize:
+                         constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                      color: AppColors.textColor),
+                ),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 16)),
+              Text(
+                'Filtrer par prix'.toUpperCase(),
+                style: GoogleFonts.roboto(
+                    fontSize:
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor),
+              ),
+              Slider(
+                value: _filters['maxPrice'].toDouble(),
+                min: 0,
+                max: 100000,
+                divisions: 100,
+                label: '${_filters['maxPrice']} FCFA',
+                thumbColor: Colors.black,
+                activeColor: Colors.deepOrange,
+                onChanged: (value) {
+                  setState(() {
+                    _filters['maxPrice'] = value.toInt();
+                  });
+                },
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 16),),
+              Text(
+                'Filtrer par individus'.toUpperCase(),
+                style: GoogleFonts.roboto(
+                    fontSize:
+                       constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 16),),
+              Wrap(
+                spacing: 8,
+                children: ['Hommes', 'Femmes', "Enfants"].map((type) {
+                  return FilterChip(
+                    label: Text(type,
+                        style: GoogleFonts.roboto(
+                          color: _subCategoryFilter == type ? Colors.white : null,
+                        )),
+                    selected: _subCategoryFilter == type,
+                    selectedColor: _subCategoryFilter == type
+                        ? AppColors.colorBtnPrimary
+                        : null,
+                    onSelected: (selected) {
+                      setState(() {
+                        _subCategoryFilter = selected ? type : '';
+                        _drawerKey.currentState!.closeDrawer();
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              const Divider(),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              Text(
+                'Filtrer par Catégories'.toUpperCase(),
+                style: GoogleFonts.roboto(
+                    fontSize:
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor),
+              ),
+               SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 16),),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+                children: [
+                  'Accessoires',
+                  'Vêtements',
+                  "Chaussures",
+                  'Sacs',
+                ].map((category) {
+                  return FilterChip(
+                    label: Text(category,
+                        style: GoogleFonts.roboto(
+                          color: _categoryLocal == category ? Colors.white : null,
+                        )),
+                    selected: _categoryLocal == category,
+                    selectedColor: _categoryLocal == category
+                        ? AppColors.colorBtnPrimary
+                        : null,
+                    onSelected: (selected) {
+                      setState(() {
+                        _categoryLocal = selected ? category : '';
+                        _drawerKey.currentState!.closeDrawer();
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              const Divider(),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              Text(
+                'Filtrer par Marques'.toUpperCase(),
+                style: GoogleFonts.roboto(
+                    fontSize:
+                       constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor),
+              ),
+             SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              Wrap(
+                spacing: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+                children: _marques.map((marque) {
+                  return FilterChip(
+                    label: Text(marque.name,
+                        style: GoogleFonts.roboto(
+                          color:
+                              _marqueFilter == marque.name ? Colors.white : null,
+                        )),
+                    selected: _marqueFilter == marque.name,
+                    selectedColor: _marqueFilter == marque.name
+                        ? AppColors.colorBtnPrimary
+                        : null,
+                    onSelected: (selected) {
+                      setState(() {
+                        _marqueFilter = selected ? marque.name : '';
+                        _drawerKey.currentState!.closeDrawer();
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              const Divider(),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              Text(
+                'Produits les mieux notés'.toUpperCase(),
+                style: GoogleFonts.roboto(
+                    fontSize:
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [100, 80, 60, 40, 20].map((note) {
+                  // Calcul du nombre d'étoiles en fonction de la note (20 = 1 étoile)
+                  final starCount = (note / 20).round();
+      
+                  return FilterChip(
+                    label: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(
+                        starCount,
+                        (index) => Icon(
+                          Icons.star,
+                          size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20), // Taille de l'étoile
+                          color: Colors.amber, // Couleur de l'étoile
+                        ),
+                      ),
+                    ),
+                    selected: _filters['selectedRating'] == note,
+                    onSelected: (selected) {
+                      setState(() {
+                        _filters['selectedRating'] = selected ? note : 0;
+                        _drawerKey.currentState!.closeDrawer();
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
+             SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              const Divider(),
+               SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.banerBtnNavigatorBackground),
+                onPressed: _resetFilters,
+                child: Text(
+                  'Réinitialiser les filtres',
+                  style: GoogleFonts.roboto(
+                      fontSize:
+                          constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+              ),
+              SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),
+            ],
+          ),
         ),
-      ),
+      );
+      },
+      
     );
   }
 
-  Widget _buildProductList(BuildContext context) {
+  Widget _buildProductList(BuildContext context,constraints) {
     final filteredProducts = _filteredProducts;
     bool isLoading = filteredProducts.isEmpty;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
+      padding:  EdgeInsets.symmetric(horizontal: 0),
       child: isLoading
           ? const Center(
               // child:CircularProgressIndicator(), // Affiche le loader si isLoading est vrai
@@ -488,9 +522,9 @@ class _StoresViewState extends State<StoresView> {
   physics: const NeverScrollableScrollPhysics(), // Désactive le défilement interne
   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
     crossAxisCount: 2, // Nombre de colonnes
-    crossAxisSpacing: 0, // Espacement horizontal entre les cartes
-    mainAxisSpacing: 0, // Espacement vertical entre les cartes
-    childAspectRatio: 0.61, // Ratio largeur/hauteur pour les cartes
+    crossAxisSpacing: 2, // Espacement horizontal entre les cartes
+    mainAxisSpacing: 2, // Espacement vertical entre les cartes
+    childAspectRatio: 0.72, // Ratio largeur/hauteur pour les cartes
   ),
   shrinkWrap: true, // Adapte la hauteur du GridView à son contenu
   itemCount: filteredProducts.length,
@@ -506,7 +540,7 @@ class _StoresViewState extends State<StoresView> {
           ),
         );
       },
-      child: ProductCard(product: product),
+      child: ProductCard(product: product, constraints: constraints,),
     );
   },
 )

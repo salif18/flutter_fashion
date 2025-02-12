@@ -176,213 +176,218 @@ class _AchatViewState extends State<AchatView> {
         ),
       );
     }
-    return ListView.builder(
-      itemCount: orders.length,
-      itemBuilder: (context, index) {
-        final order = orders[index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Section principale de l'achat
-            Card(
-              margin: const EdgeInsets.all(10.0),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "COMMANDE N° : ${order.id.substring(0, 8).toUpperCase()}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    const Divider(height: 1,color: Colors.black),
-                    const SizedBox(height: 10),
-                    if (order.status == "En attente")
-                      ElevatedButton(
-                        onPressed: () =>
-                            handleChangeStatus(order.id, "Annulée"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                        child: Text("Annuler",
-                            style: GoogleFonts.roboto(
-                                fontSize: MediaQuery.of(context).size.width *
-                                    AppSizes.fontSmall,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
+    return LayoutBuilder(
+      builder: (context,constraints){
+        return  ListView.builder(
+        itemCount: orders.length,
+        itemBuilder: (context, index) {
+          final order = orders[index];
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Section principale de l'achat
+              Card(
+                margin: EdgeInsets.all(constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                child: Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "COMMANDE N° : ${order.id.substring(0, 8).toUpperCase()}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                    const SizedBox(height: 16.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Date",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(width: 25),
-                            Text(
-                              DateFormat("dd MMM yyyy").format(order.date),
-                            ),
-                          ],
+                      SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                      const Divider(height: 1,color: Colors.black),
+                      SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                      if (order.status == "En attente")
+                        ElevatedButton(
+                          onPressed: () =>
+                              handleChangeStatus(order.id, "Annulée"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                          ),
+                          child: Text("Annuler",
+                              style: GoogleFonts.roboto(
+                                  fontSize: MediaQuery.of(context).size.width *
+                                      AppSizes.fontSmall,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Total",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                             const SizedBox(width: 25),
-                            Text("${order.total} FCFA"),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Mode de paiement",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                             const SizedBox(width: 25),
-                            Text(order.payementMode),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Statut de la commande",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                             const SizedBox(width: 25),
-                            Text(order.status),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            // Détails de la commande
-            Card(
-              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Détails de la commande",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0),
-                    ),
-                    const SizedBox(height: 10.0),
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Produits"),
-                        Text("Total"),
-                      ],
-                    ),
-                    ...order.cart.map(
-                      (item) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${item.name} x${item.qty}"),
-                          Text("${item.price * item.qty}"),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Date",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
+                              Text(
+                                DateFormat("dd MMM yyyy").format(order.date),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Total",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                               SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
+                              Text("${order.total} FCFA"),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Mode de paiement",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                               SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
+                              Text(order.payementMode),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Statut de la commande",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                               SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
+                              Text(order.status),
+                            ],
+                          ),
                         ],
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Mode de paiement"),
-                        Text(order.payementMode),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text("Total"),
-                        Text("${order.total} Fcfa"),
-                      ],
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            // Adresse
-            const SizedBox(height: 10),
-            Card(
-              margin: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Adresse",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16.0),
-                    ),
-                    const SizedBox(height: 10.0),
-                    Text(order.user.nom),
-                    Row(
-                      children: [
-                        const Icon(Icons.phone),
-                        const SizedBox(width: 10.0),
-                        Text(order.user.numero),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.email),
-                        const SizedBox(width: 10.0),
-                        Text(order.user.email),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_city),
-                        const SizedBox(width: 10.0),
-                        Text(order.address.ville),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.location_pin),
-                        const SizedBox(width: 10.0),
-                        Text(order.address.rue),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.home),
-                        const SizedBox(width: 10.0),
-                        Text(order.address.logt),
-                      ],
-                    ),
-                  ],
+              // Détails de la commande
+              Card(
+                margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                child: Padding(
+                  padding: EdgeInsets.all(constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Détails de la commande",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                      ),
+                      SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Produits"),
+                          Text("Total"),
+                        ],
+                      ),
+                      ...order.cart.map(
+                        (item) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("${item.name} x${item.qty}"),
+                            Text("${item.price * item.qty}"),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Mode de paiement"),
+                          Text(order.payementMode),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Total"),
+                          Text("${order.total} Fcfa"),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
+              // Adresse
+              SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+              Card(
+                margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                child: Padding(
+                  padding: EdgeInsets.all(constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Adresse",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                      ),
+                      SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                      Text(order.user.nom),
+                      Row(
+                        children: [
+                          const Icon(Icons.phone),
+                          SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                          Text(order.user.numero),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.email),
+                          SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                          Text(order.user.email),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_city),
+                          SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                          Text(order.address.ville),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_pin),
+                          SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                          Text(order.address.rue),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Icon(Icons.home),
+                          SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
+                          Text(order.address.logt),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
       },
+      
     );
   }
 }

@@ -20,74 +20,72 @@ class _FavoritesViewState extends State<FavoritesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: CustomScrollView(slivers: [
-        SliverAppBar(
-          backgroundColor: Colors.white,
-          toolbarHeight: 80,
-          pinned: true,
-          floating: true,
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Text(
-              "Favoris",
-              style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontMedium,
-                  fontWeight: FontWeight.w600),
+      body: LayoutBuilder(
+         builder: (context,constraints){
+          return CustomScrollView(slivers: [
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            toolbarHeight: constraints.maxWidth * AppSizes.converValueToadapter(context, 50),
+            pinned: true,
+            floating: true,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                "Favoris",
+                style: GoogleFonts.roboto(
+                    fontSize:
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                    fontWeight: FontWeight.w600),
+              ),
             ),
           ),
-        ),
-        SliverToBoxAdapter(
-          child: Consumer<FavoriteProvider>(
+          SliverToBoxAdapter(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 16)),
+                      child:Text("Mes listes", 
+                      style: GoogleFonts.roboto(
+                                      fontSize:
+                    constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
+                                      fontWeight: FontWeight.w600),)
+                    ),
+                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),),
+          Consumer<FavoriteProvider>(
             builder: (context, favoriteProvider, child) {
               List<ProductModel> myFavorites = favoriteProvider.getFavorites;
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child:Text("Mes listes", 
-                        style: GoogleFonts.roboto(
-                  fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontMedium,
-                  fontWeight: FontWeight.w600),)
+              return myFavorites.isNotEmpty
+                  ? SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 16)),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context , index){
+                          return  GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SingleProduct(
+                                      product: myFavorites[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child:
+                                  FavoriteCard(item: myFavorites[index], constraints: constraints),
+                            );
+                          
+                        },
+                        childCount: myFavorites.length,
                       ),
-                      Container(
-                        child: myFavorites.isNotEmpty
-                            ? ListView.builder(
-                                itemCount: myFavorites.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => SingleProduct(
-                                            product: myFavorites[index],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    child:
-                                        FavoriteCard(item: myFavorites[index]),
-                                  );
-                                },
-                              )
-                            : const FavoriteEmpty(),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+                     
+                    ),
+                  )
+                  : SliverToBoxAdapter(child:FavoriteEmpty(constraints:constraints));
             },
           ),
-        ),
-      ]),
+        ]);
+         }
+      ),
     );
   }
 }

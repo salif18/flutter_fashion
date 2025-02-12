@@ -80,55 +80,60 @@ void dispose(){
             onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.arrow_back_ios_new_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconLarge)),
       ),
-      body: Container(
-        padding: const EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Form(
-              key: _globalKey,
-              child: Column(
-                children: [
-                  _text(context),
-                  _formNumberField(context),
-                  _formEmailField(context),
-                  const SizedBox(height: 100),
-                  _sendButton(context)
-                ],
+      body: LayoutBuilder(
+        builder: (context,constraints){
+          return Container(
+          padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
+              child: Form(
+                key: _globalKey,
+                child: Column(
+                  children: [
+                    _text(context,constraints),
+                    _formNumberField(context,constraints),
+                    _formEmailField(context,constraints),
+                    SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context,100)),
+                    _sendButton(context,constraints)
+                  ],
+                ),
               ),
             ),
           ),
-        ),
+        );
+        }
+       
       ),
     );
   }
 
-  Widget _text(BuildContext context) {
+  Widget _text(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,10)),
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
             child: Text("Réinitialiser le mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize: MediaQuery.of(context).size.width * AppSizes.fontMedium, fontWeight: FontWeight.w600)),
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w600)),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
             child: Text(
                 "Veuillez entrer les bonnes informations pour pouvoir nous aider à réinitialiser votre mot de passe",
                 style: GoogleFonts.roboto(
-                    fontSize:MediaQuery.of(context).size.width* AppSizes.fontMedium, fontWeight: FontWeight.w300)),
+                    fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w300)),
           ),
         ],
       ),
     );
   }
 
-  Widget _formNumberField(BuildContext context) {
+  Widget _formNumberField(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
       child: TextFormField(
         controller: _numero,
         validator: (value) {
@@ -140,22 +145,22 @@ void dispose(){
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
            isDense: true,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10 , vertical: 15),
-          prefixIcon: Icon(Icons.phone_android_rounded, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
+          contentPadding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context,10) , vertical: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+          prefixIcon: Icon(Icons.phone_android_rounded, size:constraints.maxWidth * AppSizes.converValueToadapter(context,20)),
           filled: true,
           fillColor: Colors.grey[100],
           hintText: "Numéro",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w500),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              GoogleFonts.aBeeZee(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w500),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20))),
         ),
       ),
     );
   }
 
-  Widget _formEmailField(BuildContext context) {
+  Widget _formEmailField(BuildContext context,constraints) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context,8)),
       child: TextFormField(
         controller: _email,
         validator: (value) {
@@ -167,30 +172,30 @@ void dispose(){
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           isDense: true,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 10 , vertical: 15),
-          prefixIcon: Icon(Icons.mail_outline, size:MediaQuery.of(context).size.width* AppSizes.iconMedium),
+          contentPadding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context,10) , vertical: constraints.maxWidth * AppSizes.converValueToadapter(context,15)),
+          prefixIcon: Icon(Icons.mail_outline, size:constraints.maxWidth * AppSizes.converValueToadapter(context,14)),
           filled: true,
           fillColor: Colors.grey[100],
           hintText: "Email",
           hintStyle:
-              GoogleFonts.aBeeZee(fontSize:MediaQuery.of(context).size.width* AppSizes.fontSmall, fontWeight: FontWeight.w500),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+              GoogleFonts.aBeeZee(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context,14), fontWeight: FontWeight.w500),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(constraints.maxWidth * AppSizes.converValueToadapter(context,20))),
         ),
       ),
     );
   }
 
-  Widget _sendButton(BuildContext context) {
+  Widget _sendButton(BuildContext context,constraints) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
             backgroundColor:const Color.fromARGB(255, 255, 115, 0),
-            minimumSize: const Size(350, 50)),
+            minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context,350), constraints.maxWidth * AppSizes.converValueToadapter(context,40))),
         onPressed: () {
           _sendToserver(context);
         },
         child: Text("Envoyer",
             style: GoogleFonts.aBeeZee(
-                fontSize: MediaQuery.of(context).size.width*AppSizes.fontSmall,
+                fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context,14),
                 fontWeight: FontWeight.w500,
                 color: Colors.white)));
   }

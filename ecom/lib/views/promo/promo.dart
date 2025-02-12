@@ -1,4 +1,6 @@
+import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/services/products_api.dart';
 import 'package:ecom/utils/app_color.dart';
@@ -20,13 +22,23 @@ class _PromoViewState extends State<PromoView> {
   Stream<List<ProductModel>> fetchProductPromoData() async* {
     final res = await api.getAllPromo();
     final body = res.data;
-    if (res.statusCode == 200) {
-      // Vérifiez la structure ici
-      yield (body["offres"] as List)
-          .map((json) => ProductModel.fromJson(json))
-          .toList();
-    } else {
-      throw Exception("Failed to load products ");
+    try {
+      if (res.statusCode == 200) {
+        // Vérifiez la structure ici
+        yield (body["offres"] as List)
+            .map((json) => ProductModel.fromJson(json))
+            .toList();
+      } else {
+        throw Exception("Failed to load products ");
+      }
+    } on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
     }
   }
 
@@ -34,102 +46,106 @@ class _PromoViewState extends State<PromoView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundPrincal,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            backgroundColor: AppColors.backgroundPrincal,
-            floating: true,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                "Promotion",
-                style: GoogleFonts.roboto(
-                    fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontLarge,
-                    fontWeight: FontWeight.bold),
+      body: LayoutBuilder(builder: (context, constraints) {
+        return CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              backgroundColor: AppColors.backgroundPrincal,
+              floating: true,
+              pinned: true,
+              toolbarHeight: constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 50),
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+                  "Promotion",
+                  style: GoogleFonts.roboto(
+                      fontSize: constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 20),
+                      fontWeight: FontWeight.bold),
+                ),
+                centerTitle: true,
               ),
-              centerTitle: true,
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 20),
-              child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Meilleures offres',
-                            style: GoogleFonts.roboto(
-                              fontSize: MediaQuery.of(context).size.width *
-                                  AppSizes.fontMedium,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textColor,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.arrow_forward_ios_sharp,
-                              size: MediaQuery.of(context).size.width *
-                                  AppSizes.iconSmall,
-                            ),
-                          ),
-                        ],
+            SliverToBoxAdapter(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 16),
+                    vertical: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 0)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Meilleures offres',
+                      style: GoogleFonts.roboto(
+                        fontSize: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 16),
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textColor,
                       ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.arrow_forward_ios_sharp,
+                        size: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 14),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-          SliverToBoxAdapter(child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Container(
-                width: constraints.maxWidth,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: StreamBuilder<List<ProductModel>>(
-                  stream: fetchProductPromoData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(
-                          // child: CircularProgressIndicator()
-                          );
-                    } else 
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          "Une erreur s'est produite lors du chargement",
-                          style: GoogleFonts.roboto(
-                            fontSize:
-                                MediaQuery.of(context).size.width *
-                                    AppSizes.fontSmall,
-                          ),
+            StreamBuilder<List<ProductModel>>(
+              stream: fetchProductPromoData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SliverFillRemaining(
+                    child: const Center(child: CircularProgressIndicator()),
+                  );
+                } else if (snapshot.hasError) {
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        "Une erreur s'est produite lors du chargement",
+                        style: GoogleFonts.roboto(
+                          fontSize: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 14),
                         ),
-                      );
-                    } else if (!snapshot.hasData ||
-                        snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "Aucune donnée disponible",
-                          style: GoogleFonts.roboto(
-                            fontSize:
-                                MediaQuery.of(context).size.width *
-                                    AppSizes.fontSmall,
-                          ),
+                      ),
+                    ),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        "Aucune donnée disponible",
+                        style: GoogleFonts.roboto(
+                          fontSize: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 14),
                         ),
-                      );
-                    } else {
-                      final products = snapshot.data!;
-                      return GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
+                      ),
+                    ),
+                  );
+                } else {
+                  final products = snapshot.data!;
+                  return SliverPadding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 16),
+                        vertical: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 8)),
+                    sliver: SliverGrid(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          childAspectRatio: 0.72,
+                          childAspectRatio: 0.78,
                         ),
-                        shrinkWrap: true,
-                        itemCount: products.length,
-                        itemBuilder: (BuildContext context, int index) {
+                        delegate: SliverChildBuilderDelegate(
+                            (BuildContext context, int index) {
                           final product = products[index];
                           return GestureDetector(
                             onTap: () {
@@ -138,37 +154,50 @@ class _PromoViewState extends State<PromoView> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          SingleProduct(
-                                              product: product)));
+                                          SingleProduct(product: product)));
                             },
                             child: Container(
                               decoration: BoxDecoration(
                                 // color: AppColors.productBackground,
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(constraints
+                                        .maxWidth *
+                                    AppSizes.converValueToadapter(context, 16)),
                               ),
-                              padding: const EdgeInsets.all(16),
+                              padding: EdgeInsets.all(constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 8)),
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Stack(children: [
                                     Container(
                                       width: constraints.maxWidth,
-                                      height: 150,
+                                      height: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 150),
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(
+                                            constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 16)),
                                         image: DecorationImage(
-                                          image: NetworkImage(
-                                              product.image!),
+                                          image: product.image != null &&
+                                                  product.image!.isNotEmpty
+                                              ? NetworkImage(product.image!)
+                                                  as ImageProvider
+                                              : const AssetImage(
+                                                  "assets/images/default.jpg"),
                                           fit: BoxFit.contain,
                                         ),
                                       ),
                                     ),
                                     Positioned(
                                         child: Container(
-                                      width: 40,
-                                      height: 40,
+                                      width: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 40),
+                                      height: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 40),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           boxShadow: [
@@ -180,36 +209,34 @@ class _PromoViewState extends State<PromoView> {
                                                       0.2), // Couleur de l'ombre
                                               spreadRadius:
                                                   2, // Élargissement de l'ombre
-                                              blurRadius:
-                                                  5, // Flou de l'ombre
+                                              blurRadius: 5, // Flou de l'ombre
                                               offset: const Offset(3,
                                                   3), // Déplacement horizontal et vertical
                                             ),
                                           ],
                                           color: Colors.red,
                                           borderRadius:
-                                              BorderRadius.circular(
-                                                  20)),
+                                              BorderRadius.circular(20)),
                                       child: Text(
                                         "-${product.discountPercentage!.floor().toString()}%",
                                         style: GoogleFonts.roboto(
-                                            fontSize:
-                                                MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    AppSizes.fontSmall,
+                                            fontSize: constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 14),
                                             color: Colors.white),
                                       ),
                                     ))
                                   ]),
-                                  const SizedBox(height: 16),
+                                  SizedBox(
+                                      height: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 10)),
                                   Text(
-                                    product.name!,
+                                    product.name ?? "",
                                     style: GoogleFonts.roboto(
-                                      fontSize: MediaQuery.of(context)
-                                              .size
-                                              .width *
-                                          AppSizes.fontSmall,
+                                      fontSize: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 14),
                                       fontWeight: FontWeight.bold,
                                       color: AppColors.textColor,
                                     ),
@@ -221,16 +248,14 @@ class _PromoViewState extends State<PromoView> {
                               ),
                             ),
                           );
-                        },
-                      );
-                    }
-                  },
-                ),
-              );
-            },
-          ))
-        ],
-      ),
+                        }, childCount: products.length)),
+                  );
+                }
+              },
+            )
+          ],
+        );
+      }),
     );
   }
 }

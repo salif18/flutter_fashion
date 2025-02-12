@@ -1,4 +1,5 @@
 // import 'package:ecom/components/generatedStart.dart';
+import 'package:ecom/components/generatedStarProduct.dart';
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/utils/app_color.dart';
 import 'package:ecom/utils/app_size.dart';
@@ -8,7 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ProductCard extends StatefulWidget {
   final ProductModel product;
-  const ProductCard({super.key, required this.product});
+  final constraints;
+  const ProductCard(
+      {super.key, required this.product, required this.constraints});
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -21,7 +24,7 @@ class _ProductCardState extends State<ProductCard> {
   void initState() {
     super.initState();
     // Initialiser l'image principale avec une image par défaut
-    mainImage = widget.product.image!;
+    mainImage = widget.product.image ?? "assets/images/default.jpg";
   }
 
   // Fonction pour changer l'image principale
@@ -68,169 +71,178 @@ class _ProductCardState extends State<ProductCard> {
 //   }
 // }
 
-Color? parsedColor(String color) {
-  // Liste des couleurs nommées avec une Map
-  Map<String, Color> colorMap = {
-    "red": Colors.red,
-    "green": Colors.green,
-    "blue": Colors.blue,
-    "yellow": Colors.yellow,
-    "orange": Colors.orange,
-    "purple": Colors.purple,
-    "pink": Colors.pink,
-    "white": Colors.white,
-    "black": Colors.black,
-    "grey": Colors.grey,
-    "cyan": Colors.cyan,
-    "teal": Colors.teal,
-    "lime": Colors.lime,
-    "amber": Colors.amber,
-    "indigo": Colors.indigo,
-    "brown": Colors.brown,
-  };
+  Color? parsedColor(String color) {
+    // Liste des couleurs nommées avec une Map
+    Map<String, Color> colorMap = {
+      "red": Colors.red,
+      "green": Colors.green,
+      "blue": Colors.blue,
+      "yellow": Colors.yellow,
+      "orange": Colors.orange,
+      "purple": Colors.purple,
+      "pink": Colors.pink,
+      "white": Colors.white,
+      "black": Colors.black,
+      "grey": Colors.grey,
+      "cyan": Colors.cyan,
+      "teal": Colors.teal,
+      "lime": Colors.lime,
+      "amber": Colors.amber,
+      "indigo": Colors.indigo,
+      "brown": Colors.brown,
+    };
 
-  try {
-    // Vérification si la couleur est au format hexadécimal
-    if (color.startsWith("#")) {
-      return Color(int.parse("0xFF${color.substring(1)}"));
+    try {
+      // Vérification si la couleur est au format hexadécimal
+      if (color.startsWith("#")) {
+        return Color(int.parse("0xFF${color.substring(1)}"));
+      }
+
+      // Recherche dans la Map
+      return colorMap[color.toLowerCase()] ??
+          Colors.grey; // Gris par défaut si non trouvé
+    } catch (e) {
+      return Colors.grey; // Gris par défaut en cas d'erreur
     }
-
-    // Recherche dans la Map
-    return colorMap[color.toLowerCase()] ?? Colors.grey; // Gris par défaut si non trouvé
-  } catch (e) {
-    return Colors.grey; // Gris par défaut en cas d'erreur
   }
-}
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(
+          widget.constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 10),
+        ),
         // color: const Color.fromARGB(239, 245, 245, 245),
       ),
-      margin: const EdgeInsets.all(5),
-      padding: const EdgeInsets.all(2),
-      width: MediaQuery.of(context).size.width / 2.14,
+      margin: EdgeInsets.all(widget.constraints.maxWidth *
+          AppSizes.converValueToadapter(context, 4)),
+      padding: EdgeInsets.all(
+        widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+      ),
+      width: widget.constraints.maxWidth / 2.14,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image principale du produit
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: 150,
-            // padding: const EdgeInsets.all(8),
+            width: widget.constraints.maxWidth,
+            height: widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 125),
+            padding: EdgeInsets.all(widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 5)),
             decoration: BoxDecoration(
               color: AppColors.productBackground,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(
+                widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 10),
+              ),
             ),
             child: Image(
-              image: NetworkImage(mainImage),
+              image: mainImage != null && mainImage.isNotEmpty
+                  ? NetworkImage(mainImage) as ImageProvider
+                  : const AssetImage("assets/images/default.jpg"),
               fit: BoxFit.contain,
             ),
           ),
-          const SizedBox(height: 5),
+          SizedBox(
+            height: widget.constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 5),
+          ),
 
           // Liste des couleurs disponibles
-          SizedBox(
-            height: 40,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.product.othersColors.length,
-              itemBuilder: (context, index) {
-                final colorChoice = widget.product.othersColors[index];
-                // Vérifiez si le stock est insuffisant
-                if (colorChoice.stock > 0) {
-                  return GestureDetector(
-                    onTap: () {
-                      changeImage(colorChoice.images ?? "");
+          Expanded(
+            // flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: widget.constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 20),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: widget.product.othersColors.length,
+                    itemBuilder: (context, index) {
+                      final colorChoice = widget.product.othersColors[index];
+                      // Vérifiez si le stock est insuffisant
+                      if (colorChoice.stock > 0) {
+                        return GestureDetector(
+                          onTap: () {
+                            changeImage(colorChoice.images ?? "");
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              right: widget.constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 8),
+                            ),
+                            decoration: BoxDecoration(
+                              color: parsedColor(colorChoice.color ?? ""),
+                              border: Border.all(color: Colors.grey),
+                              shape: BoxShape
+                                  .rectangle, // Rectangle pour le conteneur
+                            ),
+                            width: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 20),
+                            height: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 20),
+                          ),
+                        );
+                      } else {
+                        return const SizedBox
+                            .shrink(); // Retourne un widget vide
+                      }
                     },
-                    child: Container(
-                      margin: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: parsedColor(colorChoice.color ?? ""),
-                         border: Border.all(
-                                        color: Colors
-                                            .grey),
-                        shape:
-                            BoxShape.rectangle, // Rectangle pour le conteneur
-                      ),
-                      width: 25,
-                      height: 20,
-                    ),
-                  );
-                } else {
-                  return const SizedBox.shrink(); // Retourne un widget vide
-                }
-              },
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          // Nom du produit
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Text(
-                    widget.product.name!,
-                    style: GoogleFonts.roboto(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textColor,
-                    ),
-                    // softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    // maxLines: 2,
                   ),
                 ),
-              ),
-            ],
-          ),
+                SizedBox(
+                    height: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 2)),
 
-          // Catégorie et sous-catégorie
-          // Text(
-          //   widget.product.category!,
-          //   style: GoogleFonts.roboto(
-          //     fontSize: MediaQuery.of(context).size.width * AppSizes.fontSmall,
-          //     fontWeight: FontWeight.w300,
-          //     color: AppColors.textColor,
-          //   ),
-          //   maxLines: 2,
-          //   overflow: TextOverflow.ellipsis,
-          // ),
-          // const SizedBox(height: 2),
-          // Text(
-          //   widget.product.subCategory!,
-          //   style: GoogleFonts.roboto(
-          //     fontSize: MediaQuery.of(context).size.width * AppSizes.fontSmall,
-          //     fontWeight: FontWeight.w300,
-          //     color: AppColors.textColor,
-          //   ),
-          //   maxLines: 2,
-          //   overflow: TextOverflow.ellipsis,
-          // ),
+                // Nom du produit
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 2)),
+                        child: Text(
+                          widget.product.name ?? "",
+                          style: GoogleFonts.roboto(
+                            fontSize: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 14),
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textColor,
+                          ),
+                          // softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          // maxLines: 2,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-          // const SizedBox(height: 2),
-
-          // Prix
-          Text(
-            "${widget.product.price.toStringAsFixed(2)} FCFA",
-            style: GoogleFonts.roboto(
-              fontSize: MediaQuery.of(context).size.width * AppSizes.fontSmall,
-              color: AppColors.textColor,
+                // Prix
+                Text(
+                  "${widget.product.price.toStringAsFixed(2)} FCFA",
+                  style: GoogleFonts.roboto(
+                    fontSize: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 14),
+                    color: AppColors.textColor,
+                  ),
+                ),
+                SizedBox(
+                    height: widget.constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 3)),
+                // Évaluation (rating)
+                GeneratedStarRating(rating: widget.product.rating ?? 0),
+              ],
             ),
           ),
-
-          const SizedBox(height: 3),
-
-          // Évaluation (rating)
-          // GeneratedStarRating(rating: widget.product.rating!),
         ],
       ),
     );

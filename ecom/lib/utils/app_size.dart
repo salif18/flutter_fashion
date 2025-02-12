@@ -1,3 +1,7 @@
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+
 class AppSizes{
   //SIZE
   static const double fontSmall = 0.04;
@@ -16,4 +20,13 @@ class AppSizes{
   static const double iconMedium = 0.05;
   static const double iconLarge = 0.07;
   static const double iconHyperLarge = 0.1;
+
+   // Méthode pour rendre les valeurs responsives
+  static double converValueToadapter(BuildContext context, double baseValue) {
+    return baseValue / 360;
+  }
+
+  //  static double converValueToadapter(BuildContext context, double baseValue) {
+  //   return MediaQuery.of(context).size.width * (baseValue / 360);
+  // }
 }

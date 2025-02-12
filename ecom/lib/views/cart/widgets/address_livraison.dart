@@ -10,7 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class AddressLivraison extends StatefulWidget {
-  const AddressLivraison({super.key});
+  final constraints;
+  const AddressLivraison({super.key, required this.constraints});
 
   @override
   State<AddressLivraison> createState() => _AddressLivraisonState();
@@ -104,18 +105,18 @@ class _AddressLivraisonState extends State<AddressLivraison> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.9,
+      height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 720),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
         color: AppColors.backgroundPrincal,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8),),
         child: Container(
-          padding: const EdgeInsets.all(5),
+          padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5),),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 15),),
             // color: const Color.fromARGB(255, 255, 240, 218)
           ),
           child: SingleChildScrollView(child: _formulaires(context)),
@@ -130,40 +131,38 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8),),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Faites-vous livrer chez vous !",
                   style: GoogleFonts.abel(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontLarge,
+                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   "Remplissez bien les renseignements",
                   style: GoogleFonts.abel(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontMedium),
+                      fontSize:widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 16),),
                 ),
               ],
             ),
           ),
           Container(
-            height: 200,
-            width: 200,
+            height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 180),
+            width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 180),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context,5),),
               image: const DecorationImage(
                 image: AssetImage("assets/logos/delivery1.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10),),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: nom,
               validator: (value) {
@@ -179,20 +178,20 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Nom",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                        widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w400),
                 prefixIcon: Icon(Icons.person_2_outlined,
                     size:
-                        MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding:EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: numero,
               validator: (value) {
@@ -208,20 +207,20 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Numero",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w400),
                 prefixIcon: Icon(Icons.phone_android_outlined,
                     size:
-                        MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                        widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: email,
               validator: (value) {
@@ -237,20 +236,20 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Email",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                      widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w400),
                 prefixIcon: Icon(Icons.mail_outline,
                     size:
-                        MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: ville,
               validator: (value) {
@@ -266,20 +265,20 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Quartier",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w400),
                 prefixIcon: Icon(Icons.villa_outlined,
                     size:
-                        MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                        widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: rue,
               validator: (value) {
@@ -295,20 +294,20 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Rue",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w400),
                 prefixIcon: Icon(Icons.streetview,
                     size:
-                        MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: TextFormField(
               controller: logt,
               validator: (value) {
@@ -324,20 +323,20 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                 hintText: "Logement",
                 hintStyle: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w400),
                 prefixIcon: Icon(Icons.home_filled,
                     size:
-                        MediaQuery.of(context).size.width * AppSizes.iconLarge),
+                      widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24)),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -345,11 +344,11 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                   "Mode de paiement",
                   style: GoogleFonts.aBeeZee(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                       widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
                 Column(
                   children: [
                     RadioListTile<String>(
@@ -363,8 +362,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                       title: Text(
                         "Passer à la boutique",
                         style: GoogleFonts.aBeeZee(
-                          fontSize: MediaQuery.of(context).size.width *
-                              AppSizes.fontSmall,
+                          fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                         ),
                       ),
                       activeColor: Colors.blue,
@@ -380,8 +378,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
                       title: Text(
                         "À la livraison",
                         style: GoogleFonts.aBeeZee(
-                          fontSize: MediaQuery.of(context).size.width *
-                              AppSizes.fontSmall,
+                          fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                         ),
                       ),
                       activeColor: Colors.blue,
@@ -391,71 +388,68 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               ],
             ),
           ),
+          // Padding(
+          //   padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       showDialog(
+          //         context: context,
+          //         builder: (BuildContext context) {
+          //           return AlertDialog(
+          //             contentPadding: EdgeInsets.symmetric(
+          //                 vertical: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5), horizontal: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+          //             content: Column(
+          //               mainAxisSize: MainAxisSize.min,
+          //               children: [
+          //                 // MapsPage(getLatLng: getLatLng),
+          //                 ElevatedButton(
+          //                   onPressed: () {
+          //                     Navigator.pop(context);
+          //                   },
+          //                   style: ElevatedButton.styleFrom(
+          //                     backgroundColor: Colors.blue,
+          //                   ),
+          //                   child: Text("Valider",
+          //                       style: GoogleFonts.roboto(
+          //                           fontSize:
+          //                               widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+          //                           color: Colors.white)),
+          //                 ),
+          //               ],
+          //             ),
+          //           );
+          //         },
+          //       );
+          //     },
+          //     child: Container(
+          //       height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40),
+          //       width: double.infinity,
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+          //         color: Colors.blue,
+          //       ),
+          //       child: Row(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           Text("Coordonnées géographiques",
+          //               style: GoogleFonts.roboto(
+          //                   fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+          //                   color: Colors.white)),
+          //           SizedBox(width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+          //           Icon(Icons.location_searching,
+          //               size: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 24),
+          //               color: Colors.white),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Padding(
-            padding: const EdgeInsets.all(8),
-            child: GestureDetector(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // MapsPage(getLatLng: getLatLng),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                            ),
-                            child: Text("Valider",
-                                style: GoogleFonts.roboto(
-                                    fontSize:
-                                        MediaQuery.of(context).size.width *
-                                            AppSizes.fontSmall,
-                                    color: Colors.white)),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
-              },
-              child: Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.blue,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Coordonnées géographiques",
-                        style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                            color: Colors.white)),
-                    const SizedBox(width: 10),
-                    Icon(Icons.location_searching,
-                        size: MediaQuery.of(context).size.width *
-                            AppSizes.iconLarge,
-                        color: Colors.white),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange,
-                minimumSize: const Size(400, 50),
+                minimumSize: Size(widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 400), widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 40)),
               ),
               onPressed: () {
                 sendOrders();
@@ -463,8 +457,7 @@ class _AddressLivraisonState extends State<AddressLivraison> {
               },
               child: Text("Passer commande",
                   style: GoogleFonts.roboto(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall,
+                      fontSize: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
                       color: Colors.white)),
             ),
           ),

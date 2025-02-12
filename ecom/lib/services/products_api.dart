@@ -111,8 +111,8 @@ class ServicesAPiProducts {
   void showSnackBarErrorPersonalized(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message,
-          style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
-      backgroundColor: const Color.fromARGB(255, 255, 157, 11),
+          style: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * 14 /360, fontWeight: FontWeight.w400)),
+      backgroundColor: Colors.black,
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
         label: "",

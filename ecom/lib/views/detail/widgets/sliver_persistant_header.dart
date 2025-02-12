@@ -1,13 +1,17 @@
+import 'package:ecom/utils/app_size.dart';
 import 'package:flutter/material.dart';
 
 class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
   final String mainImage;
   final double maxHeight;
   final double minHeight;
+  final constraints;
   MySliverPersistentHeaderDelegate(
       {required this.maxHeight,
       required this.minHeight,
-      required this.mainImage});
+      required this.mainImage,
+      required this.constraints
+      });
 
   @override
   Widget build(
@@ -15,9 +19,12 @@ class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     return Stack(
       children: [
         Image.network(
-          mainImage,
-          fit: BoxFit.cover,
-          width: MediaQuery.of(context).size.width,
+         mainImage , // Laisse une chaîne vide si l'URL est null
+  fit: BoxFit.contain,
+  errorBuilder: (context, error, stackTrace) {
+    return Image.asset("assets/images/default.jpg", fit: BoxFit.contain);
+  },
+          width: constraints.maxWidth,
           height: maxHeight,
         ),
         Positioned(
@@ -26,10 +33,10 @@ class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
             child: Container(
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top,
-                left: 25,
-                right: 25,
+                left: constraints.maxWidth * AppSizes.converValueToadapter(context, 25),
+                right:  constraints.maxWidth * AppSizes.converValueToadapter(context, 25),
               ),
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all( constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
               decoration: BoxDecoration(
                 // ignore: deprecated_member_use
                 color: const Color(0xFF1D1A30).withOpacity(0.5),
@@ -46,19 +53,19 @@ class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           top: maxHeight - minHeight - shrinkOffset,
           child: Container(
             alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
+            width:  constraints.maxWidth,
             height: minHeight,
             decoration: BoxDecoration(
               color: Colors.grey[100],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30),
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular( constraints.maxWidth * AppSizes.converValueToadapter(context, 30)),
+                topRight: Radius.circular( constraints.maxWidth * AppSizes.converValueToadapter(context, 30)),
               ),
             ),
             child: Container(
               alignment: Alignment.center,
-              width: 60,
-              height: 5,
+              width:  constraints.maxWidth * AppSizes.converValueToadapter(context, 60),
+              height:  constraints.maxWidth * AppSizes.converValueToadapter(context, 5),
               color: const Color(0xFF1D1A30),
             ),
           ),

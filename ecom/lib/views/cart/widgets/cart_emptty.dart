@@ -1,44 +1,46 @@
 import 'package:ecom/utils/app_color.dart';
+import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/store/stores.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EmptyCart extends StatelessWidget {
-  const EmptyCart({super.key});
+  final constraints;
+  const EmptyCart({super.key, required this.constraints});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
-      height: MediaQuery.of(context).size.height*0.6,
+      padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 360),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
               "Panier vide",
-              style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey),
+              style: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 16), color: Colors.grey),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(15),
-            child: Icon(Icons.shopping_cart_outlined, size: 60),
+          Padding(
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
+            child: Icon(Icons.shopping_cart_outlined, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 60)),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text("Ajouter des articles dans votre panier",
                 style: GoogleFonts.roboto(
-                    fontSize: 14, color: const Color(0xFF1D1A30))),
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), color: const Color(0xFF1D1A30))),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+            padding:  EdgeInsets.only(left: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
             child: Text(
                 "Regrouper ici les articles qui vous interressent et envoyer-les a l'entreprise",
-                style: GoogleFonts.roboto(fontSize:14, color: Colors.grey)),
+                style: GoogleFonts.roboto(fontSize:constraints.maxWidth * AppSizes.converValueToadapter(context, 14), color: Colors.grey)),
           ),
           Padding(
-            padding: const EdgeInsets.all(25),
+            padding: EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 15)),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -48,10 +50,10 @@ class EmptyCart extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
-                    minimumSize: const Size(400, 50)),
+                    minimumSize: Size(constraints.maxWidth * AppSizes.converValueToadapter(context, 400), constraints.maxWidth * AppSizes.converValueToadapter(context, 40))),
                 child: Text("Voir les articles",
                     style:
-                        GoogleFonts.roboto(fontSize: 14, color: Colors.white))),
+                        GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14), color: Colors.white))),
           )
         ],
       ),

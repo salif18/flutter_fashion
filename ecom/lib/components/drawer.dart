@@ -1,5 +1,6 @@
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/utils/app_size.dart';
+import 'package:ecom/views/auth/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
@@ -19,11 +20,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: ListView(
         children: [
           DrawerHeader(
-              child: Column(
-            children: [
-              Icon(LineIcons.user,
-                  size: MediaQuery.of(context).size.width * AppSizes.iconLarge),
-              const SizedBox(height: 10),
+              child: Image.asset("assets/logos/logo1.jpg",width:MediaQuery.of(context).size.width*0.5)),
+              Container(
+                child: Column(
+                  children: [
+              //    Icon(LineIcons.user,
+              //     size: MediaQuery.of(context).size.width * AppSizes.iconLarge),
+              // const SizedBox(height: 10),
               Text(
                 provider.userName,
                 style: GoogleFonts.roboto(
@@ -38,11 +41,101 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     fontSize:
                         MediaQuery.of(context).size.width * AppSizes.fontSmall),
               )
-            ],
-          )),
+              ],),),
+               const SizedBox(height: 50),
+           ListTile(
+            onTap: () {
+             
+            },
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.language_rounded,
+                      size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                    ),
+                    const SizedBox(width: 20),
+                Text(
+                  "Change language",
+                  style: GoogleFonts.roboto(
+                      fontSize: MediaQuery.of(context).size.width *
+                          AppSizes.fontSmall),
+                ),
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: MediaQuery.of(context).size.width * AppSizes.iconMedium,
+                ),
+              ],
+            ),
+          ),
+           ListTile(
+            onTap: () {
+              
+            },
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.notifications_none_outlined,
+                      size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                    ),
+                    const SizedBox(width: 20),
+                Text(
+                  "Notifications",
+                  style: GoogleFonts.roboto(
+                      fontSize: MediaQuery.of(context).size.width *
+                          AppSizes.fontSmall),
+                ),
+                  ],
+                ),
+                 Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: MediaQuery.of(context).size.width * AppSizes.iconMedium,
+                ),
+              ],
+            ),
+          ),
+          if(provider.token.isEmpty)
+           ListTile(
+            onTap: () {
+             Navigator.push(context, MaterialPageRoute(builder: (context) => LoginView()));
+            },
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.login,
+                      size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                    ),
+                      const SizedBox(width: 20),
+                Text(
+                  "Login",
+                  style: GoogleFonts.roboto(
+                      fontSize: MediaQuery.of(context).size.width *
+                          AppSizes.fontSmall),
+                )
+                  ],
+                ),
+               Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: MediaQuery.of(context).size.width * AppSizes.iconMedium,
+                ),
+              ],
+            ),
+          ),
+          if(provider.token.isNotEmpty)
           ListTile(
             onTap: () {
               provider.logoutButton();
+              Navigator.pop(context);
             },
             title: Row(
               children: [
@@ -60,6 +153,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ],
             ),
           ),
+          const SizedBox(height: 200,),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Center(

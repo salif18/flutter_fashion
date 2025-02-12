@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:ecom/components/drawer.dart';
 // import 'package:ecom/components/generatedStarProduct.dart';
 // import 'package:ecom/components/generatedStart.dart';
@@ -27,7 +30,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends State<HomeView>
+    with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesAPiMarques marquesApi = ServicesAPiMarques();
@@ -35,91 +39,145 @@ class _HomeViewState extends State<HomeView> {
 
   int? selectedIndex = 0;
 
+  // Méthodes pour récupérer les données (remplace les streams)
+  late Future<List<CategoryModel>> fetchCategories;
+  late Future<List<ProductModel>> fetchProducts;
+  late Future<List<PopulairesModel>> fetchPopulaires;
+  late Future<List<ProductModel>> fetchPromos;
+  late Future<List<MarquesModel>> fetchMarques;
+
   @override
   void initState() {
     super.initState();
 
-    _fetchProducts();
+    fetchCategories = fetchCategoriData();
+    fetchProducts = fetchProductData();
+    fetchPopulaires = fetchProductPopulaires();
+    fetchPromos = fetchProductPromoData();
+    fetchMarques = fetchMarquesData();
   }
 
-  Stream<List<CategoryModel>> fetchCategoriData() async* {
+  Future<List<CategoryModel>> fetchCategoriData() async {
     final res = await api.getAllCategorys();
     final body = res.data;
-    if (res.statusCode == 200) {
-      //print("Body: $body"); // Vérifiez la structure ici
-      yield (body["categories"] as List)
-          .map((json) => CategoryModel.fromJson(json))
-          .toList();
-    } else {
-      throw Exception("Failed to load products ");
+    try {
+      if (res.statusCode == 200) {
+        //print("Body: $body"); // Vérifiez la structure ici
+        return (body["categories"] as List)
+            .map((json) => CategoryModel.fromJson(json))
+            .toList();
+      } else {
+        throw Exception("Failed to load products ");
+      }
+    } on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+    } catch (e) {
+      api.showSnackBarErrorPersonalized(context, "$e");
     }
+    return [];
   }
 
-  Stream<List<ProductModel>> fetchProductData() async* {
+  Future<List<ProductModel>> fetchProductData() async {
     final res = await api.getAllProducts();
     final body = res.data;
-    if (res.statusCode == 200) {
-      yield (body["produits"] as List)
-          .map((json) => ProductModel.fromJson(json))
-          .toList();
-    } else {
-      throw Exception("Failed to load products ");
-    }
-  }
-
-// recuperation du produit
-  Future<void> _fetchProducts() async {
     try {
-      final response = await api.getAllProducts();
-      if (response.statusCode == 200) {
-        final body = response.data;
+      if (res.statusCode == 200) {
         setState(() {
           _products = (body["produits"] as List)
               .map((json) => ProductModel.fromJson(json))
               .toList();
         });
+        return (body["produits"] as List)
+            .map((json) => ProductModel.fromJson(json))
+            .toList();
+      } else {
+        throw Exception("Failed to load products ");
       }
+    } on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
     } catch (e) {
-      Exception('Erreur : $e');
+      api.showSnackBarErrorPersonalized(context, "$e");
     }
+    return [];
   }
 
-  Stream<List<PopulairesModel>> fetchProductPopulaires() async* {
+  Future<List<PopulairesModel>> fetchProductPopulaires() async {
     final res = await api.getProductPlusAchete();
     final body = res.data;
-    if (res.statusCode == 200) {
-      yield (body["produitsLesPlusAchetés"] as List)
-          .map((json) => PopulairesModel.fromJson(json))
-          .toList();
-    } else {
-      throw Exception("Failed to load products ");
+    try {
+      if (res.statusCode == 200) {
+        return (body["produitsLesPlusAchetés"] as List)
+            .map((json) => PopulairesModel.fromJson(json))
+            .toList();
+      } else {
+        throw Exception("Failed to load products ");
+      }
+    } on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    } catch (e) {
+      api.showSnackBarErrorPersonalized(context, "$e");
     }
+    return [];
   }
 
-  Stream<List<ProductModel>> fetchProductPromoData() async* {
+  Future<List<ProductModel>> fetchProductPromoData() async {
     final res = await api.getPromo();
     final body = res.data;
-    if (res.statusCode == 200) {
-      //print("Body: $body"); // Vérifiez la structure ici
-      yield (body["allOffre"] as List)
-          .map((json) => ProductModel.fromJson(json))
-          .toList();
-    } else {
-      throw Exception("Failed to load products ");
+    try {
+      if (res.statusCode == 200) {
+        //print("Body: $body"); // Vérifiez la structure ici
+        return (body["allOffre"] as List)
+            .map((json) => ProductModel.fromJson(json))
+            .toList();
+      } else {
+        throw Exception("Failed to load products ");
+      }
+    } on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    } catch (e) {
+      api.showSnackBarErrorPersonalized(context, "$e");
     }
+    return [];
   }
 
-  Stream<List<MarquesModel>> fetchMarquesData() async* {
+  Future<List<MarquesModel>> fetchMarquesData() async {
     final res = await marquesApi.getAllMarques();
     final body = res.data;
-    if (res.statusCode == 200) {
-      //print("Body: $body"); // Vérifiez la structure ici
-      yield (body["marques"] as List)
-          .map((json) => MarquesModel.fromJson(json))
-          .toList();
-    } else {
-      throw Exception("Failed to load products ");
+    try {
+      if (res.statusCode == 200) {
+        //print("Body: $body"); // Vérifiez la structure ici
+        return (body["marques"] as List)
+            .map((json) => MarquesModel.fromJson(json))
+            .toList();
+      } else {
+        throw Exception("Failed to load products ");
+      }
+    } catch (e) {
+      Exception("$e");
     }
+    return [];
   }
 
   Widget generedImage(String? name) {
@@ -139,9 +197,9 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-//  base64Decode(base64Image.split(',').last);
+  @override
+  bool get wantKeepAlive => true;
 
-// Widget imageWidget = Image.memory(decodedImage);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,9 +210,11 @@ class _HomeViewState extends State<HomeView> {
           return CustomScrollView(
             slivers: [
               SliverAppBar(
-                backgroundColor: Colors.white, // Couleur opaque
+                backgroundColor: Colors.deepOrangeAccent, // Couleur opaque
                 elevation: 0, // Supprime l'ombre si nécessaire
-                toolbarHeight: 80,
+                // toolbarHeight: 100,
+                toolbarHeight: constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 50),
                 pinned: true,
                 floating: true,
                 leading: IconButton(
@@ -162,18 +222,18 @@ class _HomeViewState extends State<HomeView> {
                       drawerKey.currentState!.openDrawer();
                     },
                     icon: Icon(
-                      LineIcons.user,
-                      size: MediaQuery.of(context).size.width *
-                          AppSizes.iconLarge,
-                      color: AppColors.textColor,
+                      LineIcons.bars,
+                      size: constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 30),
+                      color: Colors.white,
                     )),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text("Shop-Line".toUpperCase(),
+                  title: Text("Online Shop".toUpperCase(),
                       style: GoogleFonts.roboto(
-                          fontSize: MediaQuery.of(context).size.width *
-                              AppSizes.fontMedium,
+                          fontSize: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 15),
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepOrange)),
+                          color: Colors.white)),
                 ),
                 actions: [
                   Consumer<CartProvider>(
@@ -186,19 +246,26 @@ class _HomeViewState extends State<HomeView> {
                                 MaterialPageRoute(
                                     builder: (context) => const CartView())),
                             icon: Icon(Icons.shopping_cart_outlined,
-                                size: MediaQuery.of(context).size.width *
-                                    AppSizes.iconHyperLarge),
+                                color: Colors.white,
+                                size: constraints.maxWidth *
+                                    AppSizes.converValueToadapter(context, 30)),
                           ),
                           if (provider.cart.isNotEmpty)
                             Positioned(
-                              left: 35,
-                              bottom: 30,
+                              left: constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 25),
+                              bottom: constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 25),
                               child: Badge.count(
                                 count: provider.nombreArticles,
-                                largeSize: 35 / 2,
-                                backgroundColor: Colors.deepOrange,
+                                largeSize: constraints.maxWidth *
+                                    AppSizes.converValueToadapter(context, 35) /
+                                    2,
+                                backgroundColor: Colors.black,
                                 textStyle: GoogleFonts.roboto(
-                                  fontSize: 12,
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 12),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -208,745 +275,755 @@ class _HomeViewState extends State<HomeView> {
                       );
                     },
                   ),
-                  const SizedBox(width: 28.8),
+                  SizedBox(
+                      width: constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 28)),
                 ],
               ),
-              const SliverToBoxAdapter(
-                child: MyCarouselWidget(),
-              ),
-              SliverToBoxAdapter(child: _categorie(context)),
-              SliverToBoxAdapter(child: _arrivages(context)),
-              SliverToBoxAdapter(child: _populaires(context)),
               SliverToBoxAdapter(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Autres offres',
-                        style: GoogleFonts.roboto(
-                          fontSize: MediaQuery.of(context).size.width *
-                              AppSizes.fontMedium,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textColor,
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const PromoView()));
-                          },
-                          child: Text(
-                            "Voire plus",
-                            style: GoogleFonts.roboto(
-                              fontSize: MediaQuery.of(context).size.width *
-                                  AppSizes.fontSmall,
-                            ),
-                          ))
-                    ],
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(child: _offres(context)),
+                  child: MyCarouselWidget(constraints: constraints)),
               SliverToBoxAdapter(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Les marques',
-                        style: GoogleFonts.roboto(
-                          fontSize: MediaQuery.of(context).size.width *
-                              AppSizes.fontMedium,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textColor,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          // Action à définir lors de l'appui sur l'icône
-                        },
-                        icon: Icon(
-                          Icons.arrow_forward_ios_sharp,
-                          size: MediaQuery.of(context).size.width *
-                              AppSizes.iconSmall,
-                          color: AppColors.textColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverToBoxAdapter(child: _marques(context)),
+                  child: _functionTitle(context, constraints, "Categories")),
+              SliverToBoxAdapter(child: _categorie(context, constraints)),
+              SliverToBoxAdapter(
+                  child: _functionTitle(context, constraints, "Arrivages")),
+              SliverToBoxAdapter(child: _arrivages(context, constraints)),
+              SliverToBoxAdapter(
+                  child: _functionTitle(context, constraints, "Populaires")),
+              SliverToBoxAdapter(child: _populaires(context, constraints)),
+              SliverToBoxAdapter(
+                  child: _functionTitleOffre(
+                      context, constraints, "Autres offres")),
+              SliverToBoxAdapter(child: _offres(context, constraints)),
+              SliverToBoxAdapter(
+                  child: _functionTitle(context, constraints, "Les marques")),
+              SliverToBoxAdapter(child: _marques(context, constraints)),
             ],
           );
         }));
   }
 
-  Widget _categorie(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return SizedBox(
-        height: 250,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'Categories',
-                    style: GoogleFonts.roboto(
-                        fontSize: MediaQuery.of(context).size.width *
-                            AppSizes.fontMedium,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textColor),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    size:
-                        MediaQuery.of(context).size.width * AppSizes.iconSmall,
-                  ),
-                )
-              ],
+  Widget _functionTitleOffre(BuildContext context, constraints, title) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+          horizontal: constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 16)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.roboto(
+              fontSize: constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 18),
+              fontWeight: FontWeight.bold,
+              color: AppColors.textColor,
             ),
-            Expanded(
-                child: StreamBuilder<List<CategoryModel>>(
-                    stream: fetchCategoriData(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator()
-                          );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                            child: Text(
-                          "Une erreur s'est produit lors du chargement",
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                          ),
-                        ));
-                      } else if (!snapshot.hasData) {
-                        return Center(
-                            child: Text(
-                          "Aucuns données disponibles",
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                          ),
-                        ));
-                      } else {
-                        final categories = snapshot.data!;
-                        return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: categories.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final categorie = categories[index];
-                            // final isSelected = selectedIndex == index;
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StoresView(
-                                              categoSelected:
-                                                  categorie.category,
-                                            )));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-
-                                    //  color:   ? AppColors
-                                    //         .colorBtnPrimary // Couleur active
-                                    //     : AppColors
-                                    //         .productBackground, // Couleur normale
-                                    borderRadius: BorderRadius.circular(5)),
-                                margin: const EdgeInsets.all(5),
-                                padding: const EdgeInsets.all(4),
-                                width: MediaQuery.of(context).size.width / 3,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(100)),
-                                      child: Image.network(
-                                        categorie.image!,
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      categorie.category!,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              AppSizes.fontSmall,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.textColor),
-                                    ),
-                                    // const SizedBox(width: 8), // Espace entre texte et image.
-                                    // generedImage(categorie.category),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    }))
-          ],
-        ),
-      );
-    });
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const PromoView()));
+              },
+              child: Text(
+                "Voire plus",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ))
+        ],
+      ),
+    );
   }
 
-  Widget _arrivages(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SizedBox(
-          height: 340,
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      'Arrivages',
-                      style: GoogleFonts.roboto(
-                        fontSize: MediaQuery.of(context).size.width *
-                            AppSizes.fontMedium,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textColor,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: MediaQuery.of(context).size.width *
-                          AppSizes.iconSmall,
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: StreamBuilder<List<ProductModel>?>(
-                  stream: fetchProductData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator()
-                        );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          "Une erreur s'est produite lors du chargement",
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                          ),
-                        ),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Text(
-                          "Aucunes données disponibles",
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                          ),
-                        ),
-                      );
-                    } else {
-                      final products = snapshot.data!.reversed.toList();
-                      return ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: products.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final product = products[index];
-                          return GestureDetector(
-                            onTap: () {
-                              // Action lorsque le produit est cliqué
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProduct(product: product)));
-                            },
+  Widget _functionTitle(BuildContext context, constraints, title) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+          horizontal:
+              constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
+          vertical:
+              constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: GoogleFonts.roboto(
+              fontSize: constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 18),
+              fontWeight: FontWeight.bold,
+              color: AppColors.textColor,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              // Action à définir lors de l'appui sur l'icône
+            },
+            icon: Icon(
+              Icons.arrow_forward_ios_sharp,
+              size: constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 14),
+              color: AppColors.textColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _categorie(BuildContext context, constraints) {
+    return SizedBox(
+      height:
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 160),
+      width: constraints.maxWidth,
+      child: FutureBuilder<List<CategoryModel>>(
+          future: fetchCategories,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                  child: Text(
+                "Une erreur s'est produit lors du chargement",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                  child: Text(
+                "Aucuns données disponibles",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ));
+            } else {
+              final categories = snapshot.data!;
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final categorie = categories[index];
+                  // final isSelected = selectedIndex == index;
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StoresView(
+                                    categoSelected: categorie.category,
+                                  )));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color:
+                              //? AppColors
+                              //         .colorBtnPrimary // Couleur active
+                              // :
+                              AppColors
+                                  .productBackground, // Couleur normale
+                          borderRadius: BorderRadius.circular(
+                              constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 20))),
+                      margin: EdgeInsets.all(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 5)),
+                      padding: EdgeInsets.all(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 2)),
+                      width: constraints.maxWidth / 3,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            flex:3,
                             child: Container(
+                              // width: constraints.maxWidth *
+                              //     AppSizes.converValueToadapter(context, 100),
+                              // height: constraints.maxWidth *
+                              //     AppSizes.converValueToadapter(context, 100),
                               decoration: BoxDecoration(
-                                // color: AppColors.productBackground,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              margin: const EdgeInsets.all(5),
-                              padding: const EdgeInsets.all(16),
-                              width: MediaQuery.of(context).size.width / 2.14,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      image: DecorationImage(
-                                        image: NetworkImage(product.image!),
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    product.name!,
-                                    style: GoogleFonts.roboto(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              AppSizes.fontSmall,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textColor,
-                                    ),
-                                    // maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  Text(
-                                    product.subCategory!,
-                                    style: GoogleFonts.roboto(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              AppSizes.fontSmall,
-                                      fontWeight: FontWeight.w300,
-                                      color: AppColors.textColor,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 100))),
+                              child: Image.network(
+                                categorie.image ??
+                                    "", // Laisse une chaîne vide si l'URL est null
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset("assets/images/default.jpg",
+                                      fit: BoxFit.contain);
+                                },
                               ),
                             ),
-                          );
-                        },
-                      );
-                    }
-                  },
+                          ),
+
+                          // SizedBox(
+                          //   height: constraints.maxWidth *
+                          //       AppSizes.converValueToadapter(context, 10),
+                          // ),
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              categorie.category ?? "",
+                              style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(context, 14),
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textColor),
+                            ),
+                          ),
+                          // const SizedBox(width: 8), // Espace entre texte et image.
+                          // generedImage(categorie.category),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+          }),
+    );
+  }
+
+  Widget _arrivages(BuildContext context, constraints) {
+    return SizedBox(
+      height:
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 220),
+      child: FutureBuilder<List<ProductModel>?>(
+        future: fetchProducts,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Une erreur s'est produite lors du chargement",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
                 ),
               ),
-            ],
-          ),
-        );
-      },
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                "Aucunes données disponibles",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ),
+            );
+          } else {
+            final products = snapshot.data!.reversed.toList();
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: products.length,
+              itemBuilder: (BuildContext context, int index) {
+                final product = products[index];
+                return GestureDetector(
+                  onTap: () {
+                    // Action lorsque le produit est cliqué
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SingleProduct(product: product)));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.productBackground,
+                      borderRadius: BorderRadius.circular(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 20)),
+                    ),
+                    margin: EdgeInsets.all(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 5)),
+                    padding: EdgeInsets.all(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 16)),
+                    width: constraints.maxWidth / 2.14,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 150),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(constraints
+                                      .maxWidth *
+                                  AppSizes.converValueToadapter(context, 10)),
+                              image: DecorationImage(
+                                image: product.image != null &&
+                                        product.image!.isNotEmpty
+                                    ? NetworkImage(product.image!)
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        "assets/images/default.jpg"),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 16)),
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.name ?? "",
+                                style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14),
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textColor,
+                                ),
+                                // maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                product.subCategory ?? "",
+                                style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14),
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.textColor,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 
-  Widget _populaires(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return SizedBox(
-        height: 360,
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+  Widget _populaires(BuildContext context, constraints) {
+    return SizedBox(
+      height:
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 220),
+      child: FutureBuilder<List<PopulairesModel>?>(
+          future: fetchPopulaires,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
                   child: Text(
-                    'Populaires',
-                    style: GoogleFonts.roboto(
-                        fontSize: MediaQuery.of(context).size.width *
-                            AppSizes.fontMedium,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.textColor),
-                  ),
+                "Une erreur s'est produit lors du chargement",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_forward_ios_sharp,
-                    size:
-                        MediaQuery.of(context).size.width * AppSizes.iconSmall,
-                  ),
+              ));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                  child: Text(
+                "Aucuns données disponibles",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
                 ),
-              ],
-            ),
-            Expanded(
-                child: StreamBuilder<List<PopulairesModel>?>(
-                    stream: fetchProductPopulaires(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator()
-                          );
-                      } else if (snapshot.hasError) {
-                        return Center(
-                            child: Text(
-                          "Une erreur s'est produit lors du chargement",
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
+              ));
+            } else {
+              final products = snapshot.data!;
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: products.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final product = products[index];
+                  final prodChoise = _products
+                      .firstWhere((item) => item.id == product.produitId);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  SingleProduct(product: prodChoise)));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.productBackground,
+                          borderRadius: BorderRadius.circular(
+                              constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 20))),
+                      margin: EdgeInsets.all(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 5)),
+                      padding: EdgeInsets.all(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 16)),
+                      width: constraints.maxWidth / 2.14,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 3,
+                            child: Container(
+                              width: constraints.maxWidth,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 20))),
+                              child: Image(
+                                image: product.image != null &&
+                                        product.image!.isNotEmpty
+                                    ? NetworkImage(product.image!)
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        "assets/images/default.jpg"),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
                           ),
-                        ));
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return Center(
-                            child: Text(
-                          "Aucuns données disponibles",
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                          ),
-                        ));
-                      } else {
-                        final products = snapshot.data!;
-                        return ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: products.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final product = products[index];
-                            final prodChoise = _products.firstWhere(
-                                (item) => item.id == product.produitId);
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SingleProduct(
-                                            product: prodChoise)));
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    // color: AppColors.productBackground,
-                                    borderRadius: BorderRadius.circular(20)),
-                                margin: const EdgeInsets.all(5),
-                                padding: const EdgeInsets.all(16),
-                                width: MediaQuery.of(context).size.width / 2.14,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      width: constraints.maxWidth,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20)),
-                                      child: Image(
-                                        image: NetworkImage(product.image!),
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Flexible(
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 10.0),
-                                            child: Text(
-                                              product.name!,
-                                              style: GoogleFonts.roboto(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          AppSizes.fontSmall,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: AppColors.textColor),
-                                              // softWrap: true,
-                                              overflow: TextOverflow.ellipsis,
-                                              // maxLines: 2,
-                                            ),
-                                          ),
+                                    Flexible(
+                                      child: Container(
+                                        padding: EdgeInsets.only(
+                                            top: constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 8)),
+                                        child: Text(
+                                          product.name ?? "",
+                                          style: GoogleFonts.roboto(
+                                              fontSize: constraints.maxWidth *
+                                                  AppSizes.converValueToadapter(
+                                                      context, 14),
+                                              fontWeight: FontWeight.bold,
+                                              color: AppColors.textColor),
+                                          // softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          // maxLines: 2,
                                         ),
-                                      ],
-                                    ),
-                                    Text(
-                                      product.categorie!,
-                                      style: GoogleFonts.roboto(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                AppSizes.fontSmall,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppColors.textColor,
                                       ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      product.sousCategorie!,
-                                      style: GoogleFonts.roboto(
-                                        fontSize:
-                                            MediaQuery.of(context).size.width *
-                                                AppSizes.fontSmall,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppColors.textColor,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    // const SizedBox(height: 2),
-                                    // Text(
-                                    //   "${product.price.toStringAsFixed(2)} FCFA",
-                                    //   style: GoogleFonts.roboto(
-                                    //     fontSize:
-                                    //         MediaQuery.of(context).size.width *
-                                    //             AppSizes.fontSmall,
-                                    //     color: AppColors.textColor,
-                                    //   ),
-                                    // ),
-                                    // const SizedBox(height: 3),
-                                    // GeneratedStarRating(rating: product.rating!),
                                   ],
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    }))
-          ],
-        ),
-      );
-    });
-  }
-
-  Widget _offres(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          width: constraints.maxWidth,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: StreamBuilder<List<ProductModel>>(
-            stream: fetchProductPromoData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator()
-                  );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    "Une erreur s'est produite lors du chargement",
-                    style: GoogleFonts.roboto(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall,
-                    ),
-                  ),
-                );
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    "Aucune donnée disponible",
-                    style: GoogleFonts.roboto(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall,
-                    ),
-                  ),
-                );
-              } else {
-                final products = snapshot.data!;
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.72,
-                  ),
-                  shrinkWrap: true,
-                  itemCount: products.take(4).length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final product = products[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // Action on product tap
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    SingleProduct(product: product)));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          // color: AppColors.productBackground,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(children: [
-                              Container(
-                                width: constraints.maxWidth,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(product.image!),
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                  child: Container(
-                                width: 50,
-                                height: 50,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        // ignore: deprecated_member_use
-                                        color: Colors.black
-                                            // ignore: deprecated_member_use
-                                            .withOpacity(
-                                                0.2), // Couleur de l'ombre
-                                        spreadRadius:
-                                            2, // Élargissement de l'ombre
-                                        blurRadius: 5, // Flou de l'ombre
-                                        offset: const Offset(3,
-                                            3), // Déplacement horizontal et vertical
-                                      ),
-                                    ],
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Text(
-                                  "-${product.discountPercentage!.floor().toString()}%",
+                                Text(
+                                  product.categorie ?? "",
                                   style: GoogleFonts.roboto(
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              AppSizes.fontSmall,
-                                      color: Colors.white),
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14),
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.textColor,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ))
-                            ]),
-                            const SizedBox(height: 16),
-                            Text(
-                              product.name!,
-                              style: GoogleFonts.roboto(
-                                fontSize: MediaQuery.of(context).size.width *
-                                    AppSizes.fontSmall,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textColor,
-                              ),
-                              // softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              // maxLines: 2,
+                                SizedBox(
+                                    height: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 2)),
+                                Text(
+                                  product.sousCategorie ?? "",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14),
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.textColor,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+
+                          // const SizedBox(height: 2),
+                          // Text(
+                          //   "${product.price.toStringAsFixed(2)} FCFA",
+                          //   style: GoogleFonts.roboto(
+                          //     fontSize:
+                          //         MediaQuery.of(context).size.width *
+                          //             AppSizes.fontSmall,
+                          //     color: AppColors.textColor,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 3),
+                          // GeneratedStarRating(rating: product.rating!),
+                        ],
                       ),
-                    );
-                  },
-                );
-              }
-            },
-          ),
-        );
-      },
+                    ),
+                  );
+                },
+              );
+            }
+          }),
     );
   }
 
-  Widget _marques(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Container(
-          width: constraints.maxWidth,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: StreamBuilder<List<MarquesModel>>(
-            stream: fetchMarquesData(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator()
-                  );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    "Une erreur s'est produite lors du chargement",
-                    style: GoogleFonts.roboto(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall,
+  Widget _offres(BuildContext context, constraints) {
+    return Container(
+      width: constraints.maxWidth,
+      height:
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 500),
+      padding: EdgeInsets.symmetric(
+          horizontal: constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 16)),
+      child: FutureBuilder<List<ProductModel>>(
+        future: fetchPromos,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Une erreur s'est produite lors du chargement",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                "Aucune donnée disponible",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ),
+            );
+          } else {
+            final products = snapshot.data!;
+            return GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.72,
+              ),
+              itemCount: products.take(4).length,
+              itemBuilder: (BuildContext context, int index) {
+                final product = products[index];
+                return GestureDetector(
+                  onTap: () {
+                    // Action on product tap
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                SingleProduct(product: product)));
+                  },
+                  child: Container(
+                    height: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 220),
+                    decoration: BoxDecoration(
+                      color: AppColors.productBackground,
+                      borderRadius: BorderRadius.circular(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 20)),
                     ),
-                  ),
-                );
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    "Aucune donnée disponible",
-                    style: GoogleFonts.roboto(
-                      fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall,
-                    ),
-                  ),
-                );
-              } else {
-                final marques = snapshot.data!;
-                return GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio:
-                        1, // Ajustement du ratio pour afficher correctement les images
-                  ),
-                  shrinkWrap: true,
-                  itemCount: marques.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final marque = marques[index];
-                    return GestureDetector(
-                      onTap: () {
-                        // Action sur l'élément de marque
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.productBackground,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(marque.image),
-                                    fit: BoxFit.contain,
-                                  ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 16)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: Stack(children: [
+                            Container(
+                              width: constraints.maxWidth,
+                              height: constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 150),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(constraints
+                                        .maxWidth *
+                                    AppSizes.converValueToadapter(context, 10)),
+                                image: DecorationImage(
+                                  image: product.image != null &&
+                                          product.image!.isNotEmpty
+                                      ? NetworkImage(product.image!)
+                                          as ImageProvider
+                                      : const AssetImage(
+                                          "assets/images/default.jpg"),
+                                  fit: BoxFit.contain,
                                 ),
                               ),
                             ),
-                          ],
+                            Positioned(
+                                child: Container(
+                              width: constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 50),
+                              height: constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 50),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      // ignore: deprecated_member_use
+                                      color: Colors.black
+                                          // ignore: deprecated_member_use
+                                          .withOpacity(
+                                              0.2), // Couleur de l'ombre
+                                      spreadRadius:
+                                          2, // Élargissement de l'ombre
+                                      blurRadius: 5, // Flou de l'ombre
+                                      offset: const Offset(3,
+                                          3), // Déplacement horizontal et vertical
+                                    ),
+                                  ],
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 20))),
+                              child: Text(
+                                "-${product.discountPercentage!.floor().toString()}%",
+                                style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14),
+                                    color: Colors.white),
+                              ),
+                            ))
+                          ]),
                         ),
-                      ),
-                    );
-                  },
+                        SizedBox(
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 16)),
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            product.name ?? "",
+                            style: GoogleFonts.roboto(
+                              fontSize: constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 14),
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textColor,
+                            ),
+                            // softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            // maxLines: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
-              }
-            },
-          ),
-        );
-      },
+              },
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _marques(BuildContext context, constraints) {
+    return Container(
+      width: constraints.maxWidth,
+      height: constraints.maxHeight,
+      padding: EdgeInsets.symmetric(
+          horizontal:
+              constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
+          vertical:
+              constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+      child: FutureBuilder<List<MarquesModel>>(
+        future: fetchMarques,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                "Une erreur s'est produite lors du chargement",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ),
+            );
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(
+              child: Text(
+                "Aucune donnée disponible",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 14),
+                ),
+              ),
+            );
+          } else {
+            final marques = snapshot.data!;
+            return GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio:
+                    1, // Ajustement du ratio pour afficher correctement les images
+              ),
+              itemCount: marques.length,
+              itemBuilder: (BuildContext context, int index) {
+                final marque = marques[index];
+                return GestureDetector(
+                  onTap: () {
+                    // Action sur l'élément de marque
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.productBackground,
+                      borderRadius: BorderRadius.circular(constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 10)),
+                    ),
+                    margin: EdgeInsets.all(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 10)),
+                    padding: EdgeInsets.all(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 8)),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(constraints
+                                      .maxWidth *
+                                  AppSizes.converValueToadapter(context, 10)),
+                              image: DecorationImage(
+                                image: NetworkImage(marque.image),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

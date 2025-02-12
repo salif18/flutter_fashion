@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 
 class MyCard extends StatefulWidget {
   final CartItem item;
-  const MyCard({super.key, required this.item});
+  final constraints;
+  const MyCard({super.key, required this.item, required this.constraints});
 
   @override
   State<MyCard> createState() => _MyCardState();
@@ -30,152 +31,210 @@ class _MyCardState extends State<MyCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0),
+      padding: EdgeInsets.symmetric(horizontal: 0),
       child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: 150,
-          padding: const EdgeInsets.all(5),
-          margin: const EdgeInsets.symmetric(vertical:1,horizontal: 8),
+          width: widget.constraints.maxWidth,
+          height: widget.constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 125),
+          padding: EdgeInsets.symmetric(
+              horizontal: widget.constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 10)),
+          margin: EdgeInsets.symmetric(
+              vertical: widget.constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 1)),
           decoration: BoxDecoration(
-            color: AppColors.productBackground,
-            borderRadius: BorderRadius.circular(10)),
+              color: AppColors.productBackground,
+              borderRadius: BorderRadius.circular(widget.constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 5))),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                height: 80,
-                width: 80,
-                margin: const EdgeInsets.only(right: 10),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: NetworkImage(widget.item.img),
-                        fit: BoxFit.contain)),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  // margin: EdgeInsets.only(right: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                          widget.constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 5)),
+                      image: DecorationImage(
+                        image: widget.item.img != null &&
+                                widget.item.img.isNotEmpty
+                            ? NetworkImage(widget.item.img) as ImageProvider
+                            : const AssetImage("assets/images/default.jpg"),
+                        fit: BoxFit.contain,
+                      )),
+                ),
+              ),
+              SizedBox(
+                width: widget.constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 10),
               ),
               Expanded(
+                  flex: 3,
                   child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width *
-                            0.5, // Ajustez selon vos besoins
-                        child: Text(
-                          widget.item.name,
-                          style: GoogleFonts.roboto(
-                            fontSize: MediaQuery.of(context).size.width *
-                                AppSizes.fontSmall,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textColor,
-                          ),
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Text("Couleur",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  color: const Color(0xff121212))),
-                          const SizedBox(width: 5),
-                          Container(
-                            margin: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: parsedColor(widget.item.selectedColor),
-                              shape: BoxShape
-                                  .circle, // Forme ronde pour le conteneur
+                      Expanded(
+                        flex: 3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              // Ajustez selon vos besoins
+                              child: Text(
+                                widget.item.name,
+                                style: GoogleFonts.roboto(
+                                  fontSize: widget.constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14),
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.textColor,
+                                ),
+                                softWrap: true,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
                             ),
-                            width: 20,
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                      if(widget.item.selectedSize.isNotEmpty)
-                      Row(
-                        children: [
-                          Text("Size",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  color: const Color(0xff121212))),
-                          const SizedBox(width: 5),
-                          Text(widget.item.selectedSize,
-                              style: GoogleFonts.roboto(
-                                  fontSize: 14,
-                                  color: const Color(0xff121212))),
-                        ],
-                      ),
-                      Text("${widget.item.price.toString()} Fcfa",
-                          style: GoogleFonts.roboto(
-                              fontSize: 14, color: const Color(0xff121212)))
-                    ],
-                  ),
-                  Container(
-                    height: 140,
-                    decoration: BoxDecoration(
-                        color: AppColors.banerBtnNavigatorBackground,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppColors.banerBtnNavigatorBackground,
-                        )),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 50,
-                          alignment: Alignment.center,
-                          child: TextButton(
-                              onPressed: () {
-                                Provider.of<CartProvider>(context,
-                                        listen: false)
-                                    .incrementQuantity(
-                                        widget.item.id,
-                                        widget.item.selectedSize,
-                                        widget.item.selectedColor);
-                              },
-                              child: Text("+",
-                                  style: GoogleFonts.roboto(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold))),
+                            Row(
+                              children: [
+                                Text("Couleur",
+                                    style: GoogleFonts.roboto(
+                                        fontSize: widget.constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 14),
+                                        color: const Color(0xff121212))),
+                                SizedBox(
+                                    width: widget.constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 5)),
+                                Container(
+                                  margin: EdgeInsets.all(
+                                      widget.constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 5)),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        parsedColor(widget.item.selectedColor),
+                                    shape: BoxShape
+                                        .circle, // Forme ronde pour le conteneur
+                                  ),
+                                  width: widget.constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 10),
+                                  height: widget.constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 10),
+                                ),
+                              ],
+                            ),
+                            if (widget.item.selectedSize.isNotEmpty)
+                              Row(
+                                children: [
+                                  Text("Size",
+                                      style: GoogleFonts.roboto(
+                                          fontSize:
+                                              widget.constraints.maxWidth *
+                                                  AppSizes.converValueToadapter(
+                                                      context, 14),
+                                          color: const Color(0xff121212))),
+                                  SizedBox(
+                                      width: widget.constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 5)),
+                                  Text(widget.item.selectedSize,
+                                      style: GoogleFonts.roboto(
+                                          fontSize:
+                                              widget.constraints.maxWidth *
+                                                  AppSizes.converValueToadapter(
+                                                      context, 14),
+                                          color: const Color(0xff121212))),
+                                ],
+                              ),
+                            Text("${widget.item.price.toString()} Fcfa",
+                                style: GoogleFonts.roboto(
+                                    fontSize: widget.constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14),
+                                    color: const Color(0xff121212)))
+                          ],
                         ),
-                        Container(
-                          width: 50,
-                          alignment: Alignment.center,
-                          child: Text(widget.item.qty.toString(),
-                              style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold)),
-                        ),
-                        if (widget.item.qty > 1)
-                          Container(
-                            alignment: Alignment.center,
-                            width: 50,
-                            child: TextButton(
-                                onPressed: () {
-                                  Provider.of<CartProvider>(context,
-                                          listen: false)
-                                      .decrementQuantity(
-                                          widget.item.id,
-                                          widget.item.selectedSize,
-                                          widget.item.selectedColor);
-                                },
-                                child: Text("-",
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: widget.constraints.maxHeight,
+                          decoration: BoxDecoration(
+                              color: AppColors.banerBtnNavigatorBackground,
+                              borderRadius: BorderRadius.circular(widget
+                                      .constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 10)),
+                              border: Border.all(
+                                color: AppColors.banerBtnNavigatorBackground,
+                              )),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: widget.constraints.maxWidth,
+                                alignment: Alignment.center,
+                                child: TextButton(
+                                    onPressed: () {
+                                      Provider.of<CartProvider>(context,
+                                              listen: false)
+                                          .incrementQuantity(
+                                              widget.item.id,
+                                              widget.item.selectedSize,
+                                              widget.item.selectedColor);
+                                    },
+                                    child: Text("+",
+                                        style: GoogleFonts.roboto(
+                                            color: Colors.white,
+                                            fontSize: widget
+                                                    .constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 20),
+                                            fontWeight: FontWeight.bold))),
+                              ),
+                              Container(
+                                width: widget.constraints.maxWidth,
+                                alignment: Alignment.center,
+                                child: Text(widget.item.qty.toString(),
                                     style: GoogleFonts.roboto(
                                         color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold))),
-                          )
-                      ],
-                    ),
-                  )
-                ],
-              ))
+                                        fontSize: widget.constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 18),
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                              if (widget.item.qty > 1)
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: widget.constraints.maxWidth,
+                                  child: TextButton(
+                                      onPressed: () {
+                                        Provider.of<CartProvider>(context,
+                                                listen: false)
+                                            .decrementQuantity(
+                                                widget.item.id,
+                                                widget.item.selectedSize,
+                                                widget.item.selectedColor);
+                                      },
+                                      child: Text("-",
+                                          style: GoogleFonts.roboto(
+                                              color: Colors.white,
+                                              fontSize: widget
+                                                      .constraints.maxWidth *
+                                                  AppSizes.converValueToadapter(
+                                                      context, 20),
+                                              fontWeight: FontWeight.bold))),
+                                )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ))
             ],
           )),
     );
