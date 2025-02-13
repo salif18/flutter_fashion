@@ -8,6 +8,7 @@ import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/detail/single.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PromoView extends StatefulWidget {
   const PromoView({super.key});
@@ -102,7 +103,7 @@ class _PromoViewState extends State<PromoView> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return SliverFillRemaining(
-                    child: const Center(child: CircularProgressIndicator()),
+                    child: buildShimmerProductCard(context, constraints)
                   );
                 } else if (snapshot.hasError) {
                   return SliverFillRemaining(
@@ -258,4 +259,86 @@ class _PromoViewState extends State<PromoView> {
       }),
     );
   }
+
+  Widget buildShimmerProductCard(BuildContext context, BoxConstraints constraints) {
+  return SizedBox(
+    height: constraints.maxHeight,
+    child: GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.72,
+      ),
+      itemCount: 10,
+      itemBuilder: (_, __) => GestureDetector(
+    onTap: () {},
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
+        ),
+        color: Colors.white, // Fond du conteneur
+      ),
+      padding: EdgeInsets.all(
+        constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              // 🔹 Image du produit (Shimmer)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: constraints.maxWidth,
+                  height: constraints.maxWidth * AppSizes.converValueToadapter(context, 150),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
+                    ),
+                    color: Colors.grey[350], // Placeholder
+                  ),
+                ),
+              ),
+
+              // 🔹 Badge de réduction (Shimmer)
+              Positioned(
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    width: constraints.maxWidth * AppSizes.converValueToadapter(context, 40),
+                    height: constraints.maxWidth * AppSizes.converValueToadapter(context, 40),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[350],
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+
+          // 🔹 Nom du produit (Shimmer)
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: constraints.maxWidth * 0.6,
+              height: 16,
+              color: Colors.grey[350],
+            ),
+          ),
+        ],
+      ),
+    ),
+  )
+    ),
+  );
+  }
+
 }

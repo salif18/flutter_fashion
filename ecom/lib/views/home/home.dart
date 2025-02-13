@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -381,7 +382,8 @@ class _HomeViewState extends State<HomeView>
           future: fetchCategories,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return _buildShimmerLoading(context, constraints,
+                  isHorizontal: true, itemCount: 5);
             } else if (snapshot.hasError) {
               return Center(
                   child: Text(
@@ -423,8 +425,7 @@ class _HomeViewState extends State<HomeView>
                               //? AppColors
                               //         .colorBtnPrimary // Couleur active
                               // :
-                              AppColors
-                                  .productBackground, // Couleur normale
+                              AppColors.productBackground, // Couleur normale
                           borderRadius: BorderRadius.circular(
                               constraints.maxWidth *
                                   AppSizes.converValueToadapter(context, 20))),
@@ -437,7 +438,7 @@ class _HomeViewState extends State<HomeView>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            flex:3,
+                            flex: 3,
                             child: Container(
                               // width: constraints.maxWidth *
                               //     AppSizes.converValueToadapter(context, 100),
@@ -453,7 +454,8 @@ class _HomeViewState extends State<HomeView>
                                     "", // Laisse une chaîne vide si l'URL est null
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset("assets/images/default.jpg",
+                                  return Image.asset(
+                                      "assets/images/default.jpg",
                                       fit: BoxFit.contain);
                                 },
                               ),
@@ -470,7 +472,8 @@ class _HomeViewState extends State<HomeView>
                               categorie.category ?? "",
                               style: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(context, 14),
+                                      AppSizes.converValueToadapter(
+                                          context, 14),
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textColor),
                             ),
@@ -496,7 +499,8 @@ class _HomeViewState extends State<HomeView>
         future: fetchProducts,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return _buildShimmerLoading(context, constraints,
+                isHorizontal: true, itemCount: 5);
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
@@ -623,7 +627,8 @@ class _HomeViewState extends State<HomeView>
           future: fetchPopulaires,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return _buildShimmerLoading(context, constraints,
+                  isHorizontal: true, itemCount: 5);
             } else if (snapshot.hasError) {
               return Center(
                   child: Text(
@@ -649,15 +654,19 @@ class _HomeViewState extends State<HomeView>
                 itemCount: products.length,
                 itemBuilder: (BuildContext context, int index) {
                   final product = products[index];
-                  final prodChoise = _products
-                      .firstWhere((item) => item.id == product.produitId);
+
+                  final prodChoise = _products.isNotEmpty ? _products.firstWhere(
+                    (item) => item.id == product.produitId , // Retourne un produit par défaut
+                  ) : null;
+
+                
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  SingleProduct(product: prodChoise)));
+                                  SingleProduct(product: prodChoise!)));
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -685,7 +694,7 @@ class _HomeViewState extends State<HomeView>
                               child: Image(
                                 image: product.image != null &&
                                         product.image!.isNotEmpty
-                                    ? NetworkImage(product.image!)
+                                    ? NetworkImage(product.image ?? "")
                                         as ImageProvider
                                     : const AssetImage(
                                         "assets/images/default.jpg"),
@@ -791,7 +800,8 @@ class _HomeViewState extends State<HomeView>
         future: fetchPromos,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return _buildShimmerLoading(context, constraints,
+                isGrid: true, itemCount: 4);
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
@@ -951,7 +961,8 @@ class _HomeViewState extends State<HomeView>
         future: fetchMarques,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return _buildShimmerLoading(context, constraints,
+                isGrid: true, itemCount: 4);
           } else if (snapshot.hasError) {
             return Center(
               child: Text(
@@ -1026,4 +1037,86 @@ class _HomeViewState extends State<HomeView>
       ),
     );
   }
+
+  // Ajoutez cette méthode pour générer un effet Shimmer réutilisable
+  Widget _buildShimmerLoading(BuildContext context, BoxConstraints constraints,
+      {bool isHorizontal = false, bool isGrid = false, int itemCount = 3}) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: isHorizontal
+          ? ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: itemCount,
+              itemBuilder: (_, __) => Container(
+                width: constraints.maxWidth / 3,
+                margin: EdgeInsets.all(constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 5)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 20)),
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      width: constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 100),
+                      height: constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 100),
+                      color: Colors.grey[300],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(top: 8),
+                      width: 60,
+                      height: 8,
+                      color: Colors.grey[300],
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : isGrid
+              ? GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.72,
+                  ),
+                  itemCount: itemCount,
+                  itemBuilder: (_, __) => Container(
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 150,
+                          color: Colors.grey[300],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 8, left: 8),
+                          width: 100,
+                          height: 10,
+                          color: Colors.grey[300],
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  itemCount: itemCount,
+                  itemBuilder: (_, __) => Container(
+                    margin: EdgeInsets.all(8),
+                    height: 100,
+                    color: Colors.grey[300],
+                  ),
+                ),
+    );
+  }
+
+// Appliquez le même principe pour les autres sections (_populaires, _marques, etc.)
 }

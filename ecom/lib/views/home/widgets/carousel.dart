@@ -10,6 +10,7 @@ import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/detail/single.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MyCarouselWidget extends StatefulWidget {
   final constraints;
@@ -82,7 +83,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
               stream: _articlesStream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return buildShimmerCarousel(widget.constraints, context);
                 } else if (snapshot.hasError) {
                   return Text("err", style: GoogleFonts.roboto(fontSize: 20));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -271,4 +272,99 @@ class _MyCarouselState extends State<MyCarouselWidget> {
       ),
     );
   }
+  Widget buildShimmerCarousel(BoxConstraints constraints, BuildContext context) {
+  return CarouselSlider(
+    items: List.generate(
+      3, // Nombre de slides fictifs
+      (index) => Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(
+          horizontal: constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 16),
+          vertical: constraints.maxWidth *
+              AppSizes.converValueToadapter(context, 8),
+        ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+          ),
+          color: Colors.grey[300], // Fond du container
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // 🔹 Shimmer pour le titre
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: constraints.maxWidth * 0.5,
+                      height: 16,
+                      color: Colors.grey[350],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+
+                  // 🔹 Shimmer pour le texte de réduction
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: constraints.maxWidth * 0.7,
+                      height: 20,
+                      color: Colors.grey[350],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+
+                  // 🔹 Shimmer pour le bouton
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: constraints.maxWidth * 0.4,
+                      height: 40,
+                      color: Colors.grey[350],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // 🔹 Shimmer pour l'image produit
+            Expanded(
+              flex: 1,
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: constraints.maxWidth * 0.3,
+                  height: constraints.maxWidth * 0.3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                    ),
+                    color: Colors.grey[350],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    options: CarouselOptions(
+      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 180),
+      enlargeCenterPage: true,
+      autoPlay: false,
+      viewportFraction: 0.8,
+    ),
+  );
+}
 }

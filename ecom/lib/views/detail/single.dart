@@ -224,10 +224,12 @@ class _SingleProductState extends State<SingleProduct> {
               // _actionsButtons(context, addToCart),
             ])),
             SliverFillRemaining(
+              // hasScrollBody: true, // Empêche les débordements
+              fillOverscroll: true,
               child: DefaultTabController(
                   length: 3,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                     mainAxisSize: MainAxisSize.min, // Évite le débordement
                     children: [
                       SizedBox(
                         height: constraints.maxWidth *
@@ -289,15 +291,20 @@ class _SingleProductState extends State<SingleProduct> {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: TabBarView(
-                          children: [
-                            _productRelated(context, constraints),
-                            _notation(context, constraints),
-                            _avis(context, constraints)
-                          ],
-                        ),
-                      )
+                   Expanded( // Permet au contenu de prendre toute la place disponible
+                            child: SingleChildScrollView( // Ajouté pour éviter le bug d'affichage
+                              child: SizedBox(
+                                height: constraints.maxHeight, // Prend toute la hauteur dispo
+                                child: TabBarView(
+                                  children: [
+                  _productRelated(context, constraints),
+                  _notation(context, constraints),
+                  _avis(context, constraints),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                     ],
                   )),
             )

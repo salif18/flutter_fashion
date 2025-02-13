@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:ecom/components/generatedStarProduct.dart';
 import 'package:ecom/models/marques_model.dart';
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/providers/cart_provider.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mdi_icons/flutter_mdi_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class StoresView extends StatefulWidget {
   final String? categoSelected;
@@ -515,9 +517,7 @@ class _StoresViewState extends State<StoresView> {
     return Container(
       padding:  EdgeInsets.symmetric(horizontal: 0),
       child: isLoading
-          ? const Center(
-              // child:CircularProgressIndicator(), // Affiche le loader si isLoading est vrai
-            )
+          ? _buildShimmerLoading(context, constraints, itemCount: 5)
           : GridView.builder(
   physics: const NeverScrollableScrollPhysics(), // Désactive le défilement interne
   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -547,4 +547,120 @@ class _StoresViewState extends State<StoresView> {
 
     );
   }
+  
+ Widget _buildShimmerLoading(BuildContext context, constraints, {int itemCount = 10}) {
+  return SizedBox(
+    height: constraints.maxHeight,
+    child: GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.72,
+      ),
+      itemCount: itemCount,
+      itemBuilder: (_, __) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+          ),
+          color: Colors.white, // Fond général du conteneur
+        ),
+        margin: EdgeInsets.all(
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 4),
+        ),
+        padding: EdgeInsets.all(
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+        ),
+        width: constraints.maxWidth / 2.14,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 🔹 Image principale du produit (Shimmer appliqué uniquement ici)
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: constraints.maxWidth,
+                height: constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 125),
+                decoration: BoxDecoration(
+                  color: Colors.grey[350],
+                  borderRadius: BorderRadius.circular(
+                    constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+
+            // 🔹 Liste des couleurs disponibles (Shimmer sur chaque couleur)
+            SizedBox(
+              height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        right: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[350],
+                        shape: BoxShape.rectangle,
+                      ),
+                      width: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+
+            // 🔹 Nom du produit (Shimmer appliqué sur le texte)
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: constraints.maxWidth * 0.5,
+                height: 16,
+                color: Colors.grey[350],
+              ),
+            ),
+            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
+
+            // 🔹 Prix (Shimmer appliqué)
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: constraints.maxWidth * 0.3,
+                height: 14,
+                color: Colors.grey[350],
+              ),
+            ),
+            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
+
+            // 🔹 Évaluation (rating) en Shimmer
+            Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: constraints.maxWidth * 0.4,
+                height: 14,
+                color: Colors.grey[350],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+
 }
