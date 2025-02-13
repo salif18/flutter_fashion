@@ -1,7 +1,8 @@
-import 'dart:async' show Future, StreamController;
+import 'dart:async' show Future, StreamController, TimeoutException;
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:ecom/models/produits_model.dart';
 import 'package:ecom/services/products_api.dart';
@@ -52,7 +53,13 @@ class _MyCarouselState extends State<MyCarouselWidget> {
       } else {
         _articlesController.addError("Aucune offre spéciale trouvée");
       }
-    } catch (e) {
+    }on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+    }  catch (e) {
       _articlesController.addError("Erreur: ${e.toString()}");
     }
   }
@@ -85,7 +92,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return buildShimmerCarousel(widget.constraints, context);
                 } else if (snapshot.hasError) {
-                  return Text("err", style: GoogleFonts.roboto(fontSize: 20));
+                  return Text("Une erreur s'est produite", style: GoogleFonts.roboto(fontSize: 20));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return Text(
                     "No data available",

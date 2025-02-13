@@ -21,9 +21,10 @@ class _PromoViewState extends State<PromoView> {
   ServicesAPiProducts api = ServicesAPiProducts();
 
   Stream<List<ProductModel>> fetchProductPromoData() async* {
-    final res = await api.getAllPromo();
-    final body = res.data;
+  
     try {
+        final res = await api.getAllPromo();
+    final body = res.data;
       if (res.statusCode == 200) {
         // Vérifiez la structure ici
         yield (body["offres"] as List)
@@ -40,6 +41,8 @@ class _PromoViewState extends State<PromoView> {
       api.showSnackBarErrorPersonalized(
           context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
       print("Erreur : Temps d'attente dépassé.");
+    }catch (e) {
+      throw Exception("Erreur serveur  : $e");
     }
   }
 

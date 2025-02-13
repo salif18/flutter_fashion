@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dio/dio.dart';
 import 'package:ecom/models/order_model.dart';
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/services/order_api.dart';
@@ -46,7 +49,15 @@ class _AchatViewState extends State<AchatView> {
       } else {
         throw Exception("Erreur serveur : ${res.statusCode}");
       }
-    } catch (e) {
+    } on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    }catch (e) {
       throw Exception("Erreur serveur  : $e");
     }
   }

@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/routes.dart';
 import 'package:ecom/services/auth_api.dart';
@@ -76,7 +78,15 @@ class _LoginViewState extends State<LoginView> {
           // ignore: use_build_context_synchronously
           api.showSnackBarErrorPersonalized(context, body["message"]);
         }
-      } catch (e) {
+      }on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    } catch (e) {
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialog
         // ignore: use_build_context_synchronously

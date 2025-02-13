@@ -59,9 +59,9 @@ class _HomeViewState extends State<HomeView>
   }
 
   Future<List<CategoryModel>> fetchCategoriData() async {
-    final res = await api.getAllCategorys();
-    final body = res.data;
     try {
+      final res = await api.getAllCategorys();
+      final body = res.data;
       if (res.statusCode == 200) {
         //print("Body: $body"); // Vérifiez la structure ici
         return (body["categories"] as List)
@@ -83,9 +83,9 @@ class _HomeViewState extends State<HomeView>
   }
 
   Future<List<ProductModel>> fetchProductData() async {
-    final res = await api.getAllProducts();
-    final body = res.data;
     try {
+      final res = await api.getAllProducts();
+      final body = res.data;
       if (res.statusCode == 200) {
         setState(() {
           _products = (body["produits"] as List)
@@ -113,9 +113,9 @@ class _HomeViewState extends State<HomeView>
   }
 
   Future<List<PopulairesModel>> fetchProductPopulaires() async {
-    final res = await api.getProductPlusAchete();
-    final body = res.data;
     try {
+      final res = await api.getProductPlusAchete();
+      final body = res.data;
       if (res.statusCode == 200) {
         return (body["produitsLesPlusAchetés"] as List)
             .map((json) => PopulairesModel.fromJson(json))
@@ -138,9 +138,9 @@ class _HomeViewState extends State<HomeView>
   }
 
   Future<List<ProductModel>> fetchProductPromoData() async {
-    final res = await api.getPromo();
-    final body = res.data;
     try {
+      final res = await api.getPromo();
+      final body = res.data;
       if (res.statusCode == 200) {
         //print("Body: $body"); // Vérifiez la structure ici
         return (body["allOffre"] as List)
@@ -164,9 +164,9 @@ class _HomeViewState extends State<HomeView>
   }
 
   Future<List<MarquesModel>> fetchMarquesData() async {
-    final res = await marquesApi.getAllMarques();
-    final body = res.data;
     try {
+      final res = await marquesApi.getAllMarques();
+      final body = res.data;
       if (res.statusCode == 200) {
         //print("Body: $body"); // Vérifiez la structure ici
         return (body["marques"] as List)
@@ -655,11 +655,15 @@ class _HomeViewState extends State<HomeView>
                 itemBuilder: (BuildContext context, int index) {
                   final product = products[index];
 
-                  final prodChoise = _products.isNotEmpty ? _products.firstWhere(
-                    (item) => item.id == product.produitId , // Retourne un produit par défaut
-                  ) : null;
+                  final prodChoise = _products.isNotEmpty
+                      ? _products.firstWhere(
+                          (item) =>
+                              item.id ==
+                              product
+                                  .produitId, // Retourne un produit par défaut
+                        )
+                      : null;
 
-                
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(

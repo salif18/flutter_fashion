@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/routes.dart';
 import 'package:ecom/services/auth_api.dart';
@@ -79,7 +81,15 @@ class _RegistreViewState extends State<RegistreView> {
           // ignore: use_build_context_synchronously
           api.showSnackBarErrorPersonalized(context, body["message"]);
         }
-      } catch (e) {
+      }on DioException {
+      api.showSnackBarErrorPersonalized(
+          context, "Problème de connexion : Vérifiez votre Internet.");
+      print("Erreur de connexion : Impossible d'accéder au serveur.");
+    } on TimeoutException {
+      api.showSnackBarErrorPersonalized(
+          context, "Le serveur ne répond pas. Veuillez réessayer plus tard.");
+      print("Erreur : Temps d'attente dépassé.");
+    } catch (e) {
         if (!mounted) return; // Vérification avant l'utilisation de Navigator
         // ignore: use_build_context_synchronously
         Navigator.pop(context); // Fermer le dialogue
@@ -113,7 +123,7 @@ class _RegistreViewState extends State<RegistreView> {
             SliverFillRemaining(
               hasScrollBody: false,
               child: Container(
-                height: constraints.maxWidth * AppSizes.converValueToadapter(context,480),
+                height: constraints.maxWidth * AppSizes.converValueToadapter(context,600),
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(
                   top: constraints.maxWidth * AppSizes.converValueToadapter(context,20), 
