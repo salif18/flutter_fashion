@@ -212,7 +212,7 @@ class _HomeViewState extends State<HomeView>
           return CustomScrollView(
             slivers: [
               SliverAppBar(
-                backgroundColor: Colors.deepOrangeAccent, // Couleur opaque
+                backgroundColor: Colors.white, // Couleur opaque
                 elevation: 0, // Supprime l'ombre si nécessaire
                 // toolbarHeight: 100,
                 toolbarHeight: constraints.maxWidth *
@@ -227,7 +227,7 @@ class _HomeViewState extends State<HomeView>
                       LineIcons.bars,
                       size: constraints.maxWidth *
                           AppSizes.converValueToadapter(context, 30),
-                      color: Colors.white,
+                      color: Colors.black,
                     )),
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text("Stylify",
@@ -235,7 +235,7 @@ class _HomeViewState extends State<HomeView>
                           fontSize: constraints.maxWidth *
                               AppSizes.converValueToadapter(context, 22),
                           fontWeight: FontWeight.bold,
-                          color: Colors.white)),
+                          color: Colors.deepOrangeAccent)),
                 ),
                 actions: [
                   Consumer<CartProvider>(
@@ -248,7 +248,7 @@ class _HomeViewState extends State<HomeView>
                                 MaterialPageRoute(
                                     builder: (context) => const CartView())),
                             icon: Icon(Icons.shopping_cart_outlined,
-                                color: Colors.white,
+                                color: Colors.deepOrange,
                                 size: constraints.maxWidth *
                                     AppSizes.converValueToadapter(context, 30)),
                           ),
