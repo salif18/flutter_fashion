@@ -582,7 +582,7 @@ class _StoresViewState extends State<StoresView> {
     final filteredProducts = _filteredProducts;
     bool isLoading = filteredProducts.isEmpty;
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 0),
+        padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
         child: isLoading
             ? _buildShimmerLoading(context, constraints, itemCount: 5)
             : GridView.builder(
@@ -590,10 +590,10 @@ class _StoresViewState extends State<StoresView> {
                     const NeverScrollableScrollPhysics(), // Désactive le défilement interne
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Nombre de colonnes
-                  crossAxisSpacing: 2, // Espacement horizontal entre les cartes
-                  mainAxisSpacing: 2, // Espacement vertical entre les cartes
+                  crossAxisSpacing: 0, // Espacement horizontal entre les cartes
+                  mainAxisSpacing: 0, // Espacement vertical entre les cartes
                   childAspectRatio:
-                      0.72, // Ratio largeur/hauteur pour les cartes
+                      0.75, // Ratio largeur/hauteur pour les cartes
                 ),
                 shrinkWrap: true, // Adapte la hauteur du GridView à son contenu
                 itemCount: filteredProducts.length,

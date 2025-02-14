@@ -76,7 +76,7 @@ class _PromoViewState extends State<PromoView> {
                     horizontal: constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 16),
                     vertical: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 0)),
+                        AppSizes.converValueToadapter(context, 20)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -135,18 +135,14 @@ class _PromoViewState extends State<PromoView> {
                 } else {
                   final products = snapshot.data!;
                   return SliverPadding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 16),
-                        vertical: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 8)),
+                    padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                     sliver: SliverGrid(
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 0.78,
+                          crossAxisSpacing: 4,
+                          mainAxisSpacing: 1,
+                          childAspectRatio: 0.85,
                         ),
                         delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
@@ -167,8 +163,8 @@ class _PromoViewState extends State<PromoView> {
                                         .maxWidth *
                                     AppSizes.converValueToadapter(context, 16)),
                               ),
-                              padding: EdgeInsets.all(constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 8)),
+                              // padding: EdgeInsets.all(constraints.maxWidth *
+                              //     AppSizes.converValueToadapter(context, 8)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -178,7 +174,12 @@ class _PromoViewState extends State<PromoView> {
                                       height: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
                                               context, 150),
+                                               padding: EdgeInsets.all(
+                          constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            ),
                                       decoration: BoxDecoration(
+                                        color: Colors.grey[100],
                                         borderRadius: BorderRadius.circular(
                                             constraints.maxWidth *
                                                 AppSizes.converValueToadapter(
@@ -235,18 +236,25 @@ class _PromoViewState extends State<PromoView> {
                                       height: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
                                               context, 10)),
-                                  Text(
-                                    product.name ?? "",
-                                    style: GoogleFonts.roboto(
-                                      fontSize: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 14),
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textColor,
+                                  Container(
+                                     padding: EdgeInsets.symmetric(
+                          horizontal: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            vertical: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 2),),
+                                    child: Text(
+                                      product.name ?? "",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 12),
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.textColor,
+                                      ),
+                                      // softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
+                                      // maxLines: 2,
                                     ),
-                                    // softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                    // maxLines: 2,
                                   ),
                                 ],
                               ),

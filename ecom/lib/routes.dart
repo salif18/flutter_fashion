@@ -1,16 +1,16 @@
-import 'package:ecom/providers/auth_provider.dart';
+// import 'package:ecom/providers/auth_provider.dart';
 import 'package:ecom/utils/app_color.dart';
 import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/achats/achat.dart';
-import 'package:ecom/views/auth/login_view.dart';
+// import 'package:ecom/views/auth/login_view.dart';
 import 'package:ecom/views/home/home.dart';
 import 'package:ecom/views/favorites/favorites.dart';
 import 'package:ecom/views/promo/promo.dart';
 import 'package:ecom/views/store/stores.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
+// import 'package:flutter/rendering.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:provider/provider.dart';
 import 'package:flutter_mdi_icons/flutter_mdi_icons.dart';
 
 class Routes extends StatefulWidget {

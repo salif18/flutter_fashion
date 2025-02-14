@@ -114,12 +114,15 @@ class _ProductCardState extends State<ProductCard> {
           widget.constraints.maxWidth *
               AppSizes.converValueToadapter(context, 10),
         ),
-        // color: const Color.fromARGB(239, 245, 245, 245),
+        // border: Border.all(
+        //   width: 0.09
+        // ),
+        // color: Colors.grey[100]
       ),
       margin: EdgeInsets.all(widget.constraints.maxWidth *
           AppSizes.converValueToadapter(context, 4)),
       padding: EdgeInsets.all(
-        widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+        widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 0),
       ),
       width: widget.constraints.maxWidth / 2.14,
       child: Column(
@@ -129,11 +132,13 @@ class _ProductCardState extends State<ProductCard> {
           Container(
             width: widget.constraints.maxWidth,
             height: widget.constraints.maxWidth *
-                AppSizes.converValueToadapter(context, 125),
-            padding: EdgeInsets.all(widget.constraints.maxWidth *
-                AppSizes.converValueToadapter(context, 5)),
+                AppSizes.converValueToadapter(context, 150),
+             padding: EdgeInsets.all(
+                          widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            ),
             decoration: BoxDecoration(
-              color: AppColors.productBackground,
+              color: Colors.grey[100],
               borderRadius: BorderRadius.circular(
                 widget.constraints.maxWidth *
                     AppSizes.converValueToadapter(context, 10),
@@ -157,48 +162,48 @@ class _ProductCardState extends State<ProductCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: widget.constraints.maxWidth *
-                      AppSizes.converValueToadapter(context, 20),
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: widget.product.othersColors.length,
-                    itemBuilder: (context, index) {
-                      final colorChoice = widget.product.othersColors[index];
-                      // Vérifiez si le stock est insuffisant
-                      if (colorChoice.stock > 0) {
-                        return GestureDetector(
-                          onTap: () {
-                            changeImage(colorChoice.images ?? "");
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(
-                              right: widget.constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 8),
-                            ),
-                            decoration: BoxDecoration(
-                              color: parsedColor(colorChoice.color ?? ""),
-                              border: Border.all(color: Colors.grey),
-                              shape: BoxShape
-                                  .rectangle, // Rectangle pour le conteneur
-                            ),
-                            width: widget.constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 20),
-                            height: widget.constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 20),
-                          ),
-                        );
-                      } else {
-                        return const SizedBox
-                            .shrink(); // Retourne un widget vide
-                      }
-                    },
-                  ),
-                ),
+                // SizedBox(
+                //   height: widget.constraints.maxWidth *
+                //       AppSizes.converValueToadapter(context, 20),
+                //   child: ListView.builder(
+                //     padding: const EdgeInsets.symmetric(horizontal: 0),
+                //     scrollDirection: Axis.horizontal,
+                //     itemCount: widget.product.othersColors.length,
+                //     itemBuilder: (context, index) {
+                //       final colorChoice = widget.product.othersColors[index];
+                //       // Vérifiez si le stock est insuffisant
+                //       if (colorChoice.stock > 0) {
+                //         return GestureDetector(
+                //           onTap: () {
+                //             changeImage(colorChoice.images ?? "");
+                //           },
+                //           child: Container(
+                //             margin: EdgeInsets.only(
+                //               right: widget.constraints.maxWidth *
+                //                   AppSizes.converValueToadapter(context, 8),
+                //             ),
+                //             decoration: BoxDecoration(
+                //               color: parsedColor(colorChoice.color ?? ""),
+                //               border: Border.all(color: Colors.grey),
+                //               shape: BoxShape
+                //                   .rectangle, // Rectangle pour le conteneur
+                //             ),
+                //             width: widget.constraints.maxWidth *
+                //                 AppSizes.converValueToadapter(context, 20),
+                //             height: widget.constraints.maxWidth *
+                //                 AppSizes.converValueToadapter(context, 20),
+                //           ),
+                //         );
+                //       } else {
+                //         return const SizedBox
+                //             .shrink(); // Retourne un widget vide
+                //       }
+                //     },
+                //   ),
+                // ),
                 SizedBox(
                     height: widget.constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 2)),
+                        AppSizes.converValueToadapter(context, 1)),
 
                 // Nom du produit
                 Row(
@@ -207,14 +212,16 @@ class _ProductCardState extends State<ProductCard> {
                     Flexible(
                       child: Container(
                         padding: EdgeInsets.symmetric(
+                          horizontal: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
                             vertical: widget.constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 2)),
+                                AppSizes.converValueToadapter(context, 2),),
                         child: Text(
                           widget.product.name ?? "",
                           style: GoogleFonts.roboto(
                             fontSize: widget.constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 14),
-                            fontWeight: FontWeight.bold,
+                                AppSizes.converValueToadapter(context, 12),
+                           
                             color: AppColors.textColor,
                           ),
                           // softWrap: true,
@@ -227,19 +234,27 @@ class _ProductCardState extends State<ProductCard> {
                 ),
 
                 // Prix
-                Text(
-                  "${widget.product.price.toStringAsFixed(2)} FCFA",
-                  style: GoogleFonts.roboto(
-                    fontSize: widget.constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 14),
-                    color: AppColors.textColor,
+                Container(
+                  padding: EdgeInsets.symmetric( horizontal: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),),
+                  child: Text(
+                    "${widget.product.price.toStringAsFixed(2)} FCFA",
+                    style: GoogleFonts.roboto(
+                      fontSize: widget.constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 14),
+                           fontWeight: FontWeight.bold,
+                      color: Colors.deepOrange,
+                    ),
                   ),
                 ),
                 SizedBox(
                     height: widget.constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 3)),
                 // Évaluation (rating)
-                GeneratedStarRating(rating: widget.product.rating ?? 0),
+                Container(
+                    padding: EdgeInsets.symmetric( horizontal: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),),
+                  child: GeneratedStarRating(rating: widget.product.rating ?? 0,constraints:widget.constraints)),
               ],
             ),
           ),

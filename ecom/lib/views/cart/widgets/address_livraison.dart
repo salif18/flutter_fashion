@@ -95,9 +95,11 @@ class _AddressLivraisonState extends State<AddressLivraison> {
       } else {
         if (!mounted) return;
         api.showSnackBarErrorPersonalized(context, body["message"]);
+          Navigator.pop(context);
       }
     } catch (e) {
       Exception(e);
+        Navigator.pop(context);
     }
     }
   }

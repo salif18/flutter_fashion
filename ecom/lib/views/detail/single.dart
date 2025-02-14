@@ -438,7 +438,7 @@ class _SingleProductState extends State<SingleProduct> {
                             ],
                           ),
                           GeneratedStarRating(
-                              rating: widget.product.rating ?? 0),
+                              rating: widget.product.rating ?? 0,constraints: constraints,),
                         ],
                       ),
                     ),
@@ -593,7 +593,7 @@ class _SingleProductState extends State<SingleProduct> {
                     width: constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 35),
                     height: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 40),
+                        AppSizes.converValueToadapter(context, 35),
                   ),
                 );
               } else {
@@ -793,7 +793,7 @@ class _SingleProductState extends State<SingleProduct> {
                 height: constraints.maxWidth *
                     AppSizes.converValueToadapter(context, 40),
                 decoration: BoxDecoration(
-                    color: AppColors.productBackground,
+                    color: Colors.amber,
                     borderRadius: BorderRadius.circular(constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 10))),
                 child: Consumer<FavoriteProvider>(
@@ -817,7 +817,7 @@ class _SingleProductState extends State<SingleProduct> {
                               Icons.favorite,
                               size: constraints.maxWidth *
                                   AppSizes.converValueToadapter(context, 24),
-                              color: Colors.red,
+                              color: Colors.black,
                             ),
                     ),
                   );
@@ -837,7 +837,7 @@ class _SingleProductState extends State<SingleProduct> {
                             AppSizes.converValueToadapter(context, 200),
                         constraints.maxWidth *
                             AppSizes.converValueToadapter(context, 40)),
-                    backgroundColor: AppColors.banerBtnNavigatorBackground,
+                    backgroundColor: Colors.deepOrange,
                   ),
                   onPressed: () {
                     // Vérifier la catégorie du produit et valider les sélections
@@ -987,135 +987,158 @@ class _SingleProductState extends State<SingleProduct> {
                 } else {
                   final products = snapshot.data!;
                   return Expanded(
-                    child: GridView.builder(
-                      physics: ScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 0.1,
-                        mainAxisSpacing: 1,
-                        childAspectRatio: 0.66,
-                      ),
-                      itemCount: products.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final product = products[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        SingleProduct(product: product)));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                // color: AppColors.productBackground,
-                                borderRadius: BorderRadius.circular(
-                                    constraints.maxWidth *
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                      child: GridView.builder(
+                        physics: ScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 0,
+                          mainAxisSpacing: 0,
+                          childAspectRatio: 0.75,
+                        ),
+                        itemCount: products.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final product = products[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SingleProduct(product: product)));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  // color: AppColors.productBackground,
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 15))),
+                              margin: EdgeInsets.all(constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 5)),
+                              // padding: EdgeInsets.all(constraints.maxWidth *
+                              //     AppSizes.converValueToadapter(context, 10)),
+                              width: constraints.maxWidth / 2.14,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: constraints.maxWidth,
+                                    height: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
-                                            context, 15))),
-                            margin: EdgeInsets.all(constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5)),
-                            padding: EdgeInsets.all(constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 10)),
-                            width: constraints.maxWidth / 2.14,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: constraints.maxWidth,
-                                  height: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 120),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: Image(
-                                    image: product.image != null &&
-                                            product.image!.isNotEmpty
-                                        ? NetworkImage(product.image!)
-                                            as ImageProvider
-                                        : const AssetImage(
-                                            "assets/images/default.jpg"),
-                                    fit: BoxFit.contain,
+                                            context, 150),
+                                               padding: EdgeInsets.all(
+                          constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(20)),
+                                    child: Image(
+                                      image: product.image != null &&
+                                              product.image!.isNotEmpty
+                                          ? NetworkImage(product.image!)
+                                              as ImageProvider
+                                          : const AssetImage(
+                                              "assets/images/default.jpg"),
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Container(
-                                        padding: EdgeInsets.only(
-                                            top: constraints.maxWidth *
-                                                AppSizes.converValueToadapter(
-                                                    context, 10)),
-                                        child: Text(
-                                          product.name ?? "",
-                                          style: GoogleFonts.roboto(
-                                              fontSize: constraints.maxWidth *
-                                                  AppSizes.converValueToadapter(
-                                                      context, 14),
-                                              fontWeight: FontWeight.bold,
-                                              color: AppColors.textColor),
-                                          // softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          // maxLines: 2,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                          horizontal: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            vertical: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 2),),
+                                          child: Text(
+                                            product.name ?? "",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: constraints.maxWidth *
+                                                    AppSizes.converValueToadapter(
+                                                        context, 12),
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.textColor),
+                                            // softWrap: true,
+                                            overflow: TextOverflow.ellipsis,
+                                            // maxLines: 2,
+                                          ),
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  // Text(
+                                  //   product.category ?? "",
+                                  //   style: GoogleFonts.roboto(
+                                  //     fontSize: constraints.maxWidth *
+                                  //         AppSizes.converValueToadapter(
+                                  //             context, 14),
+                                  //     fontWeight: FontWeight.w300,
+                                  //     color: AppColors.textColor,
+                                  //   ),
+                                  //   maxLines: 2,
+                                  //   overflow: TextOverflow.ellipsis,
+                                  // ),
+                                  // SizedBox(
+                                  //     height: constraints.maxWidth *
+                                  //         AppSizes.converValueToadapter(
+                                  //             context, 2)),
+                                  // Text(
+                                  //   product.subCategory ?? "",
+                                  //   style: GoogleFonts.roboto(
+                                  //     fontSize: constraints.maxWidth *
+                                  //         AppSizes.converValueToadapter(
+                                  //             context, 14),
+                                  //     fontWeight: FontWeight.w300,
+                                  //     color: AppColors.textColor,
+                                  //   ),
+                                  //   maxLines: 2,
+                                  //   overflow: TextOverflow.ellipsis,
+                                  // ),
+                                  SizedBox(
+                                      height: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 2)),
+                                  Container(
+                                    padding:EdgeInsets.symmetric(
+                          horizontal: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            vertical: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 2),),
+                                    child: Text(
+                                      "${product.price.toStringAsFixed(1)} FCFA",
+                                      style: GoogleFonts.roboto(
+                                        fontSize: constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 14),
+                                                fontWeight: FontWeight.bold,
+                                        color: Colors.deepOrange,
+                                      ),
                                     ),
-                                  ],
-                                ),
-                                Text(
-                                  product.category ?? "",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 14),
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.textColor,
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(
-                                    height: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 2)),
-                                Text(
-                                  product.subCategory ?? "",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 14),
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.textColor,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                SizedBox(
-                                    height: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 2)),
-                                Text(
-                                  "${product.price.toStringAsFixed(2)} FCFA",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 14),
-                                    color: AppColors.textColor,
-                                  ),
-                                ),
-                                SizedBox(
-                                    height: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 3)),
-                                GeneratedStarRating(rating: product.rating!)
-                              ],
+                                  SizedBox(
+                                      height: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 3)),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                          horizontal: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),
+                            vertical: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 1),),
+                                    child: GeneratedStarRating(rating: product.rating!,constraints: constraints,))
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   );
                 }

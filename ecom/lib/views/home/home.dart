@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:ecom/components/drawer.dart';
+import 'package:ecom/components/shimmer_widget.dart';
 // import 'package:ecom/components/generatedStarProduct.dart';
 // import 'package:ecom/components/generatedStart.dart';
 import 'package:ecom/models/categorie_model.dart';
@@ -229,10 +230,10 @@ class _HomeViewState extends State<HomeView>
                       color: Colors.white,
                     )),
                 flexibleSpace: FlexibleSpaceBar(
-                  title: Text("Online Shop".toUpperCase(),
-                      style: GoogleFonts.roboto(
+                  title: Text("Stylify",
+                      style: GoogleFonts.aladin(
                           fontSize: constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 15),
+                              AppSizes.converValueToadapter(context, 22),
                           fontWeight: FontWeight.bold,
                           color: Colors.white)),
                 ),
@@ -316,7 +317,7 @@ class _HomeViewState extends State<HomeView>
             title,
             style: GoogleFonts.roboto(
               fontSize: constraints.maxWidth *
-                  AppSizes.converValueToadapter(context, 18),
+                  AppSizes.converValueToadapter(context, 15),
               fontWeight: FontWeight.bold,
               color: AppColors.textColor,
             ),
@@ -352,7 +353,7 @@ class _HomeViewState extends State<HomeView>
             title,
             style: GoogleFonts.roboto(
               fontSize: constraints.maxWidth *
-                  AppSizes.converValueToadapter(context, 18),
+                  AppSizes.converValueToadapter(context, 15),
               fontWeight: FontWeight.bold,
               color: AppColors.textColor,
             ),
@@ -382,8 +383,8 @@ class _HomeViewState extends State<HomeView>
           future: fetchCategories,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return _buildShimmerLoading(context, constraints,
-                  isHorizontal: true, itemCount: 5);
+              return _buildShimmerLoadingForCategory(context, constraints,
+                  itemCount: 5);
             } else if (snapshot.hasError) {
               return Center(
                   child: Text(
@@ -437,28 +438,23 @@ class _HomeViewState extends State<HomeView>
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              // width: constraints.maxWidth *
-                              //     AppSizes.converValueToadapter(context, 100),
-                              // height: constraints.maxWidth *
-                              //     AppSizes.converValueToadapter(context, 100),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 100))),
-                              child: Image.network(
-                                categorie.image ??
-                                    "", // Laisse une chaîne vide si l'URL est null
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                      "assets/images/default.jpg",
-                                      fit: BoxFit.contain);
-                                },
-                              ),
+                          Container(
+                            width: constraints.maxWidth,
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 120),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 100))),
+                            child: Image.network(
+                              categorie.image ??
+                                  "", // Laisse une chaîne vide si l'URL est null
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset("assets/images/default.jpg",
+                                    fit: BoxFit.contain);
+                              },
                             ),
                           ),
 
@@ -467,13 +463,13 @@ class _HomeViewState extends State<HomeView>
                           //       AppSizes.converValueToadapter(context, 10),
                           // ),
                           Expanded(
-                            flex: 1,
+                            // flex: 1,
                             child: Text(
                               categorie.category ?? "",
                               style: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 14),
+                                          context, 12),
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textColor),
                             ),
@@ -551,32 +547,29 @@ class _HomeViewState extends State<HomeView>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            height: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 150),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(constraints
-                                      .maxWidth *
-                                  AppSizes.converValueToadapter(context, 10)),
-                              image: DecorationImage(
-                                image: product.image != null &&
-                                        product.image!.isNotEmpty
-                                    ? NetworkImage(product.image!)
-                                        as ImageProvider
-                                    : const AssetImage(
-                                        "assets/images/default.jpg"),
-                                fit: BoxFit.contain,
-                              ),
+                        Container(
+                          height: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 135),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                constraints.maxWidth *
+                                    AppSizes.converValueToadapter(context, 10)),
+                            image: DecorationImage(
+                              image: product.image != null &&
+                                      product.image!.isNotEmpty
+                                  ? NetworkImage(product.image!)
+                                      as ImageProvider
+                                  : const AssetImage(
+                                      "assets/images/default.jpg"),
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
                         SizedBox(
                             height: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 16)),
+                                AppSizes.converValueToadapter(context, 8)),
                         Expanded(
-                          flex: 1,
+                          // flex: 1,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -585,7 +578,7 @@ class _HomeViewState extends State<HomeView>
                                 style: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 14),
+                                          context, 12),
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textColor,
                                 ),
@@ -597,7 +590,7 @@ class _HomeViewState extends State<HomeView>
                                 style: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 14),
+                                          context, 12),
                                   fontWeight: FontWeight.w300,
                                   color: AppColors.textColor,
                                 ),
@@ -686,24 +679,23 @@ class _HomeViewState extends State<HomeView>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            flex: 3,
-                            child: Container(
-                              width: constraints.maxWidth,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(
-                                      constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 20))),
-                              child: Image(
-                                image: product.image != null &&
-                                        product.image!.isNotEmpty
-                                    ? NetworkImage(product.image ?? "")
-                                        as ImageProvider
-                                    : const AssetImage(
-                                        "assets/images/default.jpg"),
-                                fit: BoxFit.contain,
-                              ),
+                          Container(
+                            width: constraints.maxWidth,
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 130),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 20))),
+                            child: Image(
+                              image: product.image != null &&
+                                      product.image!.isNotEmpty
+                                  ? NetworkImage(product.image ?? "")
+                                      as ImageProvider
+                                  : const AssetImage(
+                                      "assets/images/default.jpg"),
+                              fit: BoxFit.contain,
                             ),
                           ),
                           Expanded(
@@ -726,7 +718,7 @@ class _HomeViewState extends State<HomeView>
                                           style: GoogleFonts.roboto(
                                               fontSize: constraints.maxWidth *
                                                   AppSizes.converValueToadapter(
-                                                      context, 14),
+                                                      context, 12),
                                               fontWeight: FontWeight.bold,
                                               color: AppColors.textColor),
                                           // softWrap: true,
@@ -737,18 +729,18 @@ class _HomeViewState extends State<HomeView>
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  product.categorie ?? "",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 14),
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.textColor,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                // Text(
+                                //   product.categorie ?? "",
+                                //   style: GoogleFonts.roboto(
+                                //     fontSize: constraints.maxWidth *
+                                //         AppSizes.converValueToadapter(
+                                //             context, 14),
+                                //     fontWeight: FontWeight.w300,
+                                //     color: AppColors.textColor,
+                                //   ),
+                                //   maxLines: 2,
+                                //   overflow: TextOverflow.ellipsis,
+                                // ),
                                 SizedBox(
                                     height: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
@@ -758,7 +750,7 @@ class _HomeViewState extends State<HomeView>
                                   style: GoogleFonts.roboto(
                                     fontSize: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
-                                            context, 14),
+                                            context, 12),
                                     fontWeight: FontWeight.w300,
                                     color: AppColors.textColor,
                                   ),
@@ -796,7 +788,7 @@ class _HomeViewState extends State<HomeView>
     return Container(
       width: constraints.maxWidth,
       height:
-          constraints.maxWidth * AppSizes.converValueToadapter(context, 500),
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 430),
       padding: EdgeInsets.symmetric(
           horizontal: constraints.maxWidth *
               AppSizes.converValueToadapter(context, 16)),
@@ -832,9 +824,9 @@ class _HomeViewState extends State<HomeView>
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 0.72,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                childAspectRatio: 0.80,
               ),
               itemCount: products.take(4).length,
               itemBuilder: (BuildContext context, int index) {
@@ -852,76 +844,72 @@ class _HomeViewState extends State<HomeView>
                     height: constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 220),
                     decoration: BoxDecoration(
-                      color: AppColors.productBackground,
                       borderRadius: BorderRadius.circular(constraints.maxWidth *
                           AppSizes.converValueToadapter(context, 20)),
                     ),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 16)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                          flex: 4,
-                          child: Stack(children: [
-                            Container(
-                              width: constraints.maxWidth,
-                              height: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 150),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(constraints
-                                        .maxWidth *
-                                    AppSizes.converValueToadapter(context, 10)),
-                                image: DecorationImage(
-                                  image: product.image != null &&
-                                          product.image!.isNotEmpty
-                                      ? NetworkImage(product.image!)
-                                          as ImageProvider
-                                      : const AssetImage(
-                                          "assets/images/default.jpg"),
-                                  fit: BoxFit.contain,
-                                ),
+                        Stack(children: [
+                          Container(
+                            width: constraints.maxWidth,
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 150),
+                            padding: EdgeInsets.all(
+                              constraints.maxWidth *
+                                  AppSizes.converValueToadapter(context, 5),
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.productBackground,
+                              borderRadius: BorderRadius.circular(constraints
+                                      .maxWidth *
+                                  AppSizes.converValueToadapter(context, 10)),
+                              image: DecorationImage(
+                                image: product.image != null &&
+                                        product.image!.isNotEmpty
+                                    ? NetworkImage(product.image!)
+                                        as ImageProvider
+                                    : const AssetImage(
+                                        "assets/images/default.jpg"),
+                                fit: BoxFit.contain,
                               ),
                             ),
-                            Positioned(
-                                child: Container(
-                              width: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 50),
-                              height: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 50),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      // ignore: deprecated_member_use
-                                      color: Colors.black
-                                          // ignore: deprecated_member_use
-                                          .withOpacity(
-                                              0.2), // Couleur de l'ombre
-                                      spreadRadius:
-                                          2, // Élargissement de l'ombre
-                                      blurRadius: 5, // Flou de l'ombre
-                                      offset: const Offset(3,
-                                          3), // Déplacement horizontal et vertical
-                                    ),
-                                  ],
-                                  color: Colors.red,
-                                  borderRadius: BorderRadius.circular(
-                                      constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 20))),
-                              child: Text(
-                                "-${product.discountPercentage!.floor().toString()}%",
-                                style: GoogleFonts.roboto(
-                                    fontSize: constraints.maxWidth *
+                          ),
+                          Positioned(
+                              child: Container(
+                            width: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 50),
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 50),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    // ignore: deprecated_member_use
+                                    color: Colors.black
+                                        // ignore: deprecated_member_use
+                                        .withOpacity(0.2), // Couleur de l'ombre
+                                    spreadRadius: 2, // Élargissement de l'ombre
+                                    blurRadius: 5, // Flou de l'ombre
+                                    offset: const Offset(3,
+                                        3), // Déplacement horizontal et vertical
+                                  ),
+                                ],
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(
+                                    constraints.maxWidth *
                                         AppSizes.converValueToadapter(
-                                            context, 14),
-                                    color: Colors.white),
-                              ),
-                            ))
-                          ]),
-                        ),
+                                            context, 20))),
+                            child: Text(
+                              "-${product.discountPercentage!.floor().toString()}%",
+                              style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14),
+                                  color: Colors.white),
+                            ),
+                          ))
+                        ]),
                         SizedBox(
                             height: constraints.maxWidth *
                                 AppSizes.converValueToadapter(context, 16)),
@@ -931,7 +919,7 @@ class _HomeViewState extends State<HomeView>
                             product.name ?? "",
                             style: GoogleFonts.roboto(
                               fontSize: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 14),
+                                  AppSizes.converValueToadapter(context, 12),
                               fontWeight: FontWeight.bold,
                               color: AppColors.textColor,
                             ),
@@ -992,12 +980,12 @@ class _HomeViewState extends State<HomeView>
             return GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio:
-                    1, // Ajustement du ratio pour afficher correctement les images
-              ),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 1
+                  // Ajustement du ratio pour afficher correctement les images
+                  ),
               itemCount: marques.length,
               itemBuilder: (BuildContext context, int index) {
                 final marque = marques[index];
@@ -1011,8 +999,8 @@ class _HomeViewState extends State<HomeView>
                       borderRadius: BorderRadius.circular(constraints.maxWidth *
                           AppSizes.converValueToadapter(context, 10)),
                     ),
-                    margin: EdgeInsets.all(constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 10)),
+                    // margin: EdgeInsets.all(constraints.maxWidth *
+                    //     AppSizes.converValueToadapter(context, 10)),
                     padding: EdgeInsets.all(constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 8)),
                     child: Column(
@@ -1043,6 +1031,28 @@ class _HomeViewState extends State<HomeView>
   }
 
   // Ajoutez cette méthode pour générer un effet Shimmer réutilisable
+  Widget _buildShimmerLoadingForCategory(
+      BuildContext context, BoxConstraints constraints,
+      {int itemCount = 3}) {
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: itemCount,
+          itemBuilder: (_, __) => Container(
+              width: constraints.maxWidth / 2,
+              margin: EdgeInsets.all(constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 5)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 20)),
+              ),
+              child: _shimmerCardCategori(context, constraints)),
+        ));
+  }
+
+  // Ajoutez cette méthode pour générer un effet Shimmer réutilisable
   Widget _buildShimmerLoading(BuildContext context, BoxConstraints constraints,
       {bool isHorizontal = false, bool isGrid = false, int itemCount = 3}) {
     return Shimmer.fromColors(
@@ -1053,32 +1063,14 @@ class _HomeViewState extends State<HomeView>
               scrollDirection: Axis.horizontal,
               itemCount: itemCount,
               itemBuilder: (_, __) => Container(
-                width: constraints.maxWidth / 3,
-                margin: EdgeInsets.all(constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 5)),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(constraints.maxWidth *
-                      AppSizes.converValueToadapter(context, 20)),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 100),
-                      height: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 100),
-                      color: Colors.grey[300],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 8),
-                      width: 60,
-                      height: 8,
-                      color: Colors.grey[300],
-                    ),
-                  ],
-                ),
-              ),
+                  width: constraints.maxWidth / 2,
+                  margin: EdgeInsets.all(constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 5)),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 20)),
+                  ),
+                  child: _shimmerCard(context, constraints)),
             )
           : isGrid
               ? GridView.builder(
@@ -1113,14 +1105,77 @@ class _HomeViewState extends State<HomeView>
                 )
               : ListView.builder(
                   itemCount: itemCount,
-                  itemBuilder: (_, __) => Container(
-                    margin: EdgeInsets.all(8),
-                    height: 100,
-                    color: Colors.grey[300],
-                  ),
-                ),
+                  itemBuilder: (_, __) => _shimmerCard(context, constraints)),
     );
   }
 
-// Appliquez le même principe pour les autres sections (_populaires, _marques, etc.)
+  Widget _shimmerCardCategori(BuildContext context, constraints) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ShimmerWidget(
+            width: constraints.maxWidth,
+            height: constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 100),
+            // margin:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShimmerWidget(
+                    width: constraints.maxWidth,
+                    height: 10,
+                    margin: EdgeInsets.all(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 8)),
+                    // margin:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _shimmerCard(BuildContext context, constraints) {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ShimmerWidget(
+            width: constraints.maxWidth,
+            height: constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 120),
+            // margin:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+          ),
+          Expanded(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShimmerWidget(
+                    width: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 100),
+                    height: 10,
+                    margin: EdgeInsets.all(constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 8)),
+                  ),
+                  ShimmerWidget(
+                    width: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 80),
+                    height: 10,
+                    // margin:  EdgeInsets.all(constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

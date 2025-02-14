@@ -65,7 +65,7 @@ class ServicesAPiOrder {
       content: Text(message,
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: Colors.black,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 10),
       action: SnackBarAction(
         label: "",
         onPressed: () {
