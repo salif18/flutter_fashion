@@ -185,7 +185,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                                 widget.constraints.maxWidth *
                                                     AppSizes
                                                         .converValueToadapter(
-                                                            context, 40))),
+                                                            context, 30))),
                                         child: Text(
                                           "Acheter".toUpperCase(),
                                           style: GoogleFonts.roboto(
@@ -218,7 +218,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                               as ImageProvider
                                           : const AssetImage(
                                               "assets/images/default.jpg"),
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
@@ -230,7 +230,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                     }).toList(),
                     options: CarouselOptions(
                         height: widget.constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 180),
+                            AppSizes.converValueToadapter(context, 170),
                         enlargeCenterPage: true,
                         aspectRatio: widget.constraints.maxWidth *
                             AppSizes.converValueToadapter(context, 16) /
@@ -240,7 +240,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                         enableInfiniteScroll: true,
                         autoPlayAnimationDuration:
                             const Duration(milliseconds: 800),
-                        viewportFraction: 0.8,
+                        viewportFraction: 0.95,
                         onPageChanged: (index, reason) {
                           setState(() {
                             currentIndex = index;

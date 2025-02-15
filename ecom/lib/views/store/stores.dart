@@ -156,7 +156,7 @@ class _StoresViewState extends State<StoresView> {
   Widget build(BuildContext context) {
     return Scaffold(
       // const Color.fromARGB(239, 245, 245, 245),
-      backgroundColor: AppColors.backgroundPrincal,
+      backgroundColor: Colors.grey[100],
       key: _drawerKey,
       drawer: _buildFilterMenuDrawer(context),
       body: LayoutBuilder(builder: (context, constraints) {
@@ -185,15 +185,14 @@ class _StoresViewState extends State<StoresView> {
               ),
 
               leading: IconButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepOrange),
+               
 
                 onPressed: () {
                   _drawerKey.currentState!.openDrawer();
                 },
                 icon: Icon(
                   Mdi.tuneVariant,
-                  color: Colors.white,
+                  color: Colors.black,
                   size: constraints.maxWidth *
                       AppSizes.converValueToadapter(context, 24),
                 ),
@@ -308,7 +307,7 @@ class _StoresViewState extends State<StoresView> {
                   'Rechercher'.toUpperCase(),
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -329,7 +328,7 @@ class _StoresViewState extends State<StoresView> {
                     hintText: 'Que voulez-vous ?',
                     hintStyle: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 12),
                         color: AppColors.textColor),
                   ),
                 ),
@@ -340,7 +339,7 @@ class _StoresViewState extends State<StoresView> {
                   'Filtrer par prix'.toUpperCase(),
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -366,7 +365,7 @@ class _StoresViewState extends State<StoresView> {
                   'Filtrer par individus'.toUpperCase(),
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -380,6 +379,8 @@ class _StoresViewState extends State<StoresView> {
                     return FilterChip(
                       label: Text(type,
                           style: GoogleFonts.roboto(
+                              fontSize:  constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 12),
                             color: _subCategoryFilter == type
                                 ? Colors.white
                                 : null,
@@ -410,7 +411,7 @@ class _StoresViewState extends State<StoresView> {
                   'Filtrer par Catégories'.toUpperCase(),
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -418,36 +419,39 @@ class _StoresViewState extends State<StoresView> {
                   height: constraints.maxWidth *
                       AppSizes.converValueToadapter(context, 16),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: constraints.maxWidth *
-                      AppSizes.converValueToadapter(context, 8),
-                  children: [
-                    'Accessoires',
-                    'Vêtements',
-                    "Chaussures",
-                    'Sacs',
-                  ].map((category) {
-                    return FilterChip(
-                      label: Text(category,
-                          style: GoogleFonts.roboto(
-                            color: _categoryLocal == category
-                                ? Colors.white
-                                : null,
-                          )),
-                      selected: _categoryLocal == category,
-                      selectedColor: _categoryLocal == category
-                          ? AppColors.colorBtnPrimary
-                          : null,
-                      onSelected: (selected) {
-                        setState(() {
-                          _categoryLocal = selected ? category : '';
-                          _drawerKey.currentState!.closeDrawer();
-                        });
-                      },
-                    );
-                  }).toList(),
-                ),
+                Wrap(
+                 
+                    spacing: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 8),
+                    children: [
+                      'Accessoires',
+                      'Vêtements',
+                      "Chaussures",
+                      'Sacs',
+                    ].map((category) {
+                      return FilterChip(
+                        label: Text(category,
+                            style: GoogleFonts.roboto(
+                                fontSize:  constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 12),
+                              color: _categoryLocal == category
+                                  ? Colors.white
+                                  : null,
+                            )),
+                        selected: _categoryLocal == category,
+                        selectedColor: _categoryLocal == category
+                            ? AppColors.colorBtnPrimary
+                            : null,
+                        onSelected: (selected) {
+                          setState(() {
+                            _categoryLocal = selected ? category : '';
+                            _drawerKey.currentState!.closeDrawer();
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                
                 SizedBox(
                   height: constraints.maxWidth *
                       AppSizes.converValueToadapter(context, 15),
@@ -461,7 +465,7 @@ class _StoresViewState extends State<StoresView> {
                   'Filtrer par Marques'.toUpperCase(),
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -476,6 +480,8 @@ class _StoresViewState extends State<StoresView> {
                     return FilterChip(
                       label: Text(marque.name,
                           style: GoogleFonts.roboto(
+                            fontSize:  constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 12),
                             color: _marqueFilter == marque.name
                                 ? Colors.white
                                 : null,
@@ -506,7 +512,7 @@ class _StoresViewState extends State<StoresView> {
                   'Produits les mieux notés'.toUpperCase(),
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -514,8 +520,8 @@ class _StoresViewState extends State<StoresView> {
                   height: constraints.maxWidth *
                       AppSizes.converValueToadapter(context, 15),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Wrap(
+                spacing: 4,
                   children: [100, 80, 60, 40, 20].map((note) {
                     // Calcul du nombre d'étoiles en fonction de la note (20 = 1 étoile)
                     final starCount = (note / 20).round();
@@ -529,7 +535,7 @@ class _StoresViewState extends State<StoresView> {
                             Icons.star,
                             size: constraints.maxWidth *
                                 AppSizes.converValueToadapter(
-                                    context, 20), // Taille de l'étoile
+                                    context, 14), // Taille de l'étoile
                             color: Colors.amber, // Couleur de l'étoile
                           ),
                         ),
@@ -555,13 +561,13 @@ class _StoresViewState extends State<StoresView> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.banerBtnNavigatorBackground),
+                      backgroundColor: Colors.deepOrange),
                   onPressed: _resetFilters,
                   child: Text(
                     'Réinitialiser les filtres',
                     style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 12),
                         fontWeight: FontWeight.bold,
                         color: Colors.white),
                   ),

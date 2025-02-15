@@ -813,13 +813,13 @@ class _SingleProductState extends State<SingleProduct> {
                               Icons.favorite_border,
                               size: constraints.maxWidth *
                                   AppSizes.converValueToadapter(context, 24),
-                              color: const Color(0xff2c3e50),
+                              color: Colors.white,
                             )
                           : Icon(
                               Icons.favorite,
                               size: constraints.maxWidth *
                                   AppSizes.converValueToadapter(context, 24),
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                     ),
                   );
@@ -990,6 +990,7 @@ class _SingleProductState extends State<SingleProduct> {
                   final products = snapshot.data!;
                   return Expanded(
                     child: Container(
+                      color: Colors.grey[100],
                       padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
                       child: GridView.builder(
                         physics: ScrollPhysics(),
@@ -1013,11 +1014,11 @@ class _SingleProductState extends State<SingleProduct> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  // color: AppColors.productBackground,
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(
                                       constraints.maxWidth *
                                           AppSizes.converValueToadapter(
-                                              context, 15))),
+                                              context, 5))),
                               margin: EdgeInsets.all(constraints.maxWidth *
                                   AppSizes.converValueToadapter(context, 5)),
                               // padding: EdgeInsets.all(constraints.maxWidth *
@@ -1031,13 +1032,13 @@ class _SingleProductState extends State<SingleProduct> {
                                     height: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
                                             context, 145),
-                                               padding: EdgeInsets.all(
-                          constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5),
-                            ),
+                          //                      padding: EdgeInsets.all(
+                          // constraints.maxWidth *
+                          //       AppSizes.converValueToadapter(context, 5),
+                          //   ),
                                     decoration: BoxDecoration(
                                       color: Colors.grey[100],
-                                        borderRadius: BorderRadius.circular(20)),
+                                        borderRadius: BorderRadius.circular(5)),
                                     child: Image(
                                       image: product.image != null &&
                                               product.image!.isNotEmpty
@@ -1045,7 +1046,7 @@ class _SingleProductState extends State<SingleProduct> {
                                               as ImageProvider
                                           : const AssetImage(
                                               "assets/images/default.jpg"),
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   Row(

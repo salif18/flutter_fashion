@@ -49,7 +49,7 @@ class _PromoViewState extends State<PromoView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundPrincal,
+      backgroundColor: Colors.grey[100],
       body: LayoutBuilder(builder: (context, constraints) {
         return CustomScrollView(
           slivers: [
@@ -141,7 +141,7 @@ class _PromoViewState extends State<PromoView> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 4,
-                          mainAxisSpacing: 1,
+                          mainAxisSpacing: 4,
                           childAspectRatio: 0.85,
                         ),
                         delegate: SliverChildBuilderDelegate(
@@ -158,10 +158,10 @@ class _PromoViewState extends State<PromoView> {
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                // color: AppColors.productBackground,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(constraints
                                         .maxWidth *
-                                    AppSizes.converValueToadapter(context, 16)),
+                                    AppSizes.converValueToadapter(context, 5)),
                               ),
                               // padding: EdgeInsets.all(constraints.maxWidth *
                               //     AppSizes.converValueToadapter(context, 8)),
@@ -183,7 +183,7 @@ class _PromoViewState extends State<PromoView> {
                                         borderRadius: BorderRadius.circular(
                                             constraints.maxWidth *
                                                 AppSizes.converValueToadapter(
-                                                    context, 16)),
+                                                    context, 5)),
                                         image: DecorationImage(
                                           image: product.image != null &&
                                                   product.image!.isNotEmpty
@@ -191,11 +191,17 @@ class _PromoViewState extends State<PromoView> {
                                                   as ImageProvider
                                               : const AssetImage(
                                                   "assets/images/default.jpg"),
-                                          fit: BoxFit.contain,
+                                          fit: BoxFit.cover,
                                         ),
                                       ),
                                     ),
                                     Positioned(
+                                      left: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 5),
+                                              top: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 10),
                                         child: Container(
                                       width: constraints.maxWidth *
                                           AppSizes.converValueToadapter(

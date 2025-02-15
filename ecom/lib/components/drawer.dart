@@ -32,14 +32,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 style: GoogleFonts.roboto(
                     fontWeight: FontWeight.bold,
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                        MediaQuery.of(context).size.width * AppSizes.converValueToadapter(context, 14)),
               ),
               // const SizedBox(height: 5),
               Text(
                 provider.userEmail,
                 style: GoogleFonts.roboto(
                     fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall),
+                        MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 14)),
               )
               ],),),
                const SizedBox(height: 50),
@@ -54,20 +54,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   children: [
                     Icon(
                       Icons.language_rounded,
-                      size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                      size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 20),
                     ),
                     const SizedBox(width: 20),
                 Text(
                   "Change language",
                   style: GoogleFonts.roboto(
                       fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall),
+                          AppSizes.converValueToadapter(context, 14)),
                 ),
                   ],
                 ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  size: MediaQuery.of(context).size.width * AppSizes.iconMedium,
+                  size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 16),
                 ),
               ],
             ),
@@ -83,20 +83,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   children: [
                     Icon(
                       Icons.notifications_none_outlined,
-                      size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                      size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 20),
                     ),
                     const SizedBox(width: 20),
                 Text(
                   "Notifications",
                   style: GoogleFonts.roboto(
                       fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall),
+                           AppSizes.converValueToadapter(context, 14)),
                 ),
                   ],
                 ),
                  Icon(
                   Icons.arrow_forward_ios_rounded,
-                  size: MediaQuery.of(context).size.width * AppSizes.iconMedium,
+                  size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 16),
                 ),
               ],
             ),
@@ -113,20 +113,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   children: [
                     Icon(
                       Icons.login,
-                      size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                      size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 16),
                     ),
                       const SizedBox(width: 20),
                 Text(
-                  "Login",
+                  "Se connecter",
                   style: GoogleFonts.roboto(
                       fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall),
+                           AppSizes.converValueToadapter(context, 14)),
                 )
                   ],
                 ),
                Icon(
                   Icons.arrow_forward_ios_rounded,
-                  size: MediaQuery.of(context).size.width * AppSizes.iconMedium,
+                  size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 14),
                 ),
               ],
             ),
@@ -141,14 +141,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               children: [
                 Icon(
                   Icons.logout,
-                  size: MediaQuery.of(context).size.width * AppSizes.iconLarge,
+                  size: MediaQuery.of(context).size.width *  AppSizes.converValueToadapter(context, 16),
                 ),
                 const SizedBox(width: 20),
                 Text(
                   "Se deconnecter",
                   style: GoogleFonts.roboto(
                       fontSize: MediaQuery.of(context).size.width *
-                          AppSizes.fontSmall),
+                           AppSizes.converValueToadapter(context, 14)),
                 )
               ],
             ),

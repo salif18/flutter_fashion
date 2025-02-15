@@ -207,7 +207,7 @@ class _HomeViewState extends State<HomeView>
     return Scaffold(
         key: drawerKey,
         drawer: const DrawerWidget(),
-        backgroundColor: AppColors.backgroundPrincal,
+        backgroundColor: Colors.grey[100],
         body: LayoutBuilder(builder: (context, constraints) {
           return CustomScrollView(
             slivers: [
@@ -421,57 +421,61 @@ class _HomeViewState extends State<HomeView>
                                   )));
                     },
                     child: Container(
+                     
                       decoration: BoxDecoration(
                           color:
                               //? AppColors
                               //         .colorBtnPrimary // Couleur active
                               // :
-                              AppColors.productBackground, // Couleur normale
+                              Colors.white, // Couleur normale
                           borderRadius: BorderRadius.circular(
                               constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 20))),
+                                  AppSizes.converValueToadapter(context, 5))),
                       margin: EdgeInsets.all(constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 5)),
-                      padding: EdgeInsets.all(constraints.maxWidth *
                           AppSizes.converValueToadapter(context, 2)),
-                      width: constraints.maxWidth / 3,
+                      // padding: EdgeInsets.all(constraints.maxWidth *
+                      //     AppSizes.converValueToadapter(context, 8)),
+                      width: constraints.maxWidth / 2.5,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             width: constraints.maxWidth,
                             height: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 120),
+                                AppSizes.converValueToadapter(context, 100),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
                                     constraints.maxWidth *
                                         AppSizes.converValueToadapter(
-                                            context, 100))),
+                                            context, 5))),
                             child: Image.network(
                               categorie.image ??
                                   "", // Laisse une chaîne vide si l'URL est null
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Image.asset("assets/images/default.jpg",
-                                    fit: BoxFit.contain);
+                                    fit: BoxFit.cover);
                               },
                             ),
                           ),
 
-                          // SizedBox(
-                          //   height: constraints.maxWidth *
-                          //       AppSizes.converValueToadapter(context, 10),
-                          // ),
+                          SizedBox(
+                            height: constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 10),
+                          ),
                           Expanded(
                             // flex: 1,
-                            child: Text(
-                              categorie.category ?? "",
-                              style: GoogleFonts.roboto(
-                                  fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 12),
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.textColor),
+                            child: Padding(
+                              padding:  EdgeInsets.symmetric(vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                              child: Text(
+                                categorie.category ?? "",
+                                style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 12),
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textColor),
+                              ),
                             ),
                           ),
                           // const SizedBox(width: 8), // Espace entre texte et image.
@@ -535,14 +539,14 @@ class _HomeViewState extends State<HomeView>
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.productBackground,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 20)),
+                          AppSizes.converValueToadapter(context, 5)),
                     ),
                     margin: EdgeInsets.all(constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 5)),
-                    padding: EdgeInsets.all(constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 16)),
+                        AppSizes.converValueToadapter(context, 2)),
+                    // padding: EdgeInsets.all(constraints.maxWidth *
+                    //     AppSizes.converValueToadapter(context, 16)),
                     width: constraints.maxWidth / 2.14,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -553,7 +557,7 @@ class _HomeViewState extends State<HomeView>
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                                 constraints.maxWidth *
-                                    AppSizes.converValueToadapter(context, 10)),
+                                    AppSizes.converValueToadapter(context, 5)),
                             image: DecorationImage(
                               image: product.image != null &&
                                       product.image!.isNotEmpty
@@ -561,7 +565,7 @@ class _HomeViewState extends State<HomeView>
                                       as ImageProvider
                                   : const AssetImage(
                                       "assets/images/default.jpg"),
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -573,29 +577,35 @@ class _HomeViewState extends State<HomeView>
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                product.name ?? "",
-                                style: GoogleFonts.roboto(
-                                  fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 12),
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.textColor,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                child: Text(
+                                  product.name ?? "",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 12),
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textColor,
+                                  ),
+                                  // maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                // maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
                               ),
-                              Text(
-                                product.subCategory ?? "",
-                                style: GoogleFonts.roboto(
-                                  fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 12),
-                                  fontWeight: FontWeight.w300,
-                                  color: AppColors.textColor,
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                child: Text(
+                                  product.subCategory ?? "",
+                                  style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 12),
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.textColor,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
@@ -667,14 +677,14 @@ class _HomeViewState extends State<HomeView>
                     },
                     child: Container(
                       decoration: BoxDecoration(
-                          color: AppColors.productBackground,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(
                               constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 20))),
+                                  AppSizes.converValueToadapter(context, 5))),
                       margin: EdgeInsets.all(constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 5)),
-                      padding: EdgeInsets.all(constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 16)),
+                          AppSizes.converValueToadapter(context, 2)),
+                      // padding: EdgeInsets.all(constraints.maxWidth *
+                      //     AppSizes.converValueToadapter(context, 16)),
                       width: constraints.maxWidth / 2.14,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -684,10 +694,11 @@ class _HomeViewState extends State<HomeView>
                             height: constraints.maxWidth *
                                 AppSizes.converValueToadapter(context, 130),
                             decoration: BoxDecoration(
+                              color: Colors.grey[100],
                                 borderRadius: BorderRadius.circular(
                                     constraints.maxWidth *
                                         AppSizes.converValueToadapter(
-                                            context, 20))),
+                                            context, 5))),
                             child: Image(
                               image: product.image != null &&
                                       product.image!.isNotEmpty
@@ -695,7 +706,7 @@ class _HomeViewState extends State<HomeView>
                                       as ImageProvider
                                   : const AssetImage(
                                       "assets/images/default.jpg"),
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             ),
                           ),
                           Expanded(
@@ -713,17 +724,20 @@ class _HomeViewState extends State<HomeView>
                                             top: constraints.maxWidth *
                                                 AppSizes.converValueToadapter(
                                                     context, 8)),
-                                        child: Text(
-                                          product.name ?? "",
-                                          style: GoogleFonts.roboto(
-                                              fontSize: constraints.maxWidth *
-                                                  AppSizes.converValueToadapter(
-                                                      context, 12),
-                                              fontWeight: FontWeight.bold,
-                                              color: AppColors.textColor),
-                                          // softWrap: true,
-                                          overflow: TextOverflow.ellipsis,
-                                          // maxLines: 2,
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                          child: Text(
+                                            product.name ?? "",
+                                            style: GoogleFonts.roboto(
+                                                fontSize: constraints.maxWidth *
+                                                    AppSizes.converValueToadapter(
+                                                        context, 12),
+                                                fontWeight: FontWeight.bold,
+                                                color: AppColors.textColor),
+                                            // softWrap: true,
+                                            overflow: TextOverflow.ellipsis,
+                                            // maxLines: 2,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -745,17 +759,20 @@ class _HomeViewState extends State<HomeView>
                                     height: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
                                             context, 2)),
-                                Text(
-                                  product.sousCategorie ?? "",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 12),
-                                    fontWeight: FontWeight.w300,
-                                    color: AppColors.textColor,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                                  child: Text(
+                                    product.sousCategorie ?? "",
+                                    style: GoogleFonts.roboto(
+                                      fontSize: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 12),
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.textColor,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ],
                             ),
@@ -786,9 +803,13 @@ class _HomeViewState extends State<HomeView>
 
   Widget _offres(BuildContext context, constraints) {
     return Container(
+      decoration: BoxDecoration(
+      // color: Colors.grey[100],
+      border: Border(top: BorderSide(color: Color.fromARGB(255, 218, 216, 216)))
+      ),
       width: constraints.maxWidth,
       height:
-          constraints.maxWidth * AppSizes.converValueToadapter(context, 430),
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 450),
       padding: EdgeInsets.symmetric(
           horizontal: constraints.maxWidth *
               AppSizes.converValueToadapter(context, 16)),
@@ -844,8 +865,9 @@ class _HomeViewState extends State<HomeView>
                     height: constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 220),
                     decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 20)),
+                          AppSizes.converValueToadapter(context, 5)),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -863,7 +885,7 @@ class _HomeViewState extends State<HomeView>
                               color: AppColors.productBackground,
                               borderRadius: BorderRadius.circular(constraints
                                       .maxWidth *
-                                  AppSizes.converValueToadapter(context, 10)),
+                                  AppSizes.converValueToadapter(context, 5)),
                               image: DecorationImage(
                                 image: product.image != null &&
                                         product.image!.isNotEmpty
@@ -871,11 +893,17 @@ class _HomeViewState extends State<HomeView>
                                         as ImageProvider
                                     : const AssetImage(
                                         "assets/images/default.jpg"),
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
                           Positioned(
+                             left: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 5),
+                                              top: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 10),
                               child: Container(
                             width: constraints.maxWidth *
                                 AppSizes.converValueToadapter(context, 30),
@@ -915,17 +943,20 @@ class _HomeViewState extends State<HomeView>
                                 AppSizes.converValueToadapter(context, 16)),
                         Expanded(
                           flex: 1,
-                          child: Text(
-                            product.name ?? "",
-                            style: GoogleFonts.roboto(
-                              fontSize: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 12),
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textColor,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                            child: Text(
+                              product.name ?? "",
+                              style: GoogleFonts.roboto(
+                                fontSize: constraints.maxWidth *
+                                    AppSizes.converValueToadapter(context, 12),
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textColor,
+                              ),
+                              // softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              // maxLines: 2,
                             ),
-                            // softWrap: true,
-                            overflow: TextOverflow.ellipsis,
-                            // maxLines: 2,
                           ),
                         ),
                       ],
@@ -944,6 +975,10 @@ class _HomeViewState extends State<HomeView>
     return Container(
       width: constraints.maxWidth,
       height: constraints.maxHeight,
+       decoration: BoxDecoration(
+      // color: Colors.grey[100],
+      border: Border(bottom: BorderSide(color: Color.fromARGB(255, 218, 216, 216)) ,top: BorderSide(color: const Color.fromARGB(255, 218, 216, 216)))
+      ),
       padding: EdgeInsets.symmetric(
           horizontal:
               constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
@@ -995,7 +1030,7 @@ class _HomeViewState extends State<HomeView>
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      color: AppColors.productBackground,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(constraints.maxWidth *
                           AppSizes.converValueToadapter(context, 10)),
                     ),
@@ -1013,7 +1048,7 @@ class _HomeViewState extends State<HomeView>
                                   AppSizes.converValueToadapter(context, 10)),
                               image: DecorationImage(
                                 image: NetworkImage(marque.image),
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),

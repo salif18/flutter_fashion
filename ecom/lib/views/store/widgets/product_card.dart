@@ -112,12 +112,12 @@ class _ProductCardState extends State<ProductCard> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
           widget.constraints.maxWidth *
-              AppSizes.converValueToadapter(context, 10),
+              AppSizes.converValueToadapter(context, 5),
         ),
         // border: Border.all(
         //   width: 0.09
         // ),
-        // color: Colors.grey[100]
+        color: Colors.white
       ),
       margin: EdgeInsets.all(widget.constraints.maxWidth *
           AppSizes.converValueToadapter(context, 4)),
@@ -133,10 +133,10 @@ class _ProductCardState extends State<ProductCard> {
             width: widget.constraints.maxWidth,
             height: widget.constraints.maxWidth *
                 AppSizes.converValueToadapter(context, 150),
-             padding: EdgeInsets.all(
-                          widget.constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5),
-                            ),
+            //  padding: EdgeInsets.all(
+            //               widget.constraints.maxWidth *
+            //                     AppSizes.converValueToadapter(context, 5),
+            //                 ),
             decoration: BoxDecoration(
               color: Colors.grey[100],
               borderRadius: BorderRadius.circular(
@@ -148,7 +148,7 @@ class _ProductCardState extends State<ProductCard> {
               image: mainImage != null && mainImage.isNotEmpty
                   ? NetworkImage(mainImage) as ImageProvider
                   : const AssetImage("assets/images/default.jpg"),
-              fit: BoxFit.contain,
+              fit: BoxFit.cover,
             ),
           ),
           SizedBox(
