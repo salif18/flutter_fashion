@@ -156,14 +156,35 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           const SizedBox(height: 200,),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Center(
-                  child: Text(
-                "Version 0.0.1",
-                style: GoogleFonts.roboto(
-                    fontSize:
-                        MediaQuery.of(context).size.width * AppSizes.fontSmall,
-                    color: Colors.grey[300]),
-              )))
+              child: Column(
+                children: [
+              
+                   Center(
+                      child: Text(
+                    "Developper Salif Moctar Konaté",
+                    style: GoogleFonts.roboto(
+                        fontSize:
+                            MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                        color: Colors.grey[300]),
+                  )),
+                   Center(
+                      child: Text(
+                    "+223 78 30 32 08",
+                    style: GoogleFonts.roboto(
+                        fontSize:
+                            MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                        color: Colors.grey[300]),
+                  )),
+                    Center(
+                      child: Text(
+                    "Version 0.0.1",
+                    style: GoogleFonts.roboto(
+                        fontSize:
+                            MediaQuery.of(context).size.width * AppSizes.fontSmall,
+                        color: Colors.grey[300]),
+                  )),
+                ],
+              ))
         ],
       ),
     );

@@ -38,40 +38,40 @@ return CustomScrollView(
                   "Mon panier",
                   style: GoogleFonts.roboto(
                     fontSize:
-                        constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                actions: [
-                  Consumer<CartProvider>(
-                    builder: (context, provider, child) {
-                      return Stack(
-                        children: [
-                          Icon(
-                            Icons.shopping_cart_outlined,
-                            size: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
-                          ),
-                          if (provider.cart.isNotEmpty)
-                            Positioned(
-                              left:  constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
-                              bottom:  constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
-                              child: Badge.count(
-                                count: provider.nombreArticles,
-                                largeSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20) / 2,
-                                backgroundColor: Colors.deepOrange,
-                                textStyle: GoogleFonts.roboto(
-                                  fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                  SizedBox(width:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
-                ],
+                // actions: [
+                //   Consumer<CartProvider>(
+                //     builder: (context, provider, child) {
+                //       return Stack(
+                //         children: [
+                //           Icon(
+                //             Icons.shopping_cart_outlined,
+                //             size: constraints.maxWidth * AppSizes.converValueToadapter(context, 30),
+                //           ),
+                //           if (provider.cart.isNotEmpty)
+                //             Positioned(
+                //               left:  constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+                //               bottom:  constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+                //               child: Badge.count(
+                //                 count: provider.nombreArticles,
+                //                 largeSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20) / 2,
+                //                 backgroundColor: Colors.deepOrange,
+                //                 textStyle: GoogleFonts.roboto(
+                //                   fontSize:  constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                //                   fontWeight: FontWeight.bold,
+                //                   color: Colors.white,
+                //                 ),
+                //               ),
+                //             ),
+                //         ],
+                //       );
+                //     },
+                //   ),
+                //   SizedBox(width:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20)),
+                // ],
               ),
               // Body content
               Consumer<CartProvider>(

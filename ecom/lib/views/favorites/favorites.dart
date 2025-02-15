@@ -34,7 +34,7 @@ class _FavoritesViewState extends State<FavoritesView> {
                 "Favoris",
                 style: GoogleFonts.roboto(
                     fontSize:
-                        constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
+                        constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
                     fontWeight: FontWeight.w600),
               ),
             ),

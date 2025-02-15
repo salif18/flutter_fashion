@@ -394,7 +394,7 @@ class _SingleProductState extends State<SingleProduct> {
                             widget.product.name ?? "",
                             style: GoogleFonts.roboto(
                               fontSize: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 14),
+                                  AppSizes.converValueToadapter(context, 13),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -402,7 +402,7 @@ class _SingleProductState extends State<SingleProduct> {
                             widget.product.subCategory ?? "",
                             style: GoogleFonts.roboto(
                                 fontSize: constraints.maxWidth *
-                                    AppSizes.converValueToadapter(context, 14),
+                                    AppSizes.converValueToadapter(context, 12),
                                 color: Colors.grey),
                           ),
                           Row(
@@ -482,7 +482,7 @@ class _SingleProductState extends State<SingleProduct> {
               textAlign: TextAlign.center,
               style: GoogleFonts.roboto(
                   fontSize: constraints.maxWidth *
-                      AppSizes.converValueToadapter(context, 14),
+                      AppSizes.converValueToadapter(context, 12),
                   fontWeight: FontWeight.bold,
                   color: Colors.white),
             ),
@@ -499,6 +499,8 @@ class _SingleProductState extends State<SingleProduct> {
               color: AppColors.textColor.withOpacity(0.7),
               height: constraints.maxWidth *
                   AppSizes.converValueToadapter(context, 1.5),
+                  fontSize: constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 12),
             ),
           ),
           SizedBox(
@@ -512,7 +514,7 @@ class _SingleProductState extends State<SingleProduct> {
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                     fontSize: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 14),
+                        AppSizes.converValueToadapter(context, 12),
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(
@@ -550,7 +552,7 @@ class _SingleProductState extends State<SingleProduct> {
             "Couleurs disponibles",
             style: GoogleFonts.roboto(
                 fontSize: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 14),
+                    AppSizes.converValueToadapter(context, 13),
                 fontWeight: FontWeight.bold),
           ),
         ),
@@ -591,9 +593,9 @@ class _SingleProductState extends State<SingleProduct> {
                       ),
                     ),
                     width: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 35),
+                        AppSizes.converValueToadapter(context, 30),
                     height: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 35),
+                        AppSizes.converValueToadapter(context, 30),
                   ),
                 );
               } else {
@@ -620,7 +622,7 @@ class _SingleProductState extends State<SingleProduct> {
                     "Tailles disponibles",
                     style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 13),
                         fontWeight: FontWeight.bold),
                   )),
               Padding(
@@ -650,10 +652,10 @@ class _SingleProductState extends State<SingleProduct> {
                                 child: Container(
                                   width: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 50),
+                                          context, 30),
                                   height: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 40),
+                                          context, 30),
                                   margin: EdgeInsets.all(constraints.maxWidth *
                                       AppSizes.converValueToadapter(
                                           context, 10)),
@@ -675,7 +677,7 @@ class _SingleProductState extends State<SingleProduct> {
                                     style: GoogleFonts.roboto(
                                       fontSize: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
-                                              context, 14),
+                                              context, 12),
                                       color: selectedSize == sizeOption.size
                                           ? Colors.white
                                           : null,
@@ -773,7 +775,7 @@ class _SingleProductState extends State<SingleProduct> {
                               backgroundColor: Colors.deepOrange,
                               textStyle: GoogleFonts.roboto(
                                 fontSize: constraints.maxWidth *
-                                    AppSizes.converValueToadapter(context, 12),
+                                    AppSizes.converValueToadapter(context, 6),
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -850,7 +852,7 @@ class _SingleProductState extends State<SingleProduct> {
                             content: Text(
                                 "Veuillez choisir votre couleur et votre taille avant d'ajouter au panier."),
                             duration: const Duration(seconds: 3),
-                            backgroundColor: Colors.deepOrange,
+                            backgroundColor: Colors.black,
                             action: SnackBarAction(
                               label: "",
                               onPressed: () {
@@ -870,7 +872,7 @@ class _SingleProductState extends State<SingleProduct> {
                           content: Text(
                               "Veuillez choisir votre couleur avant d'ajouter au panier."),
                           duration: const Duration(seconds: 3),
-                          backgroundColor: Colors.deepOrange,
+                          backgroundColor: Colors.black,
                           action: SnackBarAction(
                             label: "",
                             onPressed: () {
@@ -1028,7 +1030,7 @@ class _SingleProductState extends State<SingleProduct> {
                                     width: constraints.maxWidth,
                                     height: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
-                                            context, 150),
+                                            context, 145),
                                                padding: EdgeInsets.all(
                           constraints.maxWidth *
                                 AppSizes.converValueToadapter(context, 5),
@@ -1163,7 +1165,7 @@ class _SingleProductState extends State<SingleProduct> {
               "Soyez le premier à laisser votre avis",
               style: GoogleFonts.roboto(
                   fontSize: constraints.maxWidth *
-                      AppSizes.converValueToadapter(context, 14),
+                      AppSizes.converValueToadapter(context, 13),
                   fontWeight: FontWeight.bold,
                   color: AppColors.textColor),
             ),
@@ -1181,7 +1183,7 @@ class _SingleProductState extends State<SingleProduct> {
                   "Votre évaluation *",
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 13),
                       fontWeight: FontWeight.bold,
                       color: AppColors.textColor),
                 ),
@@ -1211,7 +1213,7 @@ class _SingleProductState extends State<SingleProduct> {
                       : "Sélectionnez une note.",
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
+                          AppSizes.converValueToadapter(context, 12),
                       color: AppColors.textColor),
                 ),
               ],
@@ -1232,7 +1234,7 @@ class _SingleProductState extends State<SingleProduct> {
                     "Les champs obligatoires *",
                     style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 12),
                         color: AppColors.textColor),
                   ),
                 ),
@@ -1246,7 +1248,7 @@ class _SingleProductState extends State<SingleProduct> {
                     "Votre nom *",
                     style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 12),
                         fontWeight: FontWeight.bold,
                         color: AppColors.textColor),
                   ),
@@ -1267,7 +1269,7 @@ class _SingleProductState extends State<SingleProduct> {
                       hintText: "nom",
                       hintStyle: GoogleFonts.roboto(
                           fontSize: constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 14)),
+                              AppSizes.converValueToadapter(context, 12)),
                       filled: true,
                       fillColor: AppColors.productBackground,
                       border: OutlineInputBorder(
@@ -1285,14 +1287,14 @@ class _SingleProductState extends State<SingleProduct> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 16),
+                          AppSizes.converValueToadapter(context, 13),
                       vertical: constraints.maxWidth *
                           AppSizes.converValueToadapter(context, 10)),
                   child: Text(
                     "Votre avis *",
                     style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 12),
                         fontWeight: FontWeight.bold,
                         color: AppColors.textColor),
                   ),
@@ -1312,7 +1314,7 @@ class _SingleProductState extends State<SingleProduct> {
                       hintText: "commentaire...",
                       hintStyle: GoogleFonts.roboto(
                           fontSize: constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 14)),
+                              AppSizes.converValueToadapter(context, 12)),
                       filled: true,
                       fillColor: AppColors.productBackground,
                       border: OutlineInputBorder(
@@ -1348,7 +1350,7 @@ class _SingleProductState extends State<SingleProduct> {
                     child: Text("Commenter".toUpperCase(),
                         style: GoogleFonts.roboto(
                             fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 14),
+                                AppSizes.converValueToadapter(context, 12),
                             color: AppColors.productBackground)),
                   ),
                 ),
@@ -1375,7 +1377,7 @@ class _SingleProductState extends State<SingleProduct> {
               "Les avis des clients",
               style: GoogleFonts.roboto(
                 fontSize: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 14),
+                    AppSizes.converValueToadapter(context, 13),
                 fontWeight: FontWeight.bold,
                 color: AppColors.textColor,
               ),
@@ -1404,23 +1406,23 @@ class _SingleProductState extends State<SingleProduct> {
                           style: GoogleFonts.roboto(
                             fontWeight: FontWeight.bold,
                             fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 14),
+                                AppSizes.converValueToadapter(context, 12),
                           ),
                         ),
-                        GeneratedStarUserRating(rating: avis.rating!.toInt()),
+                        GeneratedStarUserRating(rating: avis.rating!.toInt(),constraints:constraints),
                         Text(
                           DateFormat("dd MMM yyyy").format(avis.date!),
                           style: GoogleFonts.roboto(
                             color: Colors.grey,
                             fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 14),
+                                AppSizes.converValueToadapter(context, 12),
                           ),
                         ),
                         Text(
                           avis.avis ?? "",
                           style: GoogleFonts.roboto(
                             fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 14),
+                                AppSizes.converValueToadapter(context, 12),
                           ),
                         ),
                         const Divider(),
@@ -1433,7 +1435,7 @@ class _SingleProductState extends State<SingleProduct> {
                       "Aucuns commentaires..",
                       style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 14),
+                            AppSizes.converValueToadapter(context, 12),
                       ),
                     ),
                   );
@@ -1446,7 +1448,7 @@ class _SingleProductState extends State<SingleProduct> {
     );
   }
 
-  Widget _buildShimmerLoading(BuildContext context, constraints, {int itemCount = 10}) {
+  Widget _buildShimmerLoading(BuildContext context, constraints, {int itemCount = 20}) {
   return SizedBox(
     height: constraints.maxHeight,
     child: GridView.builder(
@@ -1490,7 +1492,7 @@ class _SingleProductState extends State<SingleProduct> {
               ),
             ),
             SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-
+              
             // 🔹 Liste des couleurs disponibles (Shimmer sur chaque couleur)
             SizedBox(
               height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
@@ -1516,9 +1518,9 @@ class _SingleProductState extends State<SingleProduct> {
                 },
               ),
             ),
-
+              
             SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-
+              
             // 🔹 Nom du produit (Shimmer appliqué sur le texte)
             Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -1530,7 +1532,7 @@ class _SingleProductState extends State<SingleProduct> {
               ),
             ),
             SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
-
+              
             // 🔹 Prix (Shimmer appliqué)
             Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
@@ -1542,7 +1544,7 @@ class _SingleProductState extends State<SingleProduct> {
               ),
             ),
             SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
-
+              
             // 🔹 Évaluation (rating) en Shimmer
             Shimmer.fromColors(
               baseColor: Colors.grey[300]!,

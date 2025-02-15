@@ -94,7 +94,7 @@ class _AchatViewState extends State<AchatView> {
                 style: GoogleFonts.roboto(
                   fontWeight: FontWeight.bold,
                   fontSize:
-                      MediaQuery.of(context).size.width * AppSizes.fontMedium,
+                      MediaQuery.of(context).size.width * 14/360,
                 ),
               ),
               bottom: TabBar(
@@ -110,12 +110,13 @@ class _AchatViewState extends State<AchatView> {
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               fontSize: MediaQuery.of(context).size.width *
-                                  AppSizes.fontSmall,
+                                  12/360,
                             )),
                         const SizedBox(width: 10),
-                        const Icon(
+                        Icon(
                           Icons.inventory_2_outlined,
-                          size: 30,
+                          size:  MediaQuery.of(context).size.width *
+                                  20/360,
                           color: Colors.black,
                         )
                       ],
@@ -129,12 +130,13 @@ class _AchatViewState extends State<AchatView> {
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               fontSize: MediaQuery.of(context).size.width *
-                                  AppSizes.fontSmall,
+                                  12/360,
                             )),
                         const SizedBox(width: 10),
-                        const Icon(
+                        Icon(
                           Icons.local_shipping_outlined,
-                          size: 30,
+                          size: MediaQuery.of(context).size.width *
+                                  20/360,
                           color: Colors.black,
                         )
                       ],
@@ -148,12 +150,13 @@ class _AchatViewState extends State<AchatView> {
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                               fontSize: MediaQuery.of(context).size.width *
-                                  AppSizes.fontSmall,
+                                  12/360,
                             )),
                         const SizedBox(width: 10),
-                        const Icon(
+                        Icon(
                           Icons.autorenew_sharp,
-                          size: 30,
+                         size: MediaQuery.of(context).size.width *
+                                  20/360,
                           color: Colors.black,
                         )
                       ],
@@ -207,7 +210,8 @@ class _AchatViewState extends State<AchatView> {
                     children: [
                       Text(
                         "COMMANDE N° : ${order.id.substring(0, 8).toUpperCase()}",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
+                        
                       ),
                       SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
                       const Divider(height: 1,color: Colors.black),
@@ -221,8 +225,7 @@ class _AchatViewState extends State<AchatView> {
                           ),
                           child: Text("Annuler",
                               style: GoogleFonts.roboto(
-                                  fontSize: MediaQuery.of(context).size.width *
-                                      AppSizes.fontSmall,
+                                 fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white)),
                         ),
@@ -233,55 +236,59 @@ class _AchatViewState extends State<AchatView> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "Date",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                 ),
                               ),
-                              SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
+                              SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 20)),
                               Text(
                                 DateFormat("dd MMM yyyy").format(order.date),
+                                style: TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),
                               ),
                             ],
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                               Text(
                                 "Total",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
                                 ),
                               ),
                                SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
-                              Text("${order.total} FCFA"),
+                              Text("${order.total} FCFA", style:TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                             ],
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "Mode de paiement",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                ),
+                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),
+                                
                               ),
                                SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
-                              Text(order.payementMode),
+                              Text(order.payementMode,style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                             ],
                           ),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 "Statut de la commande",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                ),
+                                 fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),
                               ),
                                SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 25)),
-                              Text(order.status),
+                              Text(order.status, style:TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                             ],
                           ),
                         ],
@@ -301,37 +308,37 @@ class _AchatViewState extends State<AchatView> {
                       Text(
                         "Détails de la commande",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                            fontWeight: FontWeight.bold, fontSize: constraints.maxWidth *AppSizes.converValueToadapter(context, 14)),
                       ),
                       SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Produits"),
-                          Text("Total"),
+                          Text("Produits",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
+                          Text("Total",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                       ...order.cart.map(
                         (item) => Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("${item.name} x${item.qty}"),
-                            Text("${item.price * item.qty}"),
+                            Text("${item.name} x${item.qty}",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
+                            Text("${item.price * item.qty}",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                           ],
                         ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Mode de paiement"),
-                          Text(order.payementMode),
+                          Text("Mode de paiement",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
+                          Text(order.payementMode,style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Total"),
-                          Text("${order.total} Fcfa"),
+                          Text("Total",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
+                          Text("${order.total} Fcfa",style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                     ],
@@ -350,43 +357,44 @@ class _AchatViewState extends State<AchatView> {
                       Text(
                         "Adresse",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: constraints.maxWidth *AppSizes.converValueToadapter(context, 16)),
+                            fontWeight: FontWeight.bold, fontSize: constraints.maxWidth *AppSizes.converValueToadapter(context, 14)),
+                            
                       ),
                       SizedBox(height: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
                       Text(order.user.nom),
                       Row(
                         children: [
-                          const Icon(Icons.phone),
+                         Icon(Icons.phone,size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),
                           SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
-                          Text(order.user.numero),
+                          Text(order.user.numero, style:TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.email),
+                           Icon(Icons.email, size: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),
                           SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
-                          Text(order.user.email),
+                          Text(order.user.email, style:TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.location_city),
+                          Icon(Icons.location_city, size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),
                           SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
-                          Text(order.address.ville),
+                          Text(order.address.ville,style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.location_pin),
+                          Icon(Icons.location_pin, size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),
                           SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
-                          Text(order.address.rue),
+                          Text(order.address.rue, style:TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.home),
+                          Icon(Icons.home, size:  constraints.maxWidth * AppSizes.converValueToadapter(context, 20),),
                           SizedBox(width: constraints.maxWidth *AppSizes.converValueToadapter(context, 10)),
-                          Text(order.address.logt),
+                          Text(order.address.logt,style:  TextStyle(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),),),
                         ],
                       ),
                     ],

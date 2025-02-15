@@ -64,7 +64,7 @@ class _PromoViewState extends State<PromoView> {
                   "Promotion",
                   style: GoogleFonts.roboto(
                       fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 20),
+                          AppSizes.converValueToadapter(context, 16),
                       fontWeight: FontWeight.bold),
                 ),
                 centerTitle: true,
@@ -84,7 +84,7 @@ class _PromoViewState extends State<PromoView> {
                       'Meilleures offres',
                       style: GoogleFonts.roboto(
                         fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 16),
+                            AppSizes.converValueToadapter(context, 14),
                         fontWeight: FontWeight.bold,
                         color: AppColors.textColor,
                       ),
@@ -199,10 +199,10 @@ class _PromoViewState extends State<PromoView> {
                                         child: Container(
                                       width: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
-                                              context, 40),
+                                              context, 30),
                                       height: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
-                                              context, 40),
+                                              context, 30),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           boxShadow: [
@@ -227,7 +227,7 @@ class _PromoViewState extends State<PromoView> {
                                         style: GoogleFonts.roboto(
                                             fontSize: constraints.maxWidth *
                                                 AppSizes.converValueToadapter(
-                                                    context, 14),
+                                                    context, 8),
                                             color: Colors.white),
                                       ),
                                     ))

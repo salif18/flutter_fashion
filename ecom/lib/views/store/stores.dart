@@ -178,7 +178,7 @@ class _StoresViewState extends State<StoresView> {
                       : widget.categoSelected!,
                   style: GoogleFonts.roboto(
                     fontSize: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 20),
+                        AppSizes.converValueToadapter(context, 16),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -264,7 +264,7 @@ class _StoresViewState extends State<StoresView> {
                         backgroundColor: Colors.black,
                         textStyle: GoogleFonts.roboto(
                           fontSize: constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 12),
+                              AppSizes.converValueToadapter(context, 8),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -593,7 +593,7 @@ class _StoresViewState extends State<StoresView> {
                   crossAxisSpacing: 0, // Espacement horizontal entre les cartes
                   mainAxisSpacing: 0, // Espacement vertical entre les cartes
                   childAspectRatio:
-                      0.75, // Ratio largeur/hauteur pour les cartes
+                      0.74, // Ratio largeur/hauteur pour les cartes
                 ),
                 shrinkWrap: true, // Adapte la hauteur du GridView à son contenu
                 itemCount: filteredProducts.length,

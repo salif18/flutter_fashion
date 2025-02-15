@@ -177,6 +177,7 @@ class _MyCardState extends State<MyCard> {
                             children: [
                               Container(
                                 width: widget.constraints.maxWidth,
+                                height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,50),
                                 alignment: Alignment.center,
                                 child: TextButton(
                                     onPressed: () {
@@ -193,7 +194,7 @@ class _MyCardState extends State<MyCard> {
                                             fontSize: widget
                                                     .constraints.maxWidth *
                                                 AppSizes.converValueToadapter(
-                                                    context, 20),
+                                                    context, 12),
                                             fontWeight: FontWeight.bold))),
                               ),
                               Container(
@@ -204,13 +205,14 @@ class _MyCardState extends State<MyCard> {
                                         color: Colors.white,
                                         fontSize: widget.constraints.maxWidth *
                                             AppSizes.converValueToadapter(
-                                                context, 18),
+                                                context, 12),
                                         fontWeight: FontWeight.bold)),
                               ),
                               if (widget.item.qty > 1)
                                 Container(
                                   alignment: Alignment.center,
                                   width: widget.constraints.maxWidth,
+                                    height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context,50),
                                   child: TextButton(
                                       onPressed: () {
                                         Provider.of<CartProvider>(context,
@@ -226,7 +228,7 @@ class _MyCardState extends State<MyCard> {
                                               fontSize: widget
                                                       .constraints.maxWidth *
                                                   AppSizes.converValueToadapter(
-                                                      context, 20),
+                                                      context, 12),
                                               fontWeight: FontWeight.bold))),
                                 )
                             ],

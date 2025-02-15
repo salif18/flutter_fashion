@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:provider/provider.dart';
 import 'package:flutter_mdi_icons/flutter_mdi_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Routes extends StatefulWidget {
   const Routes({super.key});
@@ -83,6 +84,7 @@ class _RoutesState extends State<Routes> {
         unselectedItemColor: Colors.grey, // Couleur pour les éléments inactifs
         backgroundColor: AppColors.backgroundPrincal,
         type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: GoogleFonts.roboto(fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12)),
         items: [
           BottomNavigationBarItem(
               icon: Icon(

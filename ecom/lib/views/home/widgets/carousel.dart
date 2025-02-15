@@ -142,7 +142,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                           fontSize:
                                               widget.constraints.maxWidth *
                                                   AppSizes.converValueToadapter(
-                                                      context, 16),
+                                                      context, 14),
                                           color: Colors.white),
                                       softWrap: true,
                                       overflow: TextOverflow.ellipsis,
@@ -154,7 +154,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                           fontSize:
                                               widget.constraints.maxWidth *
                                                   AppSizes.converValueToadapter(
-                                                      context, 20),
+                                                      context, 14),
                                           color: Colors.white),
                                       softWrap: true,
                                       overflow: TextOverflow.ellipsis,
@@ -192,7 +192,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                               fontSize: widget
                                                       .constraints.maxWidth *
                                                   AppSizes.converValueToadapter(
-                                                      context, 16),
+                                                      context, 12),
                                               fontWeight: FontWeight.bold,
                                               color: Colors.white70),
                                         ))

@@ -235,7 +235,7 @@ class _HomeViewState extends State<HomeView>
                           fontSize: constraints.maxWidth *
                               AppSizes.converValueToadapter(context, 22),
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepOrangeAccent)),
+                          color: Colors.black)),
                 ),
                 actions: [
                   Consumer<CartProvider>(
@@ -248,7 +248,7 @@ class _HomeViewState extends State<HomeView>
                                 MaterialPageRoute(
                                     builder: (context) => const CartView())),
                             icon: Icon(Icons.shopping_cart_outlined,
-                                color: Colors.deepOrange,
+                                color: Colors.black,
                                 size: constraints.maxWidth *
                                     AppSizes.converValueToadapter(context, 30)),
                           ),
@@ -267,7 +267,7 @@ class _HomeViewState extends State<HomeView>
                                 textStyle: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 12),
+                                          context, 7),
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -317,7 +317,7 @@ class _HomeViewState extends State<HomeView>
             title,
             style: GoogleFonts.roboto(
               fontSize: constraints.maxWidth *
-                  AppSizes.converValueToadapter(context, 15),
+                  AppSizes.converValueToadapter(context, 14),
               fontWeight: FontWeight.bold,
               color: AppColors.textColor,
             ),
@@ -353,7 +353,7 @@ class _HomeViewState extends State<HomeView>
             title,
             style: GoogleFonts.roboto(
               fontSize: constraints.maxWidth *
-                  AppSizes.converValueToadapter(context, 15),
+                  AppSizes.converValueToadapter(context, 14),
               fontWeight: FontWeight.bold,
               color: AppColors.textColor,
             ),
@@ -549,7 +549,7 @@ class _HomeViewState extends State<HomeView>
                       children: [
                         Container(
                           height: constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 135),
+                              AppSizes.converValueToadapter(context, 130),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(
                                 constraints.maxWidth *
@@ -615,7 +615,7 @@ class _HomeViewState extends State<HomeView>
   Widget _populaires(BuildContext context, constraints) {
     return SizedBox(
       height:
-          constraints.maxWidth * AppSizes.converValueToadapter(context, 220),
+          constraints.maxWidth * AppSizes.converValueToadapter(context, 225),
       child: FutureBuilder<List<PopulairesModel>?>(
           future: fetchPopulaires,
           builder: (context, snapshot) {
@@ -878,9 +878,9 @@ class _HomeViewState extends State<HomeView>
                           Positioned(
                               child: Container(
                             width: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 50),
+                                AppSizes.converValueToadapter(context, 30),
                             height: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 50),
+                                AppSizes.converValueToadapter(context, 30),
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                                 boxShadow: [
@@ -905,7 +905,7 @@ class _HomeViewState extends State<HomeView>
                               style: GoogleFonts.roboto(
                                   fontSize: constraints.maxWidth *
                                       AppSizes.converValueToadapter(
-                                          context, 14),
+                                          context, 8),
                                   color: Colors.white),
                             ),
                           ))
