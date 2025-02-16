@@ -49,22 +49,18 @@ class _MyCardState extends State<MyCard> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                  // margin: EdgeInsets.only(right: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                          widget.constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 5)),
-                      image: DecorationImage(
-                        image: widget.item.img != null &&
-                                widget.item.img.isNotEmpty
-                            ? NetworkImage(widget.item.img) as ImageProvider
-                            : const AssetImage("assets/images/default.jpg"),
-                        fit: BoxFit.fill,
-                      )),
-                ),
+              Container(
+                width: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 100),
+                height: widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 90),
+                padding: EdgeInsets.all( widget.constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: widget.item.img != null &&
+                              widget.item.img.isNotEmpty
+                          ? NetworkImage(widget.item.img) as ImageProvider
+                          : const AssetImage("assets/images/default.jpg"),
+                      fit: BoxFit.fill,
+                    )),
               ),
               SizedBox(
                 width: widget.constraints.maxWidth *

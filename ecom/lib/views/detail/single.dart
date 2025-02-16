@@ -865,13 +865,6 @@ class _SingleProductState extends State<SingleProduct> {
                                 "Veuillez choisir votre couleur et votre taille avant d'ajouter au panier."),
                             duration: const Duration(seconds: 3),
                             backgroundColor: Colors.black,
-                            action: SnackBarAction(
-                              label: "",
-                              onPressed: () {
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                              },
-                            ),
                           ),
                         );
                         return;
@@ -885,21 +878,12 @@ class _SingleProductState extends State<SingleProduct> {
                               "Veuillez choisir votre couleur avant d'ajouter au panier."),
                           duration: const Duration(seconds: 3),
                           backgroundColor: Colors.black,
-                          action: SnackBarAction(
-                            label: "",
-                            onPressed: () {
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                            },
-                          ),
                         ));
                         return;
                       }
                     }
-
                     // Ajouter au panier si toutes les validations sont passées
-                    addToCart(widget.product, mainImage, selectedSize ?? "",
-                        selectedColor ?? "");
+                   
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
                         "Ajouté au panier !",
@@ -910,13 +894,9 @@ class _SingleProductState extends State<SingleProduct> {
                       // backgroundColor: const Color.fromARGB(255, 255, 35, 19),
                       duration: const Duration(seconds: 1),
                       backgroundColor: const Color.fromARGB(255, 5, 151, 10),
-                      action: SnackBarAction(
-                        label: "",
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        },
-                      ),
                     ));
+                     addToCart(widget.product, mainImage, selectedSize ?? "",
+                        selectedColor ?? "");
                   },
                   icon: Icon(Icons.add_shopping_cart,
                       color: Colors.white,
@@ -939,251 +919,404 @@ class _SingleProductState extends State<SingleProduct> {
     );
   }
 
-  // product relatife
+  // // product relatife
+  // Widget _productRelated(BuildContext context, constraints) {
+  //   return Container(
+  //     color: Colors.white,
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Padding(
+  //               padding: EdgeInsets.symmetric(
+  //                   horizontal: constraints.maxWidth *
+  //                       AppSizes.converValueToadapter(context, 16),
+  //                   vertical: constraints.maxWidth *
+  //                       AppSizes.converValueToadapter(context, 10)),
+  //               child: Text(
+  //                 'Vous aimerez aussi ',
+  //                 style: GoogleFonts.roboto(
+  //                     fontSize: constraints.maxWidth *
+  //                         AppSizes.converValueToadapter(context, 14),
+  //                     fontWeight: FontWeight.bold,
+  //                     color: AppColors.textColor),
+  //               ),
+  //             ),
+  //             Padding(
+  //               padding: EdgeInsets.only(
+  //                   right: constraints.maxWidth *
+  //                       AppSizes.converValueToadapter(context, 16)),
+  //               child: Icon(
+  //                 Icons.arrow_forward_ios_rounded,
+  //                 size: constraints.maxWidth *
+  //                     AppSizes.converValueToadapter(context, 14),
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //         FutureBuilder<List<ProductModel>?>(
+  //             future: fetchProductData(),
+  //             builder: (context, snapshot) {
+  //               if (snapshot.connectionState == ConnectionState.waiting) {
+  //                 return SingleChildScrollView(
+  //                     child: _buildShimmerLoading(context, constraints));
+  //               } else if (snapshot.hasError) {
+  //                 return Center(
+  //                     child: Text(
+  //                   "Une erreur s'est produit lors du chargement",
+  //                   style: GoogleFonts.roboto(
+  //                     fontSize: constraints.maxWidth *
+  //                         AppSizes.converValueToadapter(context, 14),
+  //                   ),
+  //                 ));
+  //               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+  //                 return Center(
+  //                     child: Text(
+  //                   "Aucuns données disponibles",
+  //                   style: GoogleFonts.roboto(
+  //                     fontSize: constraints.maxWidth *
+  //                         AppSizes.converValueToadapter(context, 14),
+  //                   ),
+  //                 ));
+  //               } else {
+  //                 final products = snapshot.data!;
+  //                 return Expanded(
+  //                   child: Container(
+  //                     color: Colors.grey[100],
+  //                     padding: EdgeInsets.symmetric(
+  //                         horizontal: constraints.maxWidth *
+  //                             AppSizes.converValueToadapter(context, 8)),
+  //                     child: GridView.builder(
+  //                       physics: ScrollPhysics(),
+  //                       gridDelegate:
+  //                           const SliverGridDelegateWithFixedCrossAxisCount(
+  //                         crossAxisCount: 2,
+  //                         crossAxisSpacing: 0,
+  //                         mainAxisSpacing: 0,
+  //                         childAspectRatio: 0.75,
+  //                       ),
+  //                       itemCount: products.length,
+  //                       itemBuilder: (BuildContext context, int index) {
+  //                         final product = products[index];
+  //                         return GestureDetector(
+  //                           onTap: () {
+  //                             Navigator.push(
+  //                                 context,
+  //                                 MaterialPageRoute(
+  //                                     builder: (context) =>
+  //                                         SingleProduct(product: product)));
+  //                           },
+  //                           child: Container(
+  //                             decoration: BoxDecoration(
+  //                                 color: Colors.white,
+  //                                 borderRadius: BorderRadius.circular(
+  //                                     constraints.maxWidth *
+  //                                         AppSizes.converValueToadapter(
+  //                                             context, 5))),
+  //                             margin: EdgeInsets.all(constraints.maxWidth *
+  //                                 AppSizes.converValueToadapter(context, 5)),
+  //                             // padding: EdgeInsets.all(constraints.maxWidth *
+  //                             //     AppSizes.converValueToadapter(context, 10)),
+  //                             width: constraints.maxWidth / 2.14,
+  //                             child: Column(
+  //                               crossAxisAlignment: CrossAxisAlignment.start,
+  //                               children: [
+  //                                 Container(
+  //                                   width: constraints.maxWidth,
+  //                                   height: constraints.maxWidth *
+  //                                       AppSizes.converValueToadapter(
+  //                                           context, 145),
+  //                                   //                      padding: EdgeInsets.all(
+  //                                   // constraints.maxWidth *
+  //                                   //       AppSizes.converValueToadapter(context, 5),
+  //                                   //   ),
+  //                                   decoration: BoxDecoration(
+  //                                       color: Colors.grey[100],
+  //                                       borderRadius: BorderRadius.circular(5)),
+  //                                   child: Image(
+  //                                     image: product.image != null &&
+  //                                             product.image!.isNotEmpty
+  //                                         ? NetworkImage(product.image!)
+  //                                             as ImageProvider
+  //                                         : const AssetImage(
+  //                                             "assets/images/default.jpg"),
+  //                                     fit: BoxFit.fill,
+  //                                   ),
+  //                                 ),
+  //                                 Row(
+  //                                   mainAxisAlignment:
+  //                                       MainAxisAlignment.spaceBetween,
+  //                                   children: [
+  //                                     Flexible(
+  //                                       child: Container(
+  //                                         padding: EdgeInsets.symmetric(
+  //                                           horizontal: constraints.maxWidth *
+  //                                               AppSizes.converValueToadapter(
+  //                                                   context, 5),
+  //                                           vertical: constraints.maxWidth *
+  //                                               AppSizes.converValueToadapter(
+  //                                                   context, 2),
+  //                                         ),
+  //                                         child: Text(
+  //                                           product.name ?? "",
+  //                                           style: GoogleFonts.roboto(
+  //                                               fontSize: constraints.maxWidth *
+  //                                                   AppSizes
+  //                                                       .converValueToadapter(
+  //                                                           context, 12),
+  //                                               fontWeight: FontWeight.bold,
+  //                                               color: AppColors.textColor),
+  //                                           // softWrap: true,
+  //                                           overflow: TextOverflow.ellipsis,
+  //                                           // maxLines: 2,
+  //                                         ),
+  //                                       ),
+  //                                     ),
+  //                                   ],
+  //                                 ),
+  //                                 // Text(
+  //                                 //   product.category ?? "",
+  //                                 //   style: GoogleFonts.roboto(
+  //                                 //     fontSize: constraints.maxWidth *
+  //                                 //         AppSizes.converValueToadapter(
+  //                                 //             context, 14),
+  //                                 //     fontWeight: FontWeight.w300,
+  //                                 //     color: AppColors.textColor,
+  //                                 //   ),
+  //                                 //   maxLines: 2,
+  //                                 //   overflow: TextOverflow.ellipsis,
+  //                                 // ),
+  //                                 // SizedBox(
+  //                                 //     height: constraints.maxWidth *
+  //                                 //         AppSizes.converValueToadapter(
+  //                                 //             context, 2)),
+  //                                 // Text(
+  //                                 //   product.subCategory ?? "",
+  //                                 //   style: GoogleFonts.roboto(
+  //                                 //     fontSize: constraints.maxWidth *
+  //                                 //         AppSizes.converValueToadapter(
+  //                                 //             context, 14),
+  //                                 //     fontWeight: FontWeight.w300,
+  //                                 //     color: AppColors.textColor,
+  //                                 //   ),
+  //                                 //   maxLines: 2,
+  //                                 //   overflow: TextOverflow.ellipsis,
+  //                                 // ),
+  //                                 SizedBox(
+  //                                     height: constraints.maxWidth *
+  //                                         AppSizes.converValueToadapter(
+  //                                             context, 2)),
+  //                                 Container(
+  //                                     padding: EdgeInsets.symmetric(
+  //                                       horizontal: constraints.maxWidth *
+  //                                           AppSizes.converValueToadapter(
+  //                                               context, 5),
+  //                                       vertical: constraints.maxWidth *
+  //                                           AppSizes.converValueToadapter(
+  //                                               context, 1),
+  //                                     ),
+  //                                     child: GeneratedStarRating(
+  //                                       rating: product.rating!,
+  //                                       constraints: constraints,
+  //                                     )),
+  //                                 Container(
+  //                                   padding: EdgeInsets.symmetric(
+  //                                     horizontal: constraints.maxWidth *
+  //                                         AppSizes.converValueToadapter(
+  //                                             context, 5),
+  //                                     vertical: constraints.maxWidth *
+  //                                         AppSizes.converValueToadapter(
+  //                                             context, 2),
+  //                                   ),
+  //                                   child: Text(
+  //                                     "${product.price.toStringAsFixed(1)} FCFA",
+  //                                     style: GoogleFonts.roboto(
+  //                                       fontSize: constraints.maxWidth *
+  //                                           AppSizes.converValueToadapter(
+  //                                               context, 14),
+  //                                       fontWeight: FontWeight.bold,
+  //                                       color: Colors.deepOrange,
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                                 SizedBox(
+  //                                     height: constraints.maxWidth *
+  //                                         AppSizes.converValueToadapter(
+  //                                             context, 3)),
+  //                               ],
+  //                             ),
+  //                           ),
+  //                         );
+  //                       },
+  //                     ),
+  //                   ),
+  //                 );
+  //               }
+  //             })
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget _productRelated(BuildContext context, constraints) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 16),
-                    vertical: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 10)),
-                child: Text(
-                  'Vous aimerez aussi ',
-                  style: GoogleFonts.roboto(
-                      fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textColor),
-                ),
+  return Container(
+    color: Colors.white,
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 16),
+                  vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 10)),
+              child: Text(
+                'Vous aimerez aussi ',
+                style: GoogleFonts.roboto(
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textColor),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                    right: constraints.maxWidth *
-                        AppSizes.converValueToadapter(context, 16)),
-                child: Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: constraints.maxWidth *
-                      AppSizes.converValueToadapter(context, 14),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  right: constraints.maxWidth * AppSizes.converValueToadapter(context, 16)),
+              child: Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+              ),
+            )
+          ],
+        ),
+        FutureBuilder<List<ProductModel>?>(
+          future: fetchProductData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return SingleChildScrollView(
+                  child: _buildShimmerLoading(context, constraints));
+            } else if (snapshot.hasError) {
+              return Center(
+                  child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "Une erreur s'est produite lors du chargement",
+                  style: GoogleFonts.roboto(
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                  ),
                 ),
-              )
-            ],
-          ),
-          FutureBuilder<List<ProductModel>?>(
-              future: fetchProductData(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SingleChildScrollView(
-                      child: _buildShimmerLoading(context, constraints));
-                } else if (snapshot.hasError) {
-                  return Center(
-                      child: Text(
-                    "Une erreur s'est produit lors du chargement",
-                    style: GoogleFonts.roboto(
-                      fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
-                    ),
-                  ));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(
-                      child: Text(
-                    "Aucuns données disponibles",
-                    style: GoogleFonts.roboto(
-                      fontSize: constraints.maxWidth *
-                          AppSizes.converValueToadapter(context, 14),
-                    ),
-                  ));
-                } else {
-                  final products = snapshot.data!;
-                  return Expanded(
-                    child: Container(
-                      color: Colors.grey[100],
-                      padding: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth *
-                              AppSizes.converValueToadapter(context, 8)),
-                      child: GridView.builder(
-                        physics: ScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 0,
-                          mainAxisSpacing: 0,
-                          childAspectRatio: 0.75,
-                        ),
-                        itemCount: products.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final product = products[index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProduct(product: product)));
-                            },
-                            child: Container(
+              ));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(
+                  child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "Aucune donnée disponible",
+                  style: GoogleFonts.roboto(
+                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                  ),
+                ),
+              ));
+            } else {
+              final products = snapshot.data!;
+              return SizedBox(
+                height: constraints.maxWidth * 0.9,
+                
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0,
+                    childAspectRatio: 0.75,
+                  ),
+                  itemCount: products.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final product = products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SingleProduct(product: product)));
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                                constraints.maxWidth * AppSizes.converValueToadapter(context, 5))),
+                        margin: EdgeInsets.all(
+                            constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
+                        width: constraints.maxWidth / 2.14,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: constraints.maxWidth,
+                              height: constraints.maxWidth * AppSizes.converValueToadapter(context, 145),
                               decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(
-                                      constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 5))),
-                              margin: EdgeInsets.all(constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 5)),
-                              // padding: EdgeInsets.all(constraints.maxWidth *
-                              //     AppSizes.converValueToadapter(context, 10)),
-                              width: constraints.maxWidth / 2.14,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    width: constraints.maxWidth,
-                                    height: constraints.maxWidth *
-                                        AppSizes.converValueToadapter(
-                                            context, 145),
-                                    //                      padding: EdgeInsets.all(
-                                    // constraints.maxWidth *
-                                    //       AppSizes.converValueToadapter(context, 5),
-                                    //   ),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[100],
-                                        borderRadius: BorderRadius.circular(5)),
-                                    child: Image(
-                                      image: product.image != null &&
-                                              product.image!.isNotEmpty
-                                          ? NetworkImage(product.image!)
-                                              as ImageProvider
-                                          : const AssetImage(
-                                              "assets/images/default.jpg"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: constraints.maxWidth *
-                                                AppSizes.converValueToadapter(
-                                                    context, 5),
-                                            vertical: constraints.maxWidth *
-                                                AppSizes.converValueToadapter(
-                                                    context, 2),
-                                          ),
-                                          child: Text(
-                                            product.name ?? "",
-                                            style: GoogleFonts.roboto(
-                                                fontSize: constraints.maxWidth *
-                                                    AppSizes
-                                                        .converValueToadapter(
-                                                            context, 12),
-                                                fontWeight: FontWeight.bold,
-                                                color: AppColors.textColor),
-                                            // softWrap: true,
-                                            overflow: TextOverflow.ellipsis,
-                                            // maxLines: 2,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // Text(
-                                  //   product.category ?? "",
-                                  //   style: GoogleFonts.roboto(
-                                  //     fontSize: constraints.maxWidth *
-                                  //         AppSizes.converValueToadapter(
-                                  //             context, 14),
-                                  //     fontWeight: FontWeight.w300,
-                                  //     color: AppColors.textColor,
-                                  //   ),
-                                  //   maxLines: 2,
-                                  //   overflow: TextOverflow.ellipsis,
-                                  // ),
-                                  // SizedBox(
-                                  //     height: constraints.maxWidth *
-                                  //         AppSizes.converValueToadapter(
-                                  //             context, 2)),
-                                  // Text(
-                                  //   product.subCategory ?? "",
-                                  //   style: GoogleFonts.roboto(
-                                  //     fontSize: constraints.maxWidth *
-                                  //         AppSizes.converValueToadapter(
-                                  //             context, 14),
-                                  //     fontWeight: FontWeight.w300,
-                                  //     color: AppColors.textColor,
-                                  //   ),
-                                  //   maxLines: 2,
-                                  //   overflow: TextOverflow.ellipsis,
-                                  // ),
-                                  SizedBox(
-                                      height: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 2)),
-                                  Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: constraints.maxWidth *
-                                            AppSizes.converValueToadapter(
-                                                context, 5),
-                                        vertical: constraints.maxWidth *
-                                            AppSizes.converValueToadapter(
-                                                context, 1),
-                                      ),
-                                      child: GeneratedStarRating(
-                                        rating: product.rating!,
-                                        constraints: constraints,
-                                      )),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 5),
-                                      vertical: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 2),
-                                    ),
-                                    child: Text(
-                                      "${product.price.toStringAsFixed(1)} FCFA",
-                                      style: GoogleFonts.roboto(
-                                        fontSize: constraints.maxWidth *
-                                            AppSizes.converValueToadapter(
-                                                context, 14),
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.deepOrange,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                      height: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 3)),
-                                ],
+                                  color: Colors.grey[100],
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Image(
+                                image: product.image != null && product.image!.isNotEmpty
+                                    ? NetworkImage(product.image!) as ImageProvider
+                                    : const AssetImage("assets/images/default.jpg"),
+                                fit: BoxFit.fill,
                               ),
                             ),
-                          );
-                        },
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(
+                                product.name ?? "",
+                                style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 12),
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.textColor),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: GeneratedStarRating(
+                                rating: product.rating!,
+                                constraints: constraints,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                              child: Text(
+                                "${product.price.toStringAsFixed(1)} FCFA",
+                                style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth * AppSizes.converValueToadapter(context, 14),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.deepOrange,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                }
-              })
-        ],
-      ),
-    );
-  }
+                    );
+                  },
+                ),
+              );
+            }
+          },
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _notation(BuildContext context, constraints) {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height:  constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 40),),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: constraints.maxWidth *
@@ -1389,28 +1522,43 @@ class _SingleProductState extends State<SingleProduct> {
     );
   }
 
-  Widget _avis(BuildContext context, constraints) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 20),
-                vertical: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 10)),
-            child: Text(
-              "Les avis des clients",
-              style: GoogleFonts.roboto(
-                fontSize: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 13),
-                fontWeight: FontWeight.bold,
-                color: AppColors.textColor,
-              ),
+  Widget _avis(BuildContext context, BoxConstraints constraints) {
+  return Container(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 20),
+            vertical: constraints.maxWidth *
+                AppSizes.converValueToadapter(context, 10),
+          ),
+          child: Text(
+            "Les avis des clients",
+            style: GoogleFonts.roboto(
+              fontSize: constraints.maxWidth *
+                  AppSizes.converValueToadapter(context, 13),
+              fontWeight: FontWeight.bold,
+              color: AppColors.textColor,
             ),
           ),
-          // Utilisation d'un ListView pour afficher les avis
+        ),
+        // Vérifier si la liste des commentaires est vide
+        if (widget.product.commentaires.isEmpty) 
+          Center(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                "Aucun commentaire..",
+                style: GoogleFonts.roboto(
+                  fontSize: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 12),
+                ),
+              ),
+            ),
+          )
+        else 
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.vertical,
@@ -1418,69 +1566,58 @@ class _SingleProductState extends State<SingleProduct> {
               itemBuilder: (context, index) {
                 final avis =
                     widget.product.commentaires.reversed.toList()[index];
-                if (widget.product.commentaires.isNotEmpty) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(
-                        horizontal: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 20),
-                        vertical: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 10)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          avis.name ?? "",
-                          style: GoogleFonts.roboto(
-                            fontWeight: FontWeight.bold,
-                            fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 12),
-                          ),
+                return Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 20),
+                    vertical: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        avis.name ?? "",
+                        style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold,
+                          fontSize: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 12),
                         ),
-                        GeneratedStarUserRating(
-                            rating: avis.rating!.toInt(),
-                            constraints: constraints),
-                        Text(
-                          DateFormat("dd MMM yyyy").format(avis.date!),
-                          style: GoogleFonts.roboto(
-                            color: Colors.grey,
-                            fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 12),
-                          ),
-                        ),
-                        Text(
-                          avis.avis ?? "",
-                          style: GoogleFonts.roboto(
-                            fontSize: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 12),
-                          ),
-                        ),
-                        const Divider(),
-                      ],
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                      "Aucuns commentaires..",
-                      style: GoogleFonts.roboto(
-                        fontSize: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 12),
                       ),
-                    ),
-                  );
-                }
+                      GeneratedStarUserRating(
+                          rating: avis.rating!.toInt(),
+                          constraints: constraints),
+                      Text(
+                        DateFormat("dd MMM yyyy").format(avis.date!),
+                        style: GoogleFonts.roboto(
+                          color: Colors.grey,
+                          fontSize: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 12),
+                        ),
+                      ),
+                      Text(
+                        avis.avis ?? "",
+                        style: GoogleFonts.roboto(
+                          fontSize: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 12),
+                        ),
+                      ),
+                      const Divider(),
+                    ],
+                  ),
+                );
               },
             ),
           ),
-        ],
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
 
   Widget _buildShimmerLoading(BuildContext context, constraints,
       {int itemCount = 20}) {
     return SizedBox(
-      height: constraints.maxHeight,
+      height: constraints.maxWidth*600/360,
       child: GridView.builder(
         physics: NeverScrollableScrollPhysics(),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
