@@ -155,7 +155,7 @@ class _SingleProductState extends State<SingleProduct> {
     super.dispose();
   }
 
-  void handleSubmit() async {
+  void handleSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       final provider = Provider.of<AuthProvider>(context, listen: false);
       final userId = provider.userId;
@@ -171,9 +171,10 @@ class _SingleProductState extends State<SingleProduct> {
         final response = await api.postCommit(widget.product.id, avis);
         final body = jsonDecode(response.body);
         if (response.statusCode == 200) {
-          if (!mounted) return;
+          // if (!mounted) return;
           Navigator.pop(context);
           api.showSnackBarSuccessPersonalized(context, body["message"]);
+          print(body["message"]);
         } else {
           if (!mounted) return;
           api.showSnackBarErrorPersonalized(context, body["message"]);
@@ -1372,9 +1373,7 @@ class _SingleProductState extends State<SingleProduct> {
                               AppSizes.converValueToadapter(context, 40)),
                       backgroundColor: AppColors.banerBtnNavigatorBackground,
                     ),
-                    onPressed: () {
-                      handleSubmit();
-                    },
+                    onPressed: () => handleSubmit(context),
                     child: Text("Commenter".toUpperCase(),
                         style: GoogleFonts.roboto(
                             fontSize: constraints.maxWidth *

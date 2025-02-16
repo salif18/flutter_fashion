@@ -83,6 +83,7 @@ class ServicesAPiProducts {
   postCommit(id, comment) async {
     var uri = "$domaineName/commentaires/$id";
     return await dio.post(uri,
+        data: comment,
         options: Options(
           headers: {
             'Content-Type': 'application/json',
