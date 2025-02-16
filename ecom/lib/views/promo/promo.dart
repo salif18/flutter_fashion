@@ -205,10 +205,10 @@ class _PromoViewState extends State<PromoView> {
                                         child: Container(
                                       width: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
-                                              context, 30),
+                                              context, 50),
                                       height: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
-                                              context, 30),
+                                              context, 20),
                                       alignment: Alignment.center,
                                       decoration: BoxDecoration(
                                           boxShadow: [
@@ -227,13 +227,13 @@ class _PromoViewState extends State<PromoView> {
                                           ],
                                           color: Colors.red,
                                           borderRadius:
-                                              BorderRadius.circular(20)),
+                                              BorderRadius.circular(2)),
                                       child: Text(
                                         "-${product.discountPercentage!.floor().toString()}%",
                                         style: GoogleFonts.roboto(
                                             fontSize: constraints.maxWidth *
                                                 AppSizes.converValueToadapter(
-                                                    context, 8),
+                                                    context, 10),
                                             color: Colors.white),
                                       ),
                                     ))

@@ -79,7 +79,12 @@ class _MyCarouselState extends State<MyCarouselWidget> {
     return Container(
       width: widget.constraints.maxWidth,
       height: widget.constraints.maxWidth *
-          AppSizes.converValueToadapter(context, 250),
+          AppSizes.converValueToadapter(context, 235),
+          decoration: BoxDecoration( 
+            // color: Colors.white,
+          border: Border(bottom: BorderSide(color: Colors.grey[300]!))
+          ),
+         
       padding: EdgeInsets.only(
           top: widget.constraints.maxWidth *
               AppSizes.converValueToadapter(context, 30)),
@@ -251,7 +256,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
               }),
           SizedBox(
               height: widget.constraints.maxWidth *
-                  AppSizes.converValueToadapter(context, 20)),
+                  AppSizes.converValueToadapter(context, 8)),
           DotsIndicator(
             dotsCount: 4,
             position: currentIndex.toInt(),
@@ -366,7 +371,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
       ),
     ),
     options: CarouselOptions(
-      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 180),
+      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 170),
       enlargeCenterPage: true,
       autoPlay: false,
       viewportFraction: 0.8,

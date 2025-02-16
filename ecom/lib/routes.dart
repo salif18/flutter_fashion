@@ -35,7 +35,7 @@ class _RoutesState extends State<Routes> {
           // return
           <Widget>[
         const HomeView(),
-        const StoresView(categoSelected: ""),
+        const StoresView(categoSelected: "",marqueSelected: "",),
         const PromoView(),
         const AchatView(),
         const FavoritesView()

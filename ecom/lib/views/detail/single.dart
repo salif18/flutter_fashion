@@ -17,7 +17,6 @@ import 'package:ecom/utils/app_size.dart';
 import 'package:ecom/views/cart/cart.dart';
 import 'package:ecom/views/detail/widgets/sliver_persistant_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -201,115 +200,108 @@ class _SingleProductState extends State<SingleProduct> {
     return Scaffold(
       backgroundColor: AppColors.backgroundPrincal,
       body: LayoutBuilder(builder: (context, constraints) {
-        return CustomScrollView(
-          slivers: [
-            SliverPersistentHeader(
-              delegate: MySliverPersistentHeaderDelegate(
-                maxHeight: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 360),
-                minHeight: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 30),
-                mainImage: mainImage,
-                constraints:constraints
+        return DefaultTabController(
+          length: 3,
+          child: CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                delegate: MySliverPersistentHeaderDelegate(
+                    maxHeight: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 360),
+                    minHeight: constraints.maxWidth *
+                        AppSizes.converValueToadapter(context, 30),
+                    mainImage: mainImage,
+                    constraints: constraints),
               ),
-            ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              _overProductImage(context, constraints),
-              _headerDescription(context, constraints),
-              _productDescription(context, constraints),
-              // Colors
-              if (widget.product.othersColors.isNotEmpty)
-                _colorOptions(context, constraints, currentColor),
-              _diviser(context, constraints),
-              // _actionsButtons(context, addToCart),
-            ])),
-            SliverFillRemaining(
-              // hasScrollBody: true, // Empêche les débordements
-              fillOverscroll: true,
-              child: DefaultTabController(
-                  length: 3,
-                  child: Column(
-                     mainAxisSize: MainAxisSize.min, // Évite le débordement
-                    children: [
-                      SizedBox(
-                        height: constraints.maxWidth *
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                _overProductImage(context, constraints),
+                _headerDescription(context, constraints),
+                _productDescription(context, constraints),
+                // Colors
+                if (widget.product.othersColors.isNotEmpty)
+                  _colorOptions(context, constraints, currentColor),
+                _diviser(context, constraints),
+                // _actionsButtons(context, addToCart),
+              ])),
+              SliverPersistentHeader(
+                // Correction : Ce header est directement dans Slivers
+                pinned: true,
+                floating: true,
+                delegate: _SliverAppBarDelegate(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: constraints.maxWidth *
                             AppSizes.converValueToadapter(context, 10),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 16),
-                            right: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 16)),
-                        child: Material(
-                          color: AppColors.productBackground,
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.horizontal(
-                                  left: Radius.circular(1),
-                                  right: Radius.circular(1))),
-                          child: TabBar(
-                            indicator: BoxDecoration(
-                                color: AppColors.colorBtnSecondary,
-                                borderRadius: BorderRadius.circular(1)),
-                            indicatorSize: TabBarIndicatorSize.tab,
-                            labelColor:
-                                const Color.fromARGB(255, 253, 253, 253),
-                            unselectedLabelColor:
-                                const Color.fromARGB(255, 48, 33, 58),
-                            tabs: [
-                              Tab(
-                                child: Text(
-                                  "Voir aussi",
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 14)),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  "Notez",
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 14)),
-                                ),
-                              ),
-                              Tab(
-                                child: Text(
-                                  "Les avis",
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: constraints.maxWidth *
-                                          AppSizes.converValueToadapter(
-                                              context, 14)),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                   Expanded( // Permet au contenu de prendre toute la place disponible
-                            child: SingleChildScrollView( // Ajouté pour éviter le bug d'affichage
-                              child: SizedBox(
-                                height: constraints.maxHeight, // Prend toute la hauteur dispo
-                                child: TabBarView(
-                                  children: [
-                  _productRelated(context, constraints),
-                  _notation(context, constraints),
-                  _avis(context, constraints),
-                                  ],
-                                ),
-                              ),
+                        right: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 10)),
+                    child: Material(
+                      color: AppColors.productBackground,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.horizontal(
+                              left: Radius.circular(1),
+                              right: Radius.circular(1))),
+                      child: TabBar(
+                        indicator: BoxDecoration(
+                            color: AppColors.colorBtnSecondary,
+                            borderRadius: BorderRadius.circular(1)),
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        labelColor: const Color.fromARGB(255, 253, 253, 253),
+                        unselectedLabelColor:
+                            const Color.fromARGB(255, 48, 33, 58),
+                        tabs: [
+                          Tab(
+                            child: Text(
+                              "Voir aussi",
+                              style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14)),
                             ),
                           ),
-                    ],
-                  )),
-            )
-          ],
+                          Tab(
+                            child: Text(
+                              "Notez",
+                              style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14)),
+                            ),
+                          ),
+                          Tab(
+                            child: Text(
+                              "Les avis",
+                              style: GoogleFonts.roboto(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 14)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SliverFillRemaining(
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: constraints.maxHeight,
+                    child: TabBarView(
+                      children: [
+                        _productRelated(context, constraints),
+                        _notation(context, constraints),
+                        _avis(context, constraints),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       }),
       bottomNavigationBar: _actionsButtons(context, addToCart),
@@ -390,13 +382,30 @@ class _SingleProductState extends State<SingleProduct> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            widget.product.name ?? "",
-                            style: GoogleFonts.roboto(
-                              fontSize: constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 13),
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                widget.product.name ?? "",
+                                style: GoogleFonts.roboto(
+                                  fontSize: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 13),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              SizedBox(
+                                  width: constraints.maxWidth *
+                                      AppSizes.converValueToadapter(
+                                          context, 12)),
+                              Text(
+                                widget.product.brand ?? "",
+                                style: GoogleFonts.roboto(
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 12),
+                                    color: Colors.grey),
+                              ),
+                            ],
                           ),
                           Text(
                             widget.product.subCategory ?? "",
@@ -438,7 +447,9 @@ class _SingleProductState extends State<SingleProduct> {
                             ],
                           ),
                           GeneratedStarRating(
-                              rating: widget.product.rating ?? 0,constraints: constraints,),
+                            rating: widget.product.rating ?? 0,
+                            constraints: constraints,
+                          ),
                         ],
                       ),
                     ),
@@ -499,7 +510,7 @@ class _SingleProductState extends State<SingleProduct> {
               color: AppColors.textColor.withOpacity(0.7),
               height: constraints.maxWidth *
                   AppSizes.converValueToadapter(context, 1.5),
-                  fontSize: constraints.maxWidth *
+              fontSize: constraints.maxWidth *
                   AppSizes.converValueToadapter(context, 12),
             ),
           ),
@@ -967,7 +978,8 @@ class _SingleProductState extends State<SingleProduct> {
               future: fetchProductData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return _buildShimmerLoading(context, constraints);
+                  return SingleChildScrollView(
+                      child: _buildShimmerLoading(context, constraints));
                 } else if (snapshot.hasError) {
                   return Center(
                       child: Text(
@@ -991,7 +1003,9 @@ class _SingleProductState extends State<SingleProduct> {
                   return Expanded(
                     child: Container(
                       color: Colors.grey[100],
-                      padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 8)),
                       child: GridView.builder(
                         physics: ScrollPhysics(),
                         gridDelegate:
@@ -1032,12 +1046,12 @@ class _SingleProductState extends State<SingleProduct> {
                                     height: constraints.maxWidth *
                                         AppSizes.converValueToadapter(
                                             context, 145),
-                          //                      padding: EdgeInsets.all(
-                          // constraints.maxWidth *
-                          //       AppSizes.converValueToadapter(context, 5),
-                          //   ),
+                                    //                      padding: EdgeInsets.all(
+                                    // constraints.maxWidth *
+                                    //       AppSizes.converValueToadapter(context, 5),
+                                    //   ),
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[100],
+                                        color: Colors.grey[100],
                                         borderRadius: BorderRadius.circular(5)),
                                     child: Image(
                                       image: product.image != null &&
@@ -1056,16 +1070,20 @@ class _SingleProductState extends State<SingleProduct> {
                                       Flexible(
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5),
-                            vertical: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 2),),
+                                            horizontal: constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 5),
+                                            vertical: constraints.maxWidth *
+                                                AppSizes.converValueToadapter(
+                                                    context, 2),
+                                          ),
                                           child: Text(
                                             product.name ?? "",
                                             style: GoogleFonts.roboto(
                                                 fontSize: constraints.maxWidth *
-                                                    AppSizes.converValueToadapter(
-                                                        context, 12),
+                                                    AppSizes
+                                                        .converValueToadapter(
+                                                            context, 12),
                                                 fontWeight: FontWeight.bold,
                                                 color: AppColors.textColor),
                                             // softWrap: true,
@@ -1109,18 +1127,34 @@ class _SingleProductState extends State<SingleProduct> {
                                           AppSizes.converValueToadapter(
                                               context, 2)),
                                   Container(
-                                    padding:EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5),
-                            vertical: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 2),),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 5),
+                                        vertical: constraints.maxWidth *
+                                            AppSizes.converValueToadapter(
+                                                context, 1),
+                                      ),
+                                      child: GeneratedStarRating(
+                                        rating: product.rating!,
+                                        constraints: constraints,
+                                      )),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 5),
+                                      vertical: constraints.maxWidth *
+                                          AppSizes.converValueToadapter(
+                                              context, 2),
+                                    ),
                                     child: Text(
                                       "${product.price.toStringAsFixed(1)} FCFA",
                                       style: GoogleFonts.roboto(
                                         fontSize: constraints.maxWidth *
                                             AppSizes.converValueToadapter(
                                                 context, 14),
-                                                fontWeight: FontWeight.bold,
+                                        fontWeight: FontWeight.bold,
                                         color: Colors.deepOrange,
                                       ),
                                     ),
@@ -1129,13 +1163,6 @@ class _SingleProductState extends State<SingleProduct> {
                                       height: constraints.maxWidth *
                                           AppSizes.converValueToadapter(
                                               context, 3)),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                          horizontal: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5),
-                            vertical: constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 1),),
-                                    child: GeneratedStarRating(rating: product.rating!,constraints: constraints,))
                                 ],
                               ),
                             ),
@@ -1410,7 +1437,9 @@ class _SingleProductState extends State<SingleProduct> {
                                 AppSizes.converValueToadapter(context, 12),
                           ),
                         ),
-                        GeneratedStarUserRating(rating: avis.rating!.toInt(),constraints:constraints),
+                        GeneratedStarUserRating(
+                            rating: avis.rating!.toInt(),
+                            constraints: constraints),
                         Text(
                           DateFormat("dd MMM yyyy").format(avis.date!),
                           style: GoogleFonts.roboto(
@@ -1449,119 +1478,153 @@ class _SingleProductState extends State<SingleProduct> {
     );
   }
 
-  Widget _buildShimmerLoading(BuildContext context, constraints, {int itemCount = 20}) {
-  return SizedBox(
-    height: constraints.maxHeight,
-    child: GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.72,
-      ),
-      itemCount: itemCount,
-      itemBuilder: (_, __) => Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+  Widget _buildShimmerLoading(BuildContext context, constraints,
+      {int itemCount = 20}) {
+    return SizedBox(
+      height: constraints.maxHeight,
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.72,
+        ),
+        itemCount: itemCount,
+        itemBuilder: (_, __) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+            ),
+            color: Colors.white, // Fond général du conteneur
           ),
-          color: Colors.white, // Fond général du conteneur
-        ),
-        margin: EdgeInsets.all(
-          constraints.maxWidth * AppSizes.converValueToadapter(context, 4),
-        ),
-        padding: EdgeInsets.all(
-          constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
-        ),
-        width: constraints.maxWidth / 2.14,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🔹 Image principale du produit (Shimmer appliqué uniquement ici)
-            Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                width: constraints.maxWidth,
-                height: constraints.maxWidth *
-                    AppSizes.converValueToadapter(context, 125),
-                decoration: BoxDecoration(
-                  color: Colors.grey[350],
-                  borderRadius: BorderRadius.circular(
-                    constraints.maxWidth * AppSizes.converValueToadapter(context, 10),
+          margin: EdgeInsets.all(
+            constraints.maxWidth * AppSizes.converValueToadapter(context, 4),
+          ),
+          padding: EdgeInsets.all(
+            constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+          ),
+          width: constraints.maxWidth / 2.14,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 🔹 Image principale du produit (Shimmer appliqué uniquement ici)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: constraints.maxWidth,
+                  height: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 125),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[350],
+                    borderRadius: BorderRadius.circular(
+                      constraints.maxWidth *
+                          AppSizes.converValueToadapter(context, 10),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-              
-            // 🔹 Liste des couleurs disponibles (Shimmer sur chaque couleur)
-            SizedBox(
-              height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        right: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+              SizedBox(
+                  height: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 5)),
+
+              // 🔹 Liste des couleurs disponibles (Shimmer sur chaque couleur)
+              SizedBox(
+                height: constraints.maxWidth *
+                    AppSizes.converValueToadapter(context, 20),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          right: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 8),
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[350],
+                          shape: BoxShape.rectangle,
+                        ),
+                        width: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 20),
+                        height: constraints.maxWidth *
+                            AppSizes.converValueToadapter(context, 20),
                       ),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[350],
-                        shape: BoxShape.rectangle,
-                      ),
-                      width: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                      height: constraints.maxWidth * AppSizes.converValueToadapter(context, 20),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-              
-            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
-              
-            // 🔹 Nom du produit (Shimmer appliqué sur le texte)
-            Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                width: constraints.maxWidth * 0.5,
-                height: 16,
-                color: Colors.grey[350],
+
+              SizedBox(
+                  height: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 5)),
+
+              // 🔹 Nom du produit (Shimmer appliqué sur le texte)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: constraints.maxWidth * 0.5,
+                  height: 16,
+                  color: Colors.grey[350],
+                ),
               ),
-            ),
-            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
-              
-            // 🔹 Prix (Shimmer appliqué)
-            Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                width: constraints.maxWidth * 0.3,
-                height: 14,
-                color: Colors.grey[350],
+              SizedBox(
+                  height: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 3)),
+
+              // 🔹 Prix (Shimmer appliqué)
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: constraints.maxWidth * 0.3,
+                  height: 14,
+                  color: Colors.grey[350],
+                ),
               ),
-            ),
-            SizedBox(height: constraints.maxWidth * AppSizes.converValueToadapter(context, 3)),
-              
-            // 🔹 Évaluation (rating) en Shimmer
-            Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                width: constraints.maxWidth * 0.4,
-                height: 14,
-                color: Colors.grey[350],
+              SizedBox(
+                  height: constraints.maxWidth *
+                      AppSizes.converValueToadapter(context, 3)),
+
+              // 🔹 Évaluation (rating) en Shimmer
+              Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  width: constraints.maxWidth * 0.4,
+                  height: 14,
+                  color: Colors.grey[350],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
 
+  _SliverAppBarDelegate({required this.child});
+
+  @override
+  double get minExtent => kToolbarHeight;
+  @override
+  double get maxExtent => kToolbarHeight;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return child;
+  }
+
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
 }

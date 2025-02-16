@@ -19,7 +19,8 @@ import 'package:shimmer/shimmer.dart';
 
 class StoresView extends StatefulWidget {
   final String? categoSelected;
-  const StoresView({super.key, required this.categoSelected});
+  final String? marqueSelected;
+  const StoresView({super.key, required this.categoSelected, required this.marqueSelected});
 
   @override
   State<StoresView> createState() => _StoresViewState();
@@ -29,10 +30,12 @@ class _StoresViewState extends State<StoresView> {
   final GlobalKey<ScaffoldState> _drawerKey = GlobalKey<ScaffoldState>();
   ServicesAPiProducts api = ServicesAPiProducts();
   ServicesAPiMarques apiMarques = ServicesAPiMarques();
+  bool _isFetchingData = true;
 
   List<ProductModel> _products = [];
   List<MarquesModel> _marques = [];
   String _categoryLocal = '';
+  String _marqueLocal ="";
   String _subCategoryFilter = '';
   String _marqueFilter = '';
   Map<String, dynamic> _filters = {
@@ -47,6 +50,7 @@ class _StoresViewState extends State<StoresView> {
     super.initState();
     setState(() {
       _categoryLocal = widget.categoSelected!;
+      _marqueLocal = widget.marqueSelected!;
     });
     _fetchProducts();
     _fetchMarques();
@@ -62,6 +66,7 @@ class _StoresViewState extends State<StoresView> {
           _products = (body["produits"] as List)
               .map((json) => ProductModel.fromJson(json))
               .toList();
+               _isFetchingData = false;
         });
       }
     } on DioException {
@@ -124,7 +129,7 @@ class _StoresViewState extends State<StoresView> {
       final matchesRatings = _filters['selectedRating'] == '' ||
           product.rating! >= _filters['selectedRating'];
       final matchesMarques =
-          product.brand != null && product.brand!.contains(_marqueFilter);
+          product.brand != null && product.brand!.contains(_marqueFilter) && ( _marqueLocal.isEmpty || product.brand!.contains(_marqueLocal));
       final matchesSubCategory = product.subCategory != null &&
           product.subCategory!.contains(_subCategoryFilter);
 
@@ -584,24 +589,34 @@ class _StoresViewState extends State<StoresView> {
     );
   }
 
-  Widget _buildProductList(BuildContext context, constraints) {
-    final filteredProducts = _filteredProducts;
-    bool isLoading = filteredProducts.isEmpty;
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
-        child: isLoading
-            ? _buildShimmerLoading(context, constraints, itemCount: 5)
-            : GridView.builder(
-                physics:
-                    const NeverScrollableScrollPhysics(), // Désactive le défilement interne
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Nombre de colonnes
-                  crossAxisSpacing: 0, // Espacement horizontal entre les cartes
-                  mainAxisSpacing: 0, // Espacement vertical entre les cartes
-                  childAspectRatio:
-                      0.74, // Ratio largeur/hauteur pour les cartes
+  Widget _buildProductList(BuildContext context, BoxConstraints constraints) {
+  final filteredProducts = _filteredProducts;
+  bool isLoading = _isFetchingData; // Variable pour savoir si on charge encore
+  return Container(
+    padding: EdgeInsets.symmetric(
+      horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+    ),
+    child: isLoading
+        ? _buildShimmerLoading(context, constraints, itemCount: 5)
+        : filteredProducts.isEmpty
+            ? Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    "Aucun produit trouvé",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey),
+                  ),
                 ),
-                shrinkWrap: true, // Adapte la hauteur du GridView à son contenu
+              )
+            : GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 0,
+                  childAspectRatio: 0.74,
+                ),
+                shrinkWrap: true,
                 itemCount: filteredProducts.length,
                 itemBuilder: (BuildContext context, int index) {
                   ProductModel product = filteredProducts[index];
@@ -621,8 +636,9 @@ class _StoresViewState extends State<StoresView> {
                     ),
                   );
                 },
-              ));
-  }
+              ),
+  );
+}
 
   Widget _buildShimmerLoading(BuildContext context, constraints,
       {int itemCount = 10}) {

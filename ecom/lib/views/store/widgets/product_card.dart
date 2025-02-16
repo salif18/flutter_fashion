@@ -232,7 +232,11 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                   ],
                 ),
-
+// Évaluation (rating)
+                Container(
+                    padding: EdgeInsets.symmetric( horizontal: widget.constraints.maxWidth *
+                                AppSizes.converValueToadapter(context, 5),),
+                  child: GeneratedStarRating(rating: widget.product.rating ?? 0,constraints:widget.constraints)),
                 // Prix
                 Container(
                   padding: EdgeInsets.symmetric( horizontal: widget.constraints.maxWidth *
@@ -250,11 +254,7 @@ class _ProductCardState extends State<ProductCard> {
                 SizedBox(
                     height: widget.constraints.maxWidth *
                         AppSizes.converValueToadapter(context, 3)),
-                // Évaluation (rating)
-                Container(
-                    padding: EdgeInsets.symmetric( horizontal: widget.constraints.maxWidth *
-                                AppSizes.converValueToadapter(context, 5),),
-                  child: GeneratedStarRating(rating: widget.product.rating ?? 0,constraints:widget.constraints)),
+                
               ],
             ),
           ),

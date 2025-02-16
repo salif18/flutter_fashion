@@ -63,7 +63,7 @@ class FavoriteCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 3,
+                        flex: 6,
                         child: SizedBox(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

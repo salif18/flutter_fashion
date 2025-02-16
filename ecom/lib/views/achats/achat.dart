@@ -31,6 +31,12 @@ class _AchatViewState extends State<AchatView> {
       final res = await api.getAllOrders(userId);
       final body = res.data;
 
+if (userId.isEmpty) {
+  setState(() {
+    _allOrders = [];
+  });
+  return;
+}
       if (res.statusCode == 200) {
         final allOrders = (body["orders"] as List)
             .map((json) => OrderModel.fromJson(json))
@@ -74,7 +80,15 @@ class _AchatViewState extends State<AchatView> {
   @override
   void initState() {
     super.initState();
-    fetchOrdersData();
+     final provider = Provider.of<AuthProvider>(context, listen: false);
+      var userId = provider.userId;
+    if (userId == null) {
+  setState(() {
+  fetchOrdersData();
+  });
+  return;
+}
+    
   }
 
   @override
@@ -407,6 +421,26 @@ class _AchatViewState extends State<AchatView> {
       );
       },
       
+    );
+  }
+  Widget refrechFetch(BuildContext context){
+    return Container(
+      width: double.infinity,
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 8/360),
+            child: Text("Problème de connexion : Vérifiez votre Internet."),
+            ),
+            ElevatedButton(onPressed: (){
+              fetchOrdersData();
+            },
+            child: Text(" Veuiller Resseyer encore ")
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

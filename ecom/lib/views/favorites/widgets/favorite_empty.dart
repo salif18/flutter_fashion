@@ -45,7 +45,7 @@ class FavoriteEmpty extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const StoresView(categoSelected: "",)));
+                          builder: (context) => const StoresView(categoSelected: "",marqueSelected: "",)));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
