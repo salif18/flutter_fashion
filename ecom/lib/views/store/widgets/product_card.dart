@@ -148,7 +148,7 @@ class _ProductCardState extends State<ProductCard> {
               image: mainImage != null && mainImage.isNotEmpty
                   ? NetworkImage(mainImage) as ImageProvider
                   : const AssetImage("assets/images/default.jpg"),
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
             ),
           ),
           SizedBox(

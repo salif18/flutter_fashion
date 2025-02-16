@@ -191,7 +191,7 @@ class _PromoViewState extends State<PromoView> {
                                                   as ImageProvider
                                               : const AssetImage(
                                                   "assets/images/default.jpg"),
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     ),

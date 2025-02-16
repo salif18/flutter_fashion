@@ -121,7 +121,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.symmetric(
                               horizontal: widget.constraints.maxWidth *
-                                  AppSizes.converValueToadapter(context, 16),
+                                  AppSizes.converValueToadapter(context, 10),
                               vertical: widget.constraints.maxWidth *
                                   AppSizes.converValueToadapter(context, 8)),
                           // height: 200,
@@ -205,7 +205,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                 ),
                               ),
                               Expanded(
-                                flex: 1,
+                                flex: 2,
                                 child: Container(
                                   width: widget.constraints.maxWidth *
                                       AppSizes.converValueToadapter(context, 8),
@@ -213,7 +213,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                     borderRadius: BorderRadius.circular(
                                         widget.constraints.maxWidth *
                                             AppSizes.converValueToadapter(
-                                                context, 20)),
+                                                context, 10)),
                                     color:
                                         AppColors.banerBtnNavigatorBackground,
                                     image: DecorationImage(
@@ -223,7 +223,7 @@ class _MyCarouselState extends State<MyCarouselWidget> {
                                               as ImageProvider
                                           : const AssetImage(
                                               "assets/images/default.jpg"),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),

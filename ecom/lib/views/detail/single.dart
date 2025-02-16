@@ -350,7 +350,7 @@ class _SingleProductState extends State<SingleProduct> {
                     fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
                       return Image.asset("assets/images/default.jpg",
-                          fit: BoxFit.contain);
+                          fit: BoxFit.fill);
                     },
                   )),
             ),
@@ -1060,7 +1060,7 @@ class _SingleProductState extends State<SingleProduct> {
                                               as ImageProvider
                                           : const AssetImage(
                                               "assets/images/default.jpg"),
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                   Row(

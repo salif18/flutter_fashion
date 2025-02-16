@@ -48,7 +48,7 @@ class FavoriteCard extends StatelessWidget {
                         image: item.image != null && item.image!.isNotEmpty
                             ? NetworkImage(item.image!) as ImageProvider
                             : const AssetImage("assets/images/default.jpg"),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fill,
                       )),
                 ),
               ),

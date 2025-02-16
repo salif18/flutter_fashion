@@ -62,7 +62,7 @@ class _MyCardState extends State<MyCard> {
                                 widget.item.img.isNotEmpty
                             ? NetworkImage(widget.item.img) as ImageProvider
                             : const AssetImage("assets/images/default.jpg"),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.fill,
                       )),
                 ),
               ),

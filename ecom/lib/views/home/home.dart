@@ -452,7 +452,7 @@ class _HomeViewState extends State<HomeView>
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Image.asset("assets/images/default.jpg",
-                                    fit: BoxFit.cover);
+                                    fit: BoxFit.fill);
                               },
                             ),
                           ),
@@ -566,7 +566,7 @@ class _HomeViewState extends State<HomeView>
                                       as ImageProvider
                                   : const AssetImage(
                                       "assets/images/default.jpg"),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),
@@ -712,7 +712,7 @@ class _HomeViewState extends State<HomeView>
                                       as ImageProvider
                                   : const AssetImage(
                                       "assets/images/default.jpg"),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                           Expanded(
@@ -906,7 +906,7 @@ class _HomeViewState extends State<HomeView>
                                         as ImageProvider
                                     : const AssetImage(
                                         "assets/images/default.jpg"),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),
@@ -1071,7 +1071,7 @@ class _HomeViewState extends State<HomeView>
                                   AppSizes.converValueToadapter(context, 10)),
                               image: DecorationImage(
                                 image: NetworkImage(marque.image),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),
