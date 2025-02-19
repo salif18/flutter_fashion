@@ -50,12 +50,12 @@ class ServicesAPiOrder {
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 157, 11),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: "",
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ));
   }
 
@@ -66,12 +66,12 @@ class ServicesAPiOrder {
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: Colors.black,
       duration: const Duration(seconds: 10),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: "",
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ));
   }
 }

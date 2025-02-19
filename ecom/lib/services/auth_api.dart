@@ -89,12 +89,12 @@ class ServicesAuth {
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 157, 11),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: "",
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ));
   }
 
@@ -105,12 +105,12 @@ class ServicesAuth {
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 32, 19, 54),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: "",
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ));
   }
 }

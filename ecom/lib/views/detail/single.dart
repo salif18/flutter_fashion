@@ -918,246 +918,6 @@ class _SingleProductState extends State<SingleProduct> {
       },
     );
   }
-
-  // // product relatife
-  // Widget _productRelated(BuildContext context, constraints) {
-  //   return Container(
-  //     color: Colors.white,
-  //     child: Column(
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Padding(
-  //               padding: EdgeInsets.symmetric(
-  //                   horizontal: constraints.maxWidth *
-  //                       AppSizes.converValueToadapter(context, 16),
-  //                   vertical: constraints.maxWidth *
-  //                       AppSizes.converValueToadapter(context, 10)),
-  //               child: Text(
-  //                 'Vous aimerez aussi ',
-  //                 style: GoogleFonts.roboto(
-  //                     fontSize: constraints.maxWidth *
-  //                         AppSizes.converValueToadapter(context, 14),
-  //                     fontWeight: FontWeight.bold,
-  //                     color: AppColors.textColor),
-  //               ),
-  //             ),
-  //             Padding(
-  //               padding: EdgeInsets.only(
-  //                   right: constraints.maxWidth *
-  //                       AppSizes.converValueToadapter(context, 16)),
-  //               child: Icon(
-  //                 Icons.arrow_forward_ios_rounded,
-  //                 size: constraints.maxWidth *
-  //                     AppSizes.converValueToadapter(context, 14),
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //         FutureBuilder<List<ProductModel>?>(
-  //             future: fetchProductData(),
-  //             builder: (context, snapshot) {
-  //               if (snapshot.connectionState == ConnectionState.waiting) {
-  //                 return SingleChildScrollView(
-  //                     child: _buildShimmerLoading(context, constraints));
-  //               } else if (snapshot.hasError) {
-  //                 return Center(
-  //                     child: Text(
-  //                   "Une erreur s'est produit lors du chargement",
-  //                   style: GoogleFonts.roboto(
-  //                     fontSize: constraints.maxWidth *
-  //                         AppSizes.converValueToadapter(context, 14),
-  //                   ),
-  //                 ));
-  //               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-  //                 return Center(
-  //                     child: Text(
-  //                   "Aucuns données disponibles",
-  //                   style: GoogleFonts.roboto(
-  //                     fontSize: constraints.maxWidth *
-  //                         AppSizes.converValueToadapter(context, 14),
-  //                   ),
-  //                 ));
-  //               } else {
-  //                 final products = snapshot.data!;
-  //                 return Expanded(
-  //                   child: Container(
-  //                     color: Colors.grey[100],
-  //                     padding: EdgeInsets.symmetric(
-  //                         horizontal: constraints.maxWidth *
-  //                             AppSizes.converValueToadapter(context, 8)),
-  //                     child: GridView.builder(
-  //                       physics: ScrollPhysics(),
-  //                       gridDelegate:
-  //                           const SliverGridDelegateWithFixedCrossAxisCount(
-  //                         crossAxisCount: 2,
-  //                         crossAxisSpacing: 0,
-  //                         mainAxisSpacing: 0,
-  //                         childAspectRatio: 0.75,
-  //                       ),
-  //                       itemCount: products.length,
-  //                       itemBuilder: (BuildContext context, int index) {
-  //                         final product = products[index];
-  //                         return GestureDetector(
-  //                           onTap: () {
-  //                             Navigator.push(
-  //                                 context,
-  //                                 MaterialPageRoute(
-  //                                     builder: (context) =>
-  //                                         SingleProduct(product: product)));
-  //                           },
-  //                           child: Container(
-  //                             decoration: BoxDecoration(
-  //                                 color: Colors.white,
-  //                                 borderRadius: BorderRadius.circular(
-  //                                     constraints.maxWidth *
-  //                                         AppSizes.converValueToadapter(
-  //                                             context, 5))),
-  //                             margin: EdgeInsets.all(constraints.maxWidth *
-  //                                 AppSizes.converValueToadapter(context, 5)),
-  //                             // padding: EdgeInsets.all(constraints.maxWidth *
-  //                             //     AppSizes.converValueToadapter(context, 10)),
-  //                             width: constraints.maxWidth / 2.14,
-  //                             child: Column(
-  //                               crossAxisAlignment: CrossAxisAlignment.start,
-  //                               children: [
-  //                                 Container(
-  //                                   width: constraints.maxWidth,
-  //                                   height: constraints.maxWidth *
-  //                                       AppSizes.converValueToadapter(
-  //                                           context, 145),
-  //                                   //                      padding: EdgeInsets.all(
-  //                                   // constraints.maxWidth *
-  //                                   //       AppSizes.converValueToadapter(context, 5),
-  //                                   //   ),
-  //                                   decoration: BoxDecoration(
-  //                                       color: Colors.grey[100],
-  //                                       borderRadius: BorderRadius.circular(5)),
-  //                                   child: Image(
-  //                                     image: product.image != null &&
-  //                                             product.image!.isNotEmpty
-  //                                         ? NetworkImage(product.image!)
-  //                                             as ImageProvider
-  //                                         : const AssetImage(
-  //                                             "assets/images/default.jpg"),
-  //                                     fit: BoxFit.fill,
-  //                                   ),
-  //                                 ),
-  //                                 Row(
-  //                                   mainAxisAlignment:
-  //                                       MainAxisAlignment.spaceBetween,
-  //                                   children: [
-  //                                     Flexible(
-  //                                       child: Container(
-  //                                         padding: EdgeInsets.symmetric(
-  //                                           horizontal: constraints.maxWidth *
-  //                                               AppSizes.converValueToadapter(
-  //                                                   context, 5),
-  //                                           vertical: constraints.maxWidth *
-  //                                               AppSizes.converValueToadapter(
-  //                                                   context, 2),
-  //                                         ),
-  //                                         child: Text(
-  //                                           product.name ?? "",
-  //                                           style: GoogleFonts.roboto(
-  //                                               fontSize: constraints.maxWidth *
-  //                                                   AppSizes
-  //                                                       .converValueToadapter(
-  //                                                           context, 12),
-  //                                               fontWeight: FontWeight.bold,
-  //                                               color: AppColors.textColor),
-  //                                           // softWrap: true,
-  //                                           overflow: TextOverflow.ellipsis,
-  //                                           // maxLines: 2,
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                   ],
-  //                                 ),
-  //                                 // Text(
-  //                                 //   product.category ?? "",
-  //                                 //   style: GoogleFonts.roboto(
-  //                                 //     fontSize: constraints.maxWidth *
-  //                                 //         AppSizes.converValueToadapter(
-  //                                 //             context, 14),
-  //                                 //     fontWeight: FontWeight.w300,
-  //                                 //     color: AppColors.textColor,
-  //                                 //   ),
-  //                                 //   maxLines: 2,
-  //                                 //   overflow: TextOverflow.ellipsis,
-  //                                 // ),
-  //                                 // SizedBox(
-  //                                 //     height: constraints.maxWidth *
-  //                                 //         AppSizes.converValueToadapter(
-  //                                 //             context, 2)),
-  //                                 // Text(
-  //                                 //   product.subCategory ?? "",
-  //                                 //   style: GoogleFonts.roboto(
-  //                                 //     fontSize: constraints.maxWidth *
-  //                                 //         AppSizes.converValueToadapter(
-  //                                 //             context, 14),
-  //                                 //     fontWeight: FontWeight.w300,
-  //                                 //     color: AppColors.textColor,
-  //                                 //   ),
-  //                                 //   maxLines: 2,
-  //                                 //   overflow: TextOverflow.ellipsis,
-  //                                 // ),
-  //                                 SizedBox(
-  //                                     height: constraints.maxWidth *
-  //                                         AppSizes.converValueToadapter(
-  //                                             context, 2)),
-  //                                 Container(
-  //                                     padding: EdgeInsets.symmetric(
-  //                                       horizontal: constraints.maxWidth *
-  //                                           AppSizes.converValueToadapter(
-  //                                               context, 5),
-  //                                       vertical: constraints.maxWidth *
-  //                                           AppSizes.converValueToadapter(
-  //                                               context, 1),
-  //                                     ),
-  //                                     child: GeneratedStarRating(
-  //                                       rating: product.rating!,
-  //                                       constraints: constraints,
-  //                                     )),
-  //                                 Container(
-  //                                   padding: EdgeInsets.symmetric(
-  //                                     horizontal: constraints.maxWidth *
-  //                                         AppSizes.converValueToadapter(
-  //                                             context, 5),
-  //                                     vertical: constraints.maxWidth *
-  //                                         AppSizes.converValueToadapter(
-  //                                             context, 2),
-  //                                   ),
-  //                                   child: Text(
-  //                                     "${product.price.toStringAsFixed(1)} FCFA",
-  //                                     style: GoogleFonts.roboto(
-  //                                       fontSize: constraints.maxWidth *
-  //                                           AppSizes.converValueToadapter(
-  //                                               context, 14),
-  //                                       fontWeight: FontWeight.bold,
-  //                                       color: Colors.deepOrange,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                                 SizedBox(
-  //                                     height: constraints.maxWidth *
-  //                                         AppSizes.converValueToadapter(
-  //                                             context, 3)),
-  //                               ],
-  //                             ),
-  //                           ),
-  //                         );
-  //                       },
-  //                     ),
-  //                   ),
-  //                 );
-  //               }
-  //             })
-  //       ],
-  //     ),
-  //   );
-  // }
   Widget _productRelated(BuildContext context, constraints) {
   return Container(
     color: Colors.white,
@@ -1218,9 +978,8 @@ class _SingleProductState extends State<SingleProduct> {
               ));
             } else {
               final products = snapshot.data!;
-              return SizedBox(
-                height: constraints.maxWidth * 0.9,
-                
+              return Container(
+                padding:EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -1266,7 +1025,7 @@ class _SingleProductState extends State<SingleProduct> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.all(8.0),
+                              padding: EdgeInsets.symmetric(horizontal:constraints.maxWidth * AppSizes.converValueToadapter(context, 5),vertical: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                               child: Text(
                                 product.name ?? "",
                                 style: GoogleFonts.roboto(
@@ -1277,14 +1036,14 @@ class _SingleProductState extends State<SingleProduct> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * AppSizes.converValueToadapter(context, 5)),
                               child: GeneratedStarRating(
                                 rating: product.rating!,
                                 constraints: constraints,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                               child: Text(
                                 "${product.price.toStringAsFixed(1)} FCFA",
                                 style: GoogleFonts.roboto(

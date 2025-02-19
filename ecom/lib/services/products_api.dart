@@ -99,12 +99,12 @@ class ServicesAPiProducts {
           style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.w400)),
       backgroundColor: const Color.fromARGB(255, 255, 157, 11),
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: "",
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ));
   }
 
@@ -115,12 +115,12 @@ class ServicesAPiProducts {
           style: GoogleFonts.roboto(fontSize: MediaQuery.of(context).size.width * 14 /360, fontWeight: FontWeight.w400)),
       backgroundColor: Colors.black,
       duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: "",
-        onPressed: () {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        },
-      ),
+      // action: SnackBarAction(
+      //   label: "",
+      //   onPressed: () {
+      //     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      //   },
+      // ),
     ));
   }
 }
