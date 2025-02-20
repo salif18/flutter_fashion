@@ -230,58 +230,66 @@ class _SingleProductState extends State<SingleProduct> {
                 pinned: true,
                 floating: true,
                 delegate: _SliverAppBarDelegate(
-                  child: Padding(
+                  child: Container(
                     padding: EdgeInsets.only(
-                        left: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 10),
-                        right: constraints.maxWidth *
-                            AppSizes.converValueToadapter(context, 10)),
-                    child: Material(
-                      color: AppColors.productBackground,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.horizontal(
-                              left: Radius.circular(1),
-                              right: Radius.circular(1))),
-                      child: TabBar(
-                        indicator: BoxDecoration(
-                            color: AppColors.colorBtnSecondary,
-                            borderRadius: BorderRadius.circular(1)),
-                        indicatorSize: TabBarIndicatorSize.tab,
-                        labelColor: const Color.fromARGB(255, 253, 253, 253),
-                        unselectedLabelColor:
-                            const Color.fromARGB(255, 48, 33, 58),
-                        tabs: [
-                          Tab(
-                            child: Text(
-                              "Voir aussi",
-                              style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 14)),
+                      top: constraints.maxWidth * AppSizes.converValueToadapter(context, 8),
+                      bottom:constraints.maxWidth * AppSizes.converValueToadapter(context, 8)),
+                  decoration: BoxDecoration(
+                    // color: Colors.grey,
+                  ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 10),
+                          right: constraints.maxWidth *
+                              AppSizes.converValueToadapter(context, 10)),
+                      child: Material(
+                        color: AppColors.productBackground,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.horizontal(
+                                left: Radius.circular(1),
+                                right: Radius.circular(1))),
+                        child: TabBar(
+                          indicator: BoxDecoration(
+                              color: AppColors.colorBtnSecondary,
+                              borderRadius: BorderRadius.circular(1)),
+                          indicatorSize: TabBarIndicatorSize.tab,
+                          labelColor: const Color.fromARGB(255, 253, 253, 253),
+                          unselectedLabelColor:
+                              const Color.fromARGB(255, 48, 33, 58),
+                          tabs: [
+                            Tab(
+                              child: Text(
+                                "Voir aussi",
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14)),
+                              ),
                             ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "Notez",
-                              style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 14)),
+                            Tab(
+                              child: Text(
+                                "Notez",
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14)),
+                              ),
                             ),
-                          ),
-                          Tab(
-                            child: Text(
-                              "Les avis",
-                              style: GoogleFonts.roboto(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: constraints.maxWidth *
-                                      AppSizes.converValueToadapter(
-                                          context, 14)),
-                            ),
-                          )
-                        ],
+                            Tab(
+                              child: Text(
+                                "Les avis",
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: constraints.maxWidth *
+                                        AppSizes.converValueToadapter(
+                                            context, 14)),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
